@@ -1,0 +1,36 @@
+.component {
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 16px;
+}
+
+.text {
+    margin-bottom: 64px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 460px;
+    padding: 24px 32px;
+    border: 2px solid #6F768C;
+    border-radius: 16px;
+    margin: 0 auto 16px auto;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: none;
+}
+
+.link:last-of-type {
+    margin-bottom: 0;
+}
+
+.link img {
+    margin-right: 19px;
+    width: 18px;
+}

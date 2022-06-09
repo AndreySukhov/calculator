@@ -1,0 +1,110 @@
+.heading {
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.heading img {
+    margin-right: 16px;
+}
+
+.radio-row {
+    margin-bottom: 35px;
+}
+
+.radio-grid {
+    display: flex;
+    gap: 50px;
+}
+
+.choice-group {
+    display: flex;
+    align-items: flex-start;
+}
+
+.choice-group-label {
+    margin-right: 25px;
+    width: 250px;
+}
+
+.checkbox-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.checkbox-list-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    margin-left: 14px;
+}
+
+.checkbox-list-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+.summary {
+    margin-bottom: 32px;
+}
+
+.summary-row {
+    margin-bottom: 16px;
+}
+
+.summary-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.summary-row--flex {
+    display: flex;
+    align-items: center
+}
+
+.summary-row-title {
+    width: 175px;
+    margin-right: 16px;
+}
+
+.summary-row-body {
+    margin-right: 16px;
+}
+
+.toggle-view {
+    background: transparent;
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 21px;
+
+    color: #6F768C;
+    margin-top: 16px;
+}
+
+.toggle-view svg {
+    margin-right: 18px;
+    width: 18px;
+}
+
+.show-on-hover-check {
+    margin-bottom: 16px;
+}
+
+.accordion-radio-body {
+    margin-bottom: 22px;
+}
+
+.toggle-body {
+    margin-top: 16px;
+}

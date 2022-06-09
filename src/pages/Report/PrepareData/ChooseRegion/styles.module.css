@@ -1,0 +1,63 @@
+.heading {
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.heading img {
+    margin-right: 16px;
+}
+
+.region-wrap {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 32px;
+}
+
+.region-label {
+    margin-right: 25px;
+    width: 250px;
+}
+
+.autocomplete {
+    position: relative;
+    width: 460px;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 360px;
+    overflow: auto;
+    border: 1px solid #ECEFF6;
+    border-radius: 8px;
+}
+
+.autocomplete-btn {
+    padding: 8px 24px;
+    font-weight: 400;
+    font-size: 18px;
+    color: #6F768C;
+    border: none;
+    background: transparent;
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+    width: 100%;
+    text-align: left;
+}
+
+.autocomplete-btn:hover {
+    color: #023A63;
+    background-color: #F9F9FC;
+}
+
+.form {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+}
+

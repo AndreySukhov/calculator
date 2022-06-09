@@ -1,0 +1,29 @@
+.visual {
+   height: 60px;
+   background-image: url("../../assets/images/header_background.jpg");
+   background-repeat: repeat-x;
+}
+
+.main {
+   padding: var(--globalPadding);
+   margin: 0 auto;
+   overflow: auto;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+}
+
+.layout {
+   background: #F5F9FD;
+   margin:0;
+   display:grid;
+   grid-template-columns: 350px 1fr;
+}
+
+.navigation {
+   padding: 64px 24px;
+   min-height: calc(100vh - 60px);
+   box-sizing: border-box;
+   background: #fff;
+   overflow-y: auto;
+}

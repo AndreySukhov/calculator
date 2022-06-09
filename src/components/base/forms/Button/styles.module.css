@@ -1,0 +1,35 @@
+.button {
+    padding: 24px 32px;
+    background: transparent;
+    border: none;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.button--primary {
+    background: #89BADE;
+    color: #fff;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    border: 2px solid #89BADE;
+
+    transition: border-color 0.15s ease-out, background-color 0.15s ease-out;
+
+}
+
+.button--primary:disabled {
+    background: #ECEFF6;
+    border-color: #C5C8D1;
+}
+
+.button--bordered {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+
+    color: #6F768C;
+    border: 2px solid #6F768C;
+}

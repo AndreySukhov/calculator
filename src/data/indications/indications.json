@@ -1,0 +1,116 @@
+[
+  {
+    "mnn": "Абатацепт",
+    "ra": true,
+    "psa": false,
+    "spa": false
+  },
+  {
+    "mnn": "Адалимумаб",
+    "ra": true,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Апремиласт",
+    "ra": false,
+    "psa": true,
+    "spa": false
+  },
+  {
+    "mnn": "Барицитиниб",
+    "ra": true,
+    "psa": false,
+    "spa": false
+  },
+  {
+    "mnn": "Голимумаб",
+    "ra": true,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Гуселькумаб",
+    "ra": false,
+    "psa": true,
+    "spa": false
+  },
+  {
+    "mnn": "Иксекизумаб",
+    "ra": false,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Инфликсимаб",
+    "ra": false,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Нетакимаб",
+    "ra": false,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Олокизумаб",
+    "ra": true,
+    "psa": false,
+    "spa": false
+  },
+  {
+    "mnn": "Ритускимаб",
+    "ra": true,
+    "psa": false,
+    "spa": false
+  },
+  {
+    "mnn": "Сарилумаб",
+    "ra": true,
+    "psa": false,
+    "spa": false
+  },
+  {
+    "mnn": "Секукинумаб",
+    "ra": false,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Тофацитиниб",
+    "ra": true,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Тоцилизумаб",
+    "ra": true,
+    "psa": false,
+    "spa": false
+  },
+  {
+    "mnn": "Упадацитиниб",
+    "ra": true,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Устекинумаб",
+    "ra": false,
+    "psa": true,
+    "spa": false
+  },
+  {
+    "mnn": "Цертолизумаб пэгол",
+    "ra": true,
+    "psa": true,
+    "spa": true
+  },
+  {
+    "mnn": "Этанерцепт",
+    "ra": true,
+    "psa": true,
+    "spa": true
+  }
+]

@@ -1,0 +1,22 @@
+.box {
+    border: 1px solid #F1F0F5;
+    padding: 16px;
+}
+
+.row {
+    padding: 16px 8px;
+    border-bottom: 1px solid #EEEEF3;
+    margin-bottom: -1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 940px;
+}
+
+.row:nth-of-type(even) {
+    background: #F9F9FC;
+}
+
+.title {
+    margin-right: 10px;
+}

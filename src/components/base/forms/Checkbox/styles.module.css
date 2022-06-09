@@ -1,0 +1,45 @@
+.wrap {
+    position: relative;
+    border: 1px solid #6F768C;
+    border-radius: 5px;
+    width: 19px;
+    height: 19px;
+    display: inline-block;
+}
+
+.checkbox {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+}
+
+.disabled {
+    background: #ECEFF6;
+}
+
+.disabled svg,
+.disabled path {
+    fill: #C5C8D1;
+}
+
+.mark {
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mark svg {
+    width: 100%;
+}
+
+.checkbox:checked + .mark {
+    opacity: 1;
+}
+

@@ -1,0 +1,19 @@
+.wrap {
+    text-align: center;
+}
+
+.title {
+    margin-top: 96px;
+    margin-bottom: 21px;
+}
+
+.radio-body {
+    width: 280px;
+    margin: 0 auto 64px auto;
+}
+
+.buttons-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}

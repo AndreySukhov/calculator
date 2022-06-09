@@ -1,0 +1,9 @@
+.wrap {
+    margin-top: auto;
+    padding: 24px 30px;
+    display: flex;
+    gap: 24px;
+    border-top: 2px solid #F5F9FD;
+    margin-right: -24px;
+    margin-left: -24px;
+}

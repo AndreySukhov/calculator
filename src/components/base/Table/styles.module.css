@@ -1,0 +1,18 @@
+.table {
+    width: 100%;
+}
+
+.th {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: left;
+}
+
+.tr {
+    border-bottom: 1px solid #EEEEF3;
+}
+
+.tr td,
+.tr th {
+    padding: 12px 0;
+}

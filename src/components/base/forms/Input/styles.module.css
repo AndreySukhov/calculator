@@ -1,0 +1,26 @@
+.input {
+    padding: 12px 24px;
+    background: #FFFFFF;
+    border: 2px solid #6F768C;
+    border-radius: 8px;
+    color: #6F768C;
+    font-weight: 400;
+    font-size: 18px;
+    width: 100%;
+}
+
+.input:disabled {
+    background: #ECEFF6;
+    border-color: #C5C8D1;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}

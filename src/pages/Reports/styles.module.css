@@ -1,0 +1,31 @@
+.heading {
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.heading img {
+    margin-right: 16px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title img {
+    margin-right: 19px;
+}
+
+.table {
+    width: 100%;
+}
+
+.table tr {
+    border-bottom: 1px solid #EEEEF3;
+}
+
+.table td,
+.table th {
+    padding: 12px;
+}

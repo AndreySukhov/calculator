@@ -1,0 +1,21 @@
+.tc {
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 32px;
+    margin-top: 96px;
+}
+
+.text {
+    margin-bottom: 24px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 696px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}

@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Raleway';
+    font-weight: 400;
+    font-style: normal;
+    url('./Raleway-Italic-VariableFont_wght.ttf') format('truetype'),
+    url('./Raleway-VariableFont_wght.ttf') format('truetype');
+}

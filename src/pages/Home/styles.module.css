@@ -1,0 +1,17 @@
+.wrap {
+    text-align: center;
+    max-width: 1230px;
+    margin: 0 auto;
+}
+
+.title {
+    margin-bottom: 48px;
+}
+
+.btn {
+    margin-bottom: 78px;
+}
+
+.visual img {
+    max-width: 100%;
+}

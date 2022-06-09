@@ -1,0 +1,58 @@
+.heading {
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.heading img {
+    margin-right: 16px;
+}
+
+.form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 12px 0;
+}
+
+.table tr {
+    border-bottom: 1px solid #EEEEF3;
+}
+
+.additional-btn {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+
+}
+
+.additional-btn-icon-bordered {
+    border: 1px solid #6F768C;
+    border-radius: 5px;
+    width: 19px;
+    height: 19px;
+    position: relative;
+}
+
+.additional-btn-icon-bordered svg {
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.additional-btn-icon {
+    margin-right: 19px;
+}

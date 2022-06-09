@@ -1,0 +1,107 @@
+.heading {
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.heading img {
+    margin-right: 16px;
+}
+
+.description {
+    margin-bottom: 32px;
+}
+
+.form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table th {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 12px 8px;
+}
+
+.table th:first-of-type, .table td:first-of-type {
+    padding-left: 0;
+}
+
+.table th:last-of-type, .table td:last-of-type {
+    padding-right: 0;
+}
+
+.table tr {
+    border-bottom: 1px solid #EEEEF3;
+}
+
+.bordered {
+    border-right: 1px solid #EEEEF3;
+}
+
+.with-input {
+    display: flex;
+    align-items: center;
+}
+
+.with-input input {
+    width: 80px;
+}
+
+.with-input--wide input {
+    width: 124px;
+}
+
+.percent-mark {
+    margin-left: 8px;
+    color: #3B3C57;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.table-summary {
+    margin-bottom: 16px;
+    height: 2px;
+    background: #3B3C57;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    -webkit-padding-end: 20px;
+    -moz-padding-end: 20px;
+    -webkit-padding-start: 2px;
+    -moz-padding-start: 2px;
+    background-image: url('../../../../assets/images/chevron-down.svg');
+    background-position: calc(100% - 15px) 50%;
+    background-repeat: no-repeat;
+    background-color: #FFFFFF;
+    border: 2px solid #6F768C;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0;
+    overflow: hidden;
+    padding: 8px 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 290px;
+}
+
+.table-wrap {
+    overflow: auto;
+    max-width: 100%;
+}

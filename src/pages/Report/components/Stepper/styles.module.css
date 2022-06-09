@@ -1,0 +1,31 @@
+.wrap {
+    overflow-x: auto;
+    min-height: 50px;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 13px 40px;
+}
+
+.list-item {
+    margin-right: 48px;
+}
+
+.list-item:last-of-type {
+    margin-right: 0;
+}
+
+.button {
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: left;
+}
+
+.text {
+    white-space: nowrap;
+}

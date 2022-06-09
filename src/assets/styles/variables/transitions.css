@@ -1,0 +1,4 @@
+:root {
+    --defaultTransitionType: ease;
+    --defaultTransitionTime: 0.15s;
+}

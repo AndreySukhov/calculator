@@ -1,0 +1,68 @@
+.text {
+    font-weight: 400;
+    line-height: 1.41;
+    font-family: 'Raleway', sans-serif;
+}
+
+.text--primary {
+    color: #6F768C;
+}
+
+.text--white {
+    color: #fff;
+}
+
+.text--blue {
+    color: #4461A1;
+}
+
+.text--info {
+    color: #3B3C57;
+}
+
+.text--disabled {
+    color: #C5C8D1;
+}
+
+.text--s {
+    font-size: 16px;
+}
+
+.text--m {
+    font-size: 18px;
+}
+
+.text--m--bold {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.text--l {
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.text--l-regular {
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.text--xl {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.text--xl-bold {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.text--xxl {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.text--3xl {
+    font-size: 42px;
+    font-weight: 700;
+}

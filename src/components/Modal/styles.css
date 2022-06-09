@@ -1,0 +1,39 @@
+.Modal {
+    width: 960px;
+    background-color: #fff;
+    padding: 96px;
+    position: relative;
+}
+
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4461A1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-wrap {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 30px;
+    height: 30px;
+}
+
+.close-btn {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.close-btn svg {
+    width: 30px;
+    height: 30px;
+}

@@ -1,0 +1,18 @@
+.tc {
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 16px;
+    margin-top: 96px;
+}
+
+.text {
+    margin-bottom: 64px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
