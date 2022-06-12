@@ -218,7 +218,7 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
         className={styles.form}
         onSubmit={(e) =>{
         e.preventDefault()
-        onSubmit()
+        onSubmit(tradeIncrease)
       }}>
         <ActionBar
           onPrevButtonClick={onPrevButtonClick}

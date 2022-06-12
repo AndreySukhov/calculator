@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PrepareData } from './PrepareData';
 import { AnalysData } from './AnalysData';
@@ -9,8 +8,7 @@ import styles from './styles.module.css'
 export const Report = () => {
 
   let { id } = useParams();
-  const [step, setStep] = useState(id === 'new' ? 'prepareData' : 'analys')
-  const [prepareStepData, setPrepareStepData] = useState({})
+  const  step = id === 'new' ? 'prepareData' : 'analys'
 
   const isPrepare = step === 'prepareData'
 
@@ -31,11 +29,8 @@ export const Report = () => {
       <div className={styles.wrap}>
         <div className={styles.content}>
           <div className={styles.main}>
-            {step === 'prepareData' && <PrepareData onComplete={(data) => {
-              setStep('analys')
-              setPrepareStepData(data)
-            }} />}
-            {step === 'analys' && <AnalysData />}
+            {step === 'prepareData' && <PrepareData />}
+            {step === 'analys' && <AnalysData reportId={id} />}
           </div>
         </div>
       </div>

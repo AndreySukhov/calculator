@@ -58,17 +58,24 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
          }) => {
         const options = values.options
 
-        const handleChange = (value) => {
+        const handleChange = (e) => {
+          const value = e.target.value;
+
           const split = value.split('-')
           const label = split[0]
           const param = split[1]
 
+          const current = tradeNamesData.find((tradeName) => tradeName.label === label);
+
           const newVal = options.map((option) => {
             if (option.label === label) {
               const updatedOption = option
+
               return {
                 ...updatedOption,
-                [param]: !updatedOption[param]
+                psa: !updatedOption[param] && !current.psa.disabled,
+                ra: !updatedOption[param] && !current.ra.disabled,
+                spa: !updatedOption[param] && !current.spa.disabled
               }
             }
 
@@ -134,7 +141,7 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                         name="tradeName"
                         disabled={tradeName.psa.disabled}
                         checked={current?.psa}
-                        onChange={(e) => handleChange(e.target.value)}
+                        onChange={handleChange}
                       />
                     </td>
                     <td>
@@ -144,7 +151,7 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                         name="tradeName"
                         disabled={tradeName.ra.disabled}
                         checked={current?.ra}
-                        onChange={(e) => handleChange(e.target.value)}
+                        onChange={handleChange}
                       />
                     </td>
                     <td>
@@ -154,7 +161,7 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                         name="tradeName"
                         disabled={tradeName.spa.disabled}
                         checked={current?.spa}
-                        onChange={(e) => handleChange(e.target.value)}
+                        onChange={handleChange}
                       />
                     </td>
                   </tr>

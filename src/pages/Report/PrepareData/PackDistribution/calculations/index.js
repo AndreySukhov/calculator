@@ -1,4 +1,3 @@
-
 /** паценты на пачку */
 const calculatePatientsPerPacks = ({
   packs,
@@ -33,7 +32,7 @@ const calculatePatientsPerPacks = ({
   }
 
   if (total) {
-    res.patients = total
+    res.patients = parseFloat(total).toFixed(2)
   }
 
   return res;
@@ -42,6 +41,21 @@ const calculatePatientsPerPacks = ({
 export const getPatientsValue = (data) => {
   return calculatePatientsPerPacks({
     packs: data.packages,
+    psaYear1: data.psa.initial.year1,
+    raYear1: data.ra.initial.year1,
+    spaYear1: data.spa.initial.year1,
+    psaYearNext: data.psa.secondary.year1,
+    raYearNext: data.ra.secondary.year1,
+    spaYearNext: data.spa.secondary.year1,
+    psaDisabled: data.psa.disabled,
+    raDisabled: data.ra.disabled,
+    spaDisabled: data.spa.disabled,
+  })
+}
+
+export const getPlanPatientsValue = (data) => {
+  return calculatePatientsPerPacks({
+    packs: data.planPackages,
     psaYear1: data.psa.initial.year1,
     raYear1: data.ra.initial.year1,
     spaYear1: data.spa.initial.year1,
@@ -89,7 +103,7 @@ const getPatientPerPack = ({
   }
 
   if (total) {
-    res.packages = total
+    res.packages = parseFloat(total).toFixed(2)
   }
 
   return res;
@@ -110,89 +124,59 @@ export const getPacksValue = (data) => {
   })
 }
 
-const test = {
-  'packages': 10,
-  'patients': 0,
-  'packsPsa': '',
-  'packsRa': '1',
-  'packsSpa': '',
-  'patientsPsa': '',
-  'patientsRa': '',
-  'patientsSpa': '',
-  'label': 'Актемра',
-  'psa': {
-      'disabled': false,
-      'defaultChecked': false,
-      'initial': {
-          'year1':
-            15, 'year2':
-            15, 'year3':
-            15
-        }
-      , 'secondary':
-      {
-          'year1':
-            16, 'year2':
-            16, 'year3':
-            16
-        }
-      ,
-      'checked':
-        true
-    }
-  ,
-  'ra':
-    {
-      'disabled':
-        false, 'defaultChecked':
-        false, 'initial':
-        {
-          'year1':
-            13, 'year2':
-            13, 'year3':
-            13
-        }
-      ,
-      'secondary':
-        {
-          'year1':
-            14, 'year2':
-            14, 'year3':
-            14
-        }
-      ,
-      'checked':
-        false
-    }
-  ,
-  'spa':
-    {
-      'disabled':
-        false, 'defaultChecked':
-        false, 'initial':
-        {
-          'year1':
-            15, 'year2':
-            15, 'year3':
-            15
-        }
-      ,
-      'secondary':
-        {
-          'year1':
-            16, 'year2':
-            16, 'year3':
-            16
-        }
-      ,
-      'checked':
-        false
-    }
-  ,
-  'mnn':
-    'Тоцилизумаб', 'application':
-    'Подкожно', 'productionForm':
-    '162мг/0,9мл', 'itemsInPack':
-    4, 'pricePerPack':
-    '53053.50'
+export const getPlanPacksValue = (data) => {
+  return getPatientPerPack({
+    patients: data.planPatients,
+    psaYear1: data.psa.initial.year1,
+    raYear1: data.ra.initial.year1,
+    spaYear1: data.spa.initial.year1,
+    psaYearNext: data.psa.secondary.year1,
+    raYearNext: data.ra.secondary.year1,
+    spaYearNext: data.spa.secondary.year1,
+    psaDisabled: data.psa.disabled && !data.psa.defaultChecked,
+    raDisabled: data.ra.disabled && !data.ra.defaultChecked,
+    spaDisabled: data.spa.disabled && !data.spa.defaultChecked,
+  })
+}
+
+export const getIsPacksError = (option, units) => {
+  if (option.enabledInputs <= 1) {
+    return false
+  }
+
+  let compareNum = 0
+  if (!option.psa.disabled) {
+    compareNum += Number(option.packsPsa)
+  }
+
+  if (!option.spa.disabled) {
+    compareNum += Number(option.packsSpa)
+  }
+
+  if (!option.ra.disabled) {
+    compareNum += Number(option.packsRa)
+  }
+
+  return compareNum !== (units === 'quantity' ? Math.round(option.packages) : 100)
+}
+
+export const getIsPatientsError = (option, units) => {
+  if (option.enabledInputs <= 1) {
+    return false
+  }
+
+  let compareNum = 0
+  if (!option.psa.disabled) {
+    compareNum += Number(option.patientsPsa)
+  }
+
+  if (!option.spa.disabled) {
+    compareNum += Number(option.patientsSpa)
+  }
+
+  if (!option.ra.disabled) {
+    compareNum += Number(option.patientsRa)
+  }
+
+  return compareNum !== (units === 'quantity' ? Math.round(option.patients) : 100)
 }

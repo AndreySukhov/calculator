@@ -43,7 +43,7 @@ export const PrepareStep = ({userEmail, setUserEmail}) => {
             Ввести данные вручную
           </Text>
         </Link>
-        <Link to="/reports" className={styles.link}>
+        <Link to="/reports?useReady=1" className={styles.link}>
           <img src={report} alt=""/>
           <Text size="xl">
             Использовать готовый отчёт

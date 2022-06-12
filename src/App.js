@@ -13,6 +13,7 @@ import {
   Report,
   Reports,
 } from './pages';
+import { getStoredReportsLength } from './utils/storedDataHandlers'
 
 import styles from '../src/assets/styles/layout.module.css'
 import { useEffect, useState } from 'react';
@@ -22,6 +23,7 @@ import { useEffect, useState } from 'react';
 const App = () => {
 
   const [userEmail, setUserEmail] = useState('wat')
+  const reportsLength = getStoredReportsLength()
 
   // useEffect(() => {
   //   if (store.get('userEmail')) {
@@ -40,7 +42,7 @@ const App = () => {
       <Router>
         <div className={styles.layout}>
           <aside className={styles.navigation}>
-            <Navigation />
+            <Navigation reportsLength={reportsLength} />
           </aside>
           <main className={styles.main}>
             <Routes>

@@ -6,6 +6,7 @@ import { BalanceReminder } from './BalanceReminder';
 import { ReportPreview } from './ReportPreview';
 import { ReportSubmit } from './ReportSubmit';
 import styles from './styles.module.css';
+import axios from 'axios';
 
 
 const steps = [{
@@ -25,23 +26,34 @@ const steps = [{
   label: 'Отправление отчёта'
 }]
 
-const stub = [{"packages":0,"patients":0,"packsPsa":"","packsRa":"","packsSpa":"","patientsPsa":"","patientsRa":"","patientsSpa":"","label":"Актемра","psa":{"disabled":false,"defaultChecked":false,"checked":true},"ra":{"disabled":false,"defaultChecked":false,"checked":false},"spa":{"disabled":false,"defaultChecked":false,"checked":false},"mnn":"Тоцилизумаб","application":"Подкожно","productionForm":"162мг/0,9мл","itemsInPack":4,"pricePerPack":"53053.50"},{"packages":0,"patients":0,"packsPsa":"","packsRa":"","packsSpa":"","patientsPsa":"","patientsRa":"","patientsSpa":"","label":"Артлегиа","psa":{"disabled":false,"defaultChecked":false,"checked":true},"ra":{"disabled":true,"defaultChecked":false,"checked":false},"spa":{"disabled":true,"defaultChecked":false,"checked":false},"mnn":"Олокизумаб","application":"Подкожно","productionForm":"160мг/мл 0,4мл","itemsInPack":1,"pricePerPack":"39000"},{"packages":0,"patients":0,"packsPsa":"","packsRa":"","packsSpa":"","patientsPsa":"","patientsRa":"","patientsSpa":"","label":"Далибра","psa":{"disabled":true,"defaultChecked":true,"checked":true},"ra":{"disabled":true,"defaultChecked":true,"checked":true},"spa":{"disabled":true,"defaultChecked":true,"checked":true},"mnn":"Адалимумаб","application":"Подкожно","productionForm":"40мг/0,8мл 0,8мл","itemsInPack":2,"pricePerPack":"33873.31"}]
 
-export const AnalysData = () => {
+export const AnalysData = ({reportId}) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [packDistribution, setPackDistribution] = useState([]);
   const [disabledStepper, setDisabledStepper] = useState(false);
+  const [data, setData] = useState(null)
+
+  const handleReportSubmit = (email) => {
+    const markup = document.getElementById('reportContent').innerHTML;
+
+    axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
+      email,
+      data: data
+    })
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem(`${reportId}-report-id`)) {
+      const reportLabel = JSON.parse(localStorage.getItem(`${reportId}-report-id`)).stepLabel
+      const activeIndex = steps.findIndex((item) => item.label === reportLabel)
+      // setActiveStepIndex(activeIndex)
+      setData(JSON.parse(localStorage.getItem(`${reportId}-report-id`)))
+    }
+  }, [reportId])
 
   const handleSetStep = (id) => {
     const activeStep = steps.findIndex((step) => step.id === id)
     setActiveStepIndex(activeStep)
   }
-
-  useEffect(() => {
-    if (activeStepIndex === 0) {
-      setPackDistribution([])
-    }
-  }, [activeStepIndex])
 
   useEffect(() => {
     if (activeStepIndex === 4) {
@@ -50,46 +62,66 @@ export const AnalysData = () => {
   }, [activeStepIndex])
 
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} id="reportContent">
       <Stepper
         steps={steps}
         activeStepIndex={activeStepIndex}
         onStepClick={handleSetStep}
         prevStepsDisabled={disabledStepper}
       />
-      {activeStepIndex === 0 && <PackDistribution
+      {data && activeStepIndex === 0 && <PackDistribution
+        reportData={data}
+        reportId={reportId}
+        stepLabel={steps[activeStepIndex].label}
         onSubmit={(data) => {
           setActiveStepIndex(1)
-          setPackDistribution(data)
+          setData(data)
         }}
-        tradeNamesOptions={stub}
       /> }
-      {activeStepIndex === 1 && <ExpensesAnalys
-        onSubmit={(data) => {
+      {data && activeStepIndex === 1 && <ExpensesAnalys
+        reportData={data}
+        reportId={reportId}
+        tradeIncrease={data.tradeIncrease}
+        onSubmit={() => {
           setActiveStepIndex(2)
         }}
         onPrevClick={() => {
-          setActiveStepIndex(1)
+          setActiveStepIndex(0)
         }}
       />}
-      {activeStepIndex === 2 && <BalanceReminder
-        onSubmit={(data) => {
+      {data && activeStepIndex === 2 && <BalanceReminder
+        reportData={data}
+        reportId={reportId}
+        tradeIncrease={data.tradeIncrease}
+        onSubmit={() => {
           setActiveStepIndex(3)
         }}
         onPrevClick={() => {
-          setActiveStepIndex(2)
+          setActiveStepIndex(1)
         }}
       />}
-      {activeStepIndex === 3 && <ReportPreview
-        data={stub}
-        onSubmit={(data) => {
+      {data && activeStepIndex === 3 && <ReportPreview
+        reportData={data}
+        reportId={reportId}
+        regionId={data.regionId}
+        tradeIncrease={data.tradeIncrease}
+        stepLabel={steps[activeStepIndex].label}
+        onSubmit={() => {
           setActiveStepIndex(4)
         }}
         onPrevClick={() => {
-          setActiveStepIndex(3)
+          setActiveStepIndex(2)
         }}
       />}
-      {activeStepIndex === 4 && <ReportSubmit data={stub} />}
+      {data && activeStepIndex === 4 && <ReportSubmit
+        reportData={data}
+        reportId={reportId}
+        regionId={data.regionId}
+        tradeIncrease={data.tradeIncrease}
+        stepLabel={steps[activeStepIndex].label}
+        onSubmit={(email) => handleReportSubmit(email)}
+        onPrevClick={() => {}}
+      />}
     </div>
   )
 }

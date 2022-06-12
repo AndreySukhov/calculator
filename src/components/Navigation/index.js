@@ -15,11 +15,15 @@ const ICONS = {
   report
 }
 
-export const Navigation = () => {
+export const Navigation = ({reportsLength}) => {
   return (
     <nav className={styles.wrap}>
       <ul className={styles.nav}>
         {ROUTES.map((route) => {
+          if (route.url.includes('reports') && reportsLength === 0) {
+            return null
+          }
+
           return (
             <li key={route.url} className={styles['nav-item']}>
               <NavLink to={route.url}>

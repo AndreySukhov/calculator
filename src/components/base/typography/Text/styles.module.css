@@ -24,6 +24,10 @@
     color: #C5C8D1;
 }
 
+.text--xs {
+    font-size: 14px;
+}
+
 .text--s {
     font-size: 16px;
 }

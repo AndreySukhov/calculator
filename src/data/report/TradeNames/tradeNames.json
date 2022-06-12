@@ -1,18 +1,18 @@
 [
   {
-    "label": "Актемра",
+    "label": "Оренсия",
     "psa": {
       "disabled": false,
       "defaultChecked": false,
       "initial": {
-        "year1": 15,
-        "year2": 15,
-        "year3": 15
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
       },
       "secondary": {
-        "year1": 16,
-        "year2": 16,
-        "year3": 16
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
       }
     },
     "ra": {
@@ -24,30 +24,580 @@
         "year3": 13
       },
       "secondary": {
-        "year1": 14,
-        "year2": 14,
-        "year3": 14
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
       }
     },
     "spa": {
       "disabled": false,
       "defaultChecked": false,
       "initial": {
-        "year1": 15,
-        "year2": 15,
-        "year3": 15
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
       },
       "secondary": {
-        "year1": 16,
-        "year2": 16,
-        "year3": 16
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
       }
     },
-    "mnn": "Тоцилизумаб",
+    "mnn": "Абатацепт",
     "application": "Подкожно",
-    "productionForm": "162мг/0,9мл",
+    "productionForm": "125мг/мл 1мл",
     "itemsInPack": 4,
-    "pricePerPack": "53053.50"
+    "pricePerPack": "56559.79"
+  },
+  {
+    "label": "Хумира",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Адалимумаб",
+    "application": "Подкожно",
+    "productionForm": "40мг/0,8мл 0,8мл",
+    "itemsInPack": 2,
+    "pricePerPack": "43409.38"
+  },
+  {
+    "label": "Далибра",
+    "psa": {
+      "disabled": true,
+      "defaultChecked": true,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": true,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": true,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Адалимумаб",
+    "application": "Подкожно",
+    "productionForm": "40мг/0,8мл 0,8мл",
+    "itemsInPack": 2,
+    "pricePerPack": "33873.31"
+  },
+  {
+    "label": "Отесла",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Апремиласт",
+    "application": "Перорально",
+    "productionForm": "Табл. 10мг-4шт, 20мг-4шт, 30мг-5шт+30мг-14шт",
+    "itemsInPack": 27,
+    "pricePerPack": "17402.28"
+  },
+  {
+    "label": "Олумиант",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Барицитиниб",
+    "application": "Перорально",
+    "productionForm": "Табл. 4мг",
+    "itemsInPack": 28,
+    "pricePerPack": "40258.92"
+  },
+  {
+    "label": "Симпони",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 12,
+        "year2": 12,
+        "year3": 12
+      },
+      "secondary": {
+        "year1": 12,
+        "year2": 12,
+        "year3": 12
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 12,
+        "year2": 12,
+        "year3": 12
+      },
+      "secondary": {
+        "year1": 12,
+        "year2": 12,
+        "year3": 12
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 12,
+        "year2": 12,
+        "year3": 12
+      },
+      "secondary": {
+        "year1": 12,
+        "year2": 12,
+        "year3": 12
+      }
+    },
+    "mnn": "Голимумаб",
+    "application": "Подкожно",
+    "productionForm": "50мг/0,5мл 0,5мл",
+    "itemsInPack": 1,
+    "pricePerPack": "48203.57"
+  },
+  {
+    "label": "Тремфея",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 8,
+        "year2": 6,
+        "year3": 7
+      },
+      "secondary": {
+        "year1": 6,
+        "year2": 6,
+        "year3": 7
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Гуселькумаб",
+    "application": "Подкожно",
+    "productionForm": "100мг/мл 1мл",
+    "itemsInPack": 1,
+    "pricePerPack": "126989"
+  },
+  {
+    "label": "Талс",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Иксекизумаб",
+    "application": "Подкожно",
+    "productionForm": "80мг/мл 1мл",
+    "itemsInPack": 1,
+    "pricePerPack": "47480.27"
+  },
+  {
+    "label": "Ремикейд",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 25,
+        "year3": 21
+      },
+      "secondary": {
+        "year1": 21,
+        "year2": 21,
+        "year3": 25
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 17,
+        "year2": 15,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 15
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 25,
+        "year3": 21
+      },
+      "secondary": {
+        "year1": 21,
+        "year2": 21,
+        "year3": 25
+      }
+    },
+    "mnn": "Инфликсимаб",
+    "application": "Внутривенно",
+    "productionForm": "100мг",
+    "itemsInPack": 1,
+    "pricePerPack": "18200"
+  },
+  {
+    "label": "Фламмэгис",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 25,
+        "year3": 21
+      },
+      "secondary": {
+        "year1": 21,
+        "year2": 21,
+        "year3": 25
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 17,
+        "year2": 15,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 15
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 25,
+        "year3": 21
+      },
+      "secondary": {
+        "year1": 21,
+        "year2": 21,
+        "year3": 25
+      }
+    },
+    "mnn": "Инфликсимаб",
+    "application": "Внутривенно",
+    "productionForm": "100мг",
+    "itemsInPack": 1,
+    "pricePerPack": "17592.12"
+  },
+  {
+    "label": "Инфликсимаб",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 25,
+        "year3": 21
+      },
+      "secondary": {
+        "year1": 21,
+        "year2": 21,
+        "year3": 25
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 17,
+        "year2": 15,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 15
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 25,
+        "year3": 21
+      },
+      "secondary": {
+        "year1": 21,
+        "year2": 21,
+        "year3": 25
+      }
+    },
+    "mnn": "Инфликсимаб",
+    "application": "Внутривенно",
+    "productionForm": "100мг",
+    "itemsInPack": 1,
+    "pricePerPack": "18772.40"
+  },
+  {
+    "label": "Эфлейра",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 17,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 28,
+        "year2": 26,
+        "year3": 26
+      },
+      "secondary": {
+        "year1": 26,
+        "year2": 26,
+        "year3": 26
+      }
+    },
+    "mnn": "Нетакимаб",
+    "application": "Подкожно",
+    "productionForm": "60мг/мл 1мл",
+    "itemsInPack": 2,
+    "pricePerPack": "18181.82"
   },
   {
     "label": "Артлегиа",
@@ -55,14 +605,14 @@
       "disabled": false,
       "defaultChecked": false,
       "initial": {
-        "year1": 28,
-        "year2": 28,
-        "year3": 28
+        "year1": null,
+        "year2": null,
+        "year3": null
       },
       "secondary": {
-        "year1": 29,
-        "year2": 29,
-        "year3": 29
+        "year1": null,
+        "year2": null,
+        "year3": null
       }
     },
     "ra": {
@@ -74,23 +624,23 @@
         "year3": 26
       },
       "secondary": {
-        "year1": 27,
-        "year2": 27,
-        "year3": 27
+        "year1": 26,
+        "year2": 26,
+        "year3": 26
       }
     },
     "spa": {
       "disabled": true,
       "defaultChecked": false,
       "initial": {
-        "year1": 30,
-        "year2": 30,
-        "year3": 30
+        "year1": null,
+        "year2": null,
+        "year3": null
       },
       "secondary": {
-        "year1": 31,
-        "year2": 31,
-        "year3": 31
+        "year1": null,
+        "year2": null,
+        "year3": null
       }
     },
     "mnn": "Олокизумаб",
@@ -100,47 +650,597 @@
     "pricePerPack": "39000"
   },
   {
+    "label": "Кевзара",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Сарилумаб",
+    "application": "Подкожно",
+    "productionForm": "150мг",
+    "itemsInPack": 2,
+    "pricePerPack": "52986.32"
+  },
+  {
+    "label": "Козэнтикс",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 8,
+        "year2": 6,
+        "year3": 6
+      },
+      "secondary": {
+        "year1": 6,
+        "year2": 6,
+        "year3": 6
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 8,
+        "year2": 6,
+        "year3": 6
+      },
+      "secondary": {
+        "year1": 6,
+        "year2": 6,
+        "year3": 6
+      }
+    },
+    "mnn": "Секукинумаб",
+    "application": "Подкожно",
+    "productionForm": "150мг/мл 1мл",
+    "itemsInPack": 2,
+    "pricePerPack": "69097.32"
+  },
+  {
+    "label": "Янвинус",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Тофацитиниб",
+    "application": "Перорально",
+    "productionForm": "5мг",
+    "itemsInPack": 56,
+    "pricePerPack": "40258.92"
+  },
+  {
+    "label": "Актемра",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Тоцилизумаб",
+    "application": "Подкожно",
+    "productionForm": "162мг/0,9мл",
+    "itemsInPack": 4,
+    "pricePerPack": "53053.50"
+  },
+  {
+    "label": "Ранвэк",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 14,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Упадацитиниб",
+    "application": "Перорально",
+    "productionForm": "15мг",
+    "itemsInPack": 28,
+    "pricePerPack": "38245.97"
+  },
+  {
+    "label": "Стелара",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 6,
+        "year2": 4,
+        "year3": 4
+      },
+      "secondary": {
+        "year1": 4,
+        "year2": 4,
+        "year3": 5
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Устекинумаб",
+    "application": "Подкожно",
+    "productionForm": "45мг/0,5мл 0,5мл",
+    "itemsInPack": 1,
+    "pricePerPack": "154482.95"
+  },
+  {
+    "label": "Симзия",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 15,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 15,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 15,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Цертолизумаб пэгол",
+    "application": "Подкожно",
+    "productionForm": "200мг/мл 1мл",
+    "itemsInPack": 2,
+    "pricePerPack": "45355.96"
+  },
+  {
+    "label": "Энбрел",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Этанерцепт",
+    "application": "Подкожно",
+    "productionForm": "50мг/мл 1мл",
+    "itemsInPack": 4,
+    "pricePerPack": "42040.11"
+  },
+  {
+    "label": "Эрелзи",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Этанерцепт",
+    "application": "Подкожно",
+    "productionForm": "50мг/мл 1мл",
+    "itemsInPack": 4,
+    "pricePerPack": "31246.84"
+  },
+  {
+    "label": "Этанерцепт",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Этанерцепт",
+    "application": "Подкожно",
+    "productionForm": "50мг/мл 1мл",
+    "itemsInPack": 4,
+    "pricePerPack": "32623.13"
+  },
+  {
+    "label": "Мабтера",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 12,
+        "year2": 8,
+        "year3": 8
+      },
+      "secondary": {
+        "year1": 8,
+        "year2": 8,
+        "year3": 8
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Ритускимаб",
+    "application": "Внутривенно",
+    "productionForm": "500мг/50мл 50мл",
+    "itemsInPack": 1,
+    "pricePerPack": "57435.33"
+  },
+  {
     "label": "Ацеллбия",
     "psa": {
       "disabled": false,
       "defaultChecked": false,
       "initial": {
-        "year1": 18,
-        "year2": 19,
-        "year3": 20
+        "year1": null,
+        "year2": null,
+        "year3": null
       },
       "secondary": {
-        "year1": 21,
-        "year2": 22,
-        "year3": 23
+        "year1": null,
+        "year2": null,
+        "year3": null
       }
     },
     "ra": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": 12,
-        "year2": 13,
-        "year3": 14
+        "year2": 8,
+        "year3": 8
       },
       "secondary": {
-        "year1": 15,
-        "year2": 16,
-        "year3": 17
+        "year1": 8,
+        "year2": 8,
+        "year3": 8
       }
     },
     "spa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
-        "year1": 24,
-        "year2": 25,
-        "year3": 26
+        "year1": null,
+        "year2": null,
+        "year3": null
       },
       "secondary": {
-        "year1": 27,
-        "year2": 28,
-        "year3": 29
+        "year1": null,
+        "year2": null,
+        "year3": null
       }
     },
     "mnn": "Ритускимаб",
@@ -150,53 +1250,103 @@
     "pricePerPack": "38150"
   },
   {
-    "label": "Далибра",
+    "label": "Реддитукс",
     "psa": {
-      "disabled": true,
-      "defaultChecked": true,
+      "disabled": false,
+      "defaultChecked": false,
       "initial": {
-        "year1": 34,
-        "year2": 35,
-        "year3": 36
+        "year1": null,
+        "year2": null,
+        "year3": null
       },
       "secondary": {
-        "year1": 37,
-        "year2": 38,
-        "year3": 39
+        "year1": null,
+        "year2": null,
+        "year3": null
       }
     },
     "ra": {
       "disabled": true,
-      "defaultChecked": true,
+      "defaultChecked": false,
       "initial": {
-        "year1": 40,
-        "year2": 41,
-        "year3": 42
+        "year1": 12,
+        "year2": 8,
+        "year3": 8
       },
       "secondary": {
-        "year1": 43,
-        "year2": 44,
-        "year3": 45
+        "year1": 8,
+        "year2": 8,
+        "year3": 8
       }
     },
     "spa": {
       "disabled": true,
-      "defaultChecked": true,
+      "defaultChecked": false,
       "initial": {
-        "year1": 46,
-        "year2": 47,
-        "year3": 48
+        "year1": null,
+        "year2": null,
+        "year3": null
       },
       "secondary": {
-        "year1": 49,
-        "year2": 50,
-        "year3": 51
+        "year1": null,
+        "year2": null,
+        "year3": null
       }
     },
-    "mnn": "Адалимумаб",
+    "mnn": "Ритускимаб",
+    "application": "Внутривенно",
+    "productionForm": "500мг/50мл 50мл",
+    "itemsInPack": 1,
+    "pricePerPack": "32104"
+  },
+  {
+    "label": "Методжект",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "ra": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "spa": {
+      "disabled": true,
+      "defaultChecked": false,
+      "initial": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      },
+      "secondary": {
+        "year1": null,
+        "year2": null,
+        "year3": null
+      }
+    },
+    "mnn": "Метотрексат",
     "application": "Подкожно",
-    "productionForm": "40мг/0,8мл 0,8мл",
-    "itemsInPack": 2,
-    "pricePerPack": "33873.31"
+    "productionForm": "10мг/мл 0,75мл",
+    "itemsInPack": 1,
+    "pricePerPack": "705.83"
   }
 ]

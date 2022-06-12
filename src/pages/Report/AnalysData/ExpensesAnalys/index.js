@@ -1,5 +1,5 @@
 import { ActionBar } from '../../components/ActionBar';
-import { Text, Button } from '../../../../components/base';
+import { Text } from '../../../../components/base';
 import { RadioGroup } from '../../../../components/base/forms/RadioGroup';
 import { Checkbox } from '../../../../components/base/forms/Checkbox';
 import { useState } from 'react';
@@ -8,13 +8,52 @@ import styles from './styles.module.css'
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import { ReactComponent as Clear } from '../../../../assets/images/clear-bordered.svg';
 import { ReactComponent as Chart } from '../../../../assets/images/chart-bordered.svg';
+import {
+  getExpenseCurrentBudget,
+  getExpensePercentDiff,
+  getExpensePlanBudget,
+  getExpensePlanBudgetItem,
+  getExpenseCurrentBudgetItem, getPricePackPerPatient
+} from '../calculations';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { CHART_HEX } from '../../../../utils/chartHex';
 
 
-export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const options = {
+  responsive: true,
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true,
+    },
+  },
+};
+
+const labels = ['Текущий', 'Планируемый'];
+
+export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncrease }) => {
   const [nosologia, setNosologia] = useState('ra')
   const [healYear, setHealYear] = useState([1])
-  const [showValOnHover, setShowValOnHover] = useState(false)
-  const [showDiagramValOnHover, setShowDiagramValOnHover] = useState(false)
   const [showDiagram, setShowDiagram] = useState(false)
   const [patientStatus, setPatientStatus] = useState('first')
 
@@ -34,6 +73,98 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
 
   const handlePatientStatus = (e) => {
     setPatientStatus(e.target.value)
+  }
+
+  const currentBudget = getExpenseCurrentBudget({
+    nosologia,
+    healYear,
+    data: reportData.data,
+    tradeIncrease,
+  });
+  const planBudget = getExpensePlanBudget({
+    nosologia,
+    healYear,
+    data: reportData.data,
+    tradeIncrease,
+  });
+  const budgetDiff = getExpensePercentDiff(currentBudget, planBudget);
+  const includeFirst = healYear.includes(1)
+  const includeSecond = healYear.includes(2)
+  const includeThird = healYear.includes(3)
+
+  const dataSets = reportData.data.map((item) => {
+    return {
+      label: item.label,
+      backgroundColor: CHART_HEX[item.label],
+      data: [getExpenseCurrentBudgetItem({
+        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+      }), getExpensePlanBudgetItem({
+        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+      })]
+    }
+  })
+
+  const chartData = {
+    labels,
+    datasets: dataSets,
+  };
+  const patientsLabels = reportData.data.map(({label}) => label)
+
+  const patientsDataSets = healYear.map((year) => {
+
+    if (year === 1) {
+      return {
+        label: 'Первый',
+        backgroundColor: '#F4F4F4',
+        data: patientsLabels.map((label) => {
+          const current = reportData.data.find((reportItem) => reportItem.label === label)
+          return getPricePackPerPatient({
+            item: current,
+            nosologia,
+            tradeIncrease,
+            patientStatus,
+            year
+          })
+        })
+      }
+    }
+
+    if (year === 2) {
+      return {
+        label: 'Второй',
+        backgroundColor: '#CED6E9',
+        data: patientsLabels.map((label) => {
+          const current = reportData.data.find((reportItem) => reportItem.label === label)
+          return getPricePackPerPatient({
+            item: current,
+            nosologia,
+            tradeIncrease,
+            patientStatus,
+            year
+          })
+        })
+      }
+    }
+    if (year === 3) {
+      return {
+        label: 'Третий',
+        backgroundColor: '#EAEAF9',
+        data: patientsLabels.map((label) => {
+          const current = reportData.data.find((reportItem) => reportItem.label === label)
+          return getPricePackPerPatient({
+            item: current,
+            nosologia,
+            tradeIncrease,
+            patientStatus,
+            year
+          })
+        })
+      }
+    }
+  })
+  const patientChartsData = {
+    labels: patientsLabels,
+    datasets: patientsDataSets
   }
 
   return (
@@ -119,7 +250,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
             Текущий
           </Text>
           <Text className={styles['summary-row-body']} size="l-regular">
-            {getLocalCurrencyStr(10153859151)}
+            {getLocalCurrencyStr(currentBudget)}
           </Text>
         </div>
         <div className={`${styles['summary-row']} ${styles['summary-row--flex']}`}>
@@ -127,7 +258,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
             Планируемый
           </Text>
           <Text className={styles['summary-row-body']} size="l-regular">
-            {getLocalCurrencyStr(9252714786)}
+            {getLocalCurrencyStr(planBudget)}
           </Text>
         </div>
         <div className={`${styles['summary-row']} ${styles['summary-row--flex']}`}>
@@ -135,21 +266,15 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
             Освобождено
           </Text>
           <Text className={styles['summary-row-body']} size="l">
-            {getLocalCurrencyStr(901144365)}
+            {getLocalCurrencyStr(currentBudget - planBudget)}
           </Text>
           <Text size="l">
-            8,9%
+            {budgetDiff}%
           </Text>
         </div>
       </div>
-      <div className={styles['checkbox-list-item']}>
-        <Checkbox
-          onChange={() => setShowValOnHover(!showValOnHover)}
-          value={showValOnHover}
-        />
-        <Text className={styles['checkbox-label']} size="m">
-          Показывать значения при наведении
-        </Text>
+      <div className={styles.chart}>
+        <Bar options={options} data={chartData} />
       </div>
       <div>
         <button onClick={() => setShowDiagram(!showDiagram)} className={styles['toggle-view']}>
@@ -167,7 +292,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
             <RadioGroup
               label="Статус пациентов"
               name="patientStatus"
-              value={nosologia}
+              value={patientStatus}
               options={[
                 {
                   value: 'first',
@@ -181,24 +306,16 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick }) => {
               onChange={(e) => handlePatientStatus(e)}
             />
           </div>
-          <div className={styles['show-on-hover-check']}>
-            <div className={styles['checkbox-list-item']}>
-              <Checkbox
-                onChange={() => setShowDiagramValOnHover(!showValOnHover)}
-                value={showDiagramValOnHover}
-              />
-              <Text className={styles['checkbox-label']} size="m">
-                Показывать значения при наведении
-              </Text>
-            </div>
+          <div className={styles.chart}>
+            <Bar options={options} data={patientChartsData} />
           </div>
         </div>
       )}
       <form
         className={styles.form}
         onSubmit={() => {
-        onSubmit()
-      }}>
+          onSubmit()
+        }}>
         <ActionBar
           onPrevButtonClick={onPrevClick}
           prevBtnText="Назад"

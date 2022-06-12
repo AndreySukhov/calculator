@@ -8,7 +8,43 @@ import styles from './styles.module.css'
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import { NosologiaChoice } from './NosologiaChoice';
 
-export const BalanceReminder = ({onSubmit, onPrevClick}) => {
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import {
+  getExpenseCurrentBudget,
+  getExpensePercentDiff,
+  getExpensePlanBudget,
+  getSavedPerPatientMoney
+} from '../calculations';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  indexAxis: 'y',
+  elements: {
+    bar: {
+      borderWidth: 2,
+    },
+  },
+  responsive: true
+};
+
+export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportData, reportId}) => {
   const [nosologia, setNosologia] = useState('ra')
   const [patientStatus, setPatientStatus] = useState('first')
   const [showNosologiaChoice, setShowNosologiaChoice] = useState(false)
@@ -22,6 +58,55 @@ export const BalanceReminder = ({onSubmit, onPrevClick}) => {
     setPatientStatus(e.target.value)
   }
 
+  const currentBudget = getExpenseCurrentBudget({
+    nosologia,
+    healYear: [1],
+    data: reportData.data,
+    tradeIncrease,
+  });
+  const planBudget = getExpensePlanBudget({
+    nosologia,
+    healYear: [1],
+    data: reportData.data,
+    tradeIncrease,
+  });
+
+  const patientsLabels = reportData.data.map(({label}) => label)
+
+  const patientsData = {
+    labels: patientsLabels,
+    datasets: [
+      {
+        label: 'кол-во пациентов',
+        data: patientsLabels.map((label) => {
+          const current = reportData.data.find((reportItem) => reportItem.label === label)
+          return getSavedPerPatientMoney({
+            item: current,
+            nosologia,
+            patientStatus,
+            tradeIncrease,
+          })
+        }),
+        backgroundColor: '#4461A1',
+      }
+    ],
+  };
+
+  const dataSets = patientsLabels.map((label) => {
+    const current = reportData.data.find((reportItem) => reportItem.label === label)
+
+    return {
+      label: current.label,
+      backgroundColor: '#4461A1',
+      data: [getSavedPerPatientMoney({
+        item: current,
+        nosologia,
+        patientStatus,
+        tradeIncrease,
+      })]
+    }
+  })
+
   return (
     <>
       <Text color="blue" className={styles.heading} size="xxl">
@@ -33,7 +118,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick}) => {
           Высвобожденный бюджет
         </Text>
         <Text size="l">
-          {getLocalCurrencyStr(18398394)}
+          {getLocalCurrencyStr(currentBudget - planBudget)}
         </Text>
       </div>
       <div className={styles.row}>
@@ -80,6 +165,9 @@ export const BalanceReminder = ({onSubmit, onPrevClick}) => {
           </div>
         </div>
       </div>
+      <div className={styles.chart}>
+        <Bar options={options} data={patientsData} />
+      </div>
       <form
         className={styles.form}
         onSubmit={(e) => {
@@ -97,8 +185,18 @@ export const BalanceReminder = ({onSubmit, onPrevClick}) => {
           <NosologiaChoice
             onCancel={() => setShowNosologiaChoice(false)}
             onSubmit={(val) => {
-              setNosologiaType(val)
-              onSubmit(val)
+              const storedData = JSON.parse(localStorage.getItem(`${reportId}-report-id`))
+
+              const updatedData = {
+                ...storedData,
+                data: reportData.data,
+                rootNosologia: val,
+              }
+
+              if (storedData) {
+                localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
+              }
+              onSubmit()
             }}
             defaultNosologiaType={nosologiaType}
           />

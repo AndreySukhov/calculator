@@ -24,3 +24,9 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+
+.error {
+    background: #FFD3CD;
+    color: #961605;
+    border-color: #961605;
+}

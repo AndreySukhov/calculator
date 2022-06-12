@@ -21,7 +21,7 @@ const steps = [{
   label: 'Распределение упаковок и пациентов по нозологиям'
 }]
 
-export const PrepareData = ({onComplete}) => {
+export const PrepareData = () => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [regionId, setRegionId] = useState(null)
   const [tradeNamesOptions, setTradeNamesOptions] = useState([])
@@ -77,14 +77,10 @@ export const PrepareData = ({onComplete}) => {
         onPrevButtonClick={() => {
           setActiveStepIndex(2)
         }}
-        onSubmit={() => {
-          onComplete({
-            regionId,
-            tradeNamesOptions,
-            tradeIncrease
-          })
-        }}
+        regionId={regionId}
+        tradeIncrease={tradeIncrease}
         tradeNamesOptions={tradeNamesOptions}
+        stepLabel={steps[activeStepIndex].label}
       />}
     </div>
   )

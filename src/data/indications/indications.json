@@ -43,7 +43,7 @@
   },
   {
     "mnn": "Инфликсимаб",
-    "ra": false,
+    "ra": true,
     "psa": true,
     "spa": true
   },

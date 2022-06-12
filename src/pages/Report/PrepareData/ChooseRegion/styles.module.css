@@ -36,6 +36,7 @@
     overflow: auto;
     border: 1px solid #ECEFF6;
     border-radius: 8px;
+    background: #fff;
 }
 
 .autocomplete-btn {

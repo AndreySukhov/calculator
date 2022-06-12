@@ -21,7 +21,7 @@ export const Confirm = ({ onSubmit, onCancel }) => {
         <Button onClick={onCancel} theme="bordered">
           Отмена
         </Button>
-        <Button onClick={onSubmit} theme="primary">
+        <Button onClick={() => onSubmit(email)} theme="primary" disabled={!email}>
           Подтвердить
         </Button>
       </div>
