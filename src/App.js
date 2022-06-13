@@ -3,7 +3,6 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-// import { Store } from 'electron-store'
 
 import { Navigation } from './components/Navigation'
 import {
@@ -18,22 +17,13 @@ import { getStoredReportsLength } from './utils/storedDataHandlers'
 import styles from '../src/assets/styles/layout.module.css'
 import { useEffect, useState } from 'react';
 
-// const store = new Store()
 
 const App = () => {
 
   const [userEmail, setUserEmail] = useState('wat')
   const reportsLength = getStoredReportsLength()
-
-  // useEffect(() => {
-  //   if (store.get('userEmail')) {
-  //     setUserEmail(store.get('userEmail'))
-  //   }
-  // }, [])
-  //
   const handleEmail = (email) => {
     setUserEmail(email)
-    // store.set('userEmail', email)
   }
 
   return (

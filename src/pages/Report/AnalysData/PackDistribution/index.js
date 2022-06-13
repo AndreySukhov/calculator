@@ -140,7 +140,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const storedData = JSON.parse(localStorage.getItem(`${reportId}-report-id`))
+    const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
 
     const updatedData = {
       ...storedData,
@@ -149,7 +149,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     }
 
     if (storedData) {
-      localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
+      window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
     }
 
     onSubmit(updatedData)
@@ -312,7 +312,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
-                           value={tradeOption.planPatients}
+                           value={Math.round(tradeOption.planPatients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
                   </div>

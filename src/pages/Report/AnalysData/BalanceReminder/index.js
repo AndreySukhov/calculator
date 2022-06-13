@@ -185,7 +185,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
           <NosologiaChoice
             onCancel={() => setShowNosologiaChoice(false)}
             onSubmit={(val) => {
-              const storedData = JSON.parse(localStorage.getItem(`${reportId}-report-id`))
+              const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
 
               const updatedData = {
                 ...storedData,
@@ -194,9 +194,9 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
               }
 
               if (storedData) {
-                localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
+                window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
               }
-              onSubmit()
+              onSubmit(updatedData)
             }}
             defaultNosologiaType={nosologiaType}
           />

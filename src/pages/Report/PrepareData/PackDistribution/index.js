@@ -61,39 +61,10 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     const val = e.target.value
     if (e.target.name === 'packages') {
       setPackagesSelect(val)
-      // const newData = data.map((item) => {
-      //   if (val === 'percent') {
-      //     return {
-      //       ...item,
-      //       packages: item.packages > 100 ? 100 : item.packages
-      //     }
-      //   } else {
-      //     return {
-      //       ...item,
-      //       packages: item.packages > 1_000_000_000 ? 1_000_000_000 : item.packages
-      //     }
-      //   }
-      // })
-      // setData(newData)
     }
 
     if (e.target.name === 'patients') {
       setPatientsSelect(val)
-
-      const newData = data.map((item) => {
-        if (val === 'percent') {
-          return {
-            ...item,
-            patients: item.patients > 100 ? 100 : item.patients
-          }
-        } else {
-          return {
-            ...item,
-            patients: item.patients > 1_000_000_000 ? 1_000_000_000 : item.patients
-          }
-        }
-      })
-      setData(newData)
     }
   }
 
@@ -308,7 +279,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                            error={getIsPacksError(tradeOption, packagesSelect)}
                            value={
                              (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
-                             Math.round(tradeOption.packages) :
+                               packagesSelect === 'percent' ? 100 : Math.round(tradeOption.packages) :
                              Math.round(tradeOption.packsRa)
                              } />
                     {packagesSelect === 'percent' && (
@@ -326,7 +297,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                            error={getIsPacksError(tradeOption, packagesSelect)}
                            value={
                              (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
-                               Math.round(tradeOption.packages) :
+                               packagesSelect === 'percent' ? 100 : Math.round(tradeOption.packages) :
                                Math.round(tradeOption.packsPsa)
                            }
                       />
@@ -342,7 +313,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                            error={getIsPacksError(tradeOption, packagesSelect)}
                            value={
                              (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
-                               Math.round(tradeOption.packages) :
+                               packagesSelect === 'percent' ? 100 : Math.round(tradeOption.packages) :
                                Math.round(tradeOption.packsSpa)
                            }
                     />
@@ -372,7 +343,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
-                          Math.round(tradeOption.patients) :
+                          patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
                           Math.round(tradeOption.patientsRa)
                       }
                     />
@@ -391,7 +362,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
-                          Math.round(tradeOption.patients) :
+                          patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
                           Math.round(tradeOption.patientsPsa)
                       }
                     />
@@ -411,7 +382,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
-                          Math.round(tradeOption.patients) :
+                          patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
                           Math.round(tradeOption.patientsSpa)
                       }
                     />

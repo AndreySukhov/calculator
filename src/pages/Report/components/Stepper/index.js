@@ -15,7 +15,7 @@ export const Stepper = ({steps, onStepClick, activeStepIndex, prevStepsDisabled 
                 }
                 onStepClick(step.id)
               }}>
-                <Text size="text--m--bold" className={styles.text} color={clickable ? 'primary' : 'disabled'}>
+                <Text size={i <= activeStepIndex ? 'm--bold' : 'm'} className={styles.text} color={clickable ? 'primary' : 'disabled'}>
                   Шаг {i + 1}: {step.label}
                 </Text>
               </button>

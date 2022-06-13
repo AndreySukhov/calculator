@@ -29,3 +29,11 @@
 .table th {
     padding: 12px;
 }
+
+.success {
+    background: #89BADE;
+}
+
+.success div {
+    color: #fff;
+}

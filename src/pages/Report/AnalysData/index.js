@@ -31,22 +31,27 @@ export const AnalysData = ({reportId}) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [disabledStepper, setDisabledStepper] = useState(false);
   const [data, setData] = useState(null)
+  const [reportSendStatus, setReportSendStatus] = useState('not-sent')
 
-  const handleReportSubmit = (email) => {
-    const markup = document.getElementById('reportContent').innerHTML;
-
-    axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
+  const handleReportSubmit = async (email) => {
+    const res = await axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
       email,
-      data: data
+      report: data
     })
+
+    if (res.status === 200) {
+      setReportSendStatus('success')
+    } else {
+      setReportSendStatus('error')
+    }
   }
 
   useEffect(() => {
-    if (localStorage.getItem(`${reportId}-report-id`)) {
-      const reportLabel = JSON.parse(localStorage.getItem(`${reportId}-report-id`)).stepLabel
+    if (window.localStorage.getItem(`${reportId}-report-id`)) {
+      const reportLabel = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`)).stepLabel
       const activeIndex = steps.findIndex((item) => item.label === reportLabel)
-      // setActiveStepIndex(activeIndex)
-      setData(JSON.parse(localStorage.getItem(`${reportId}-report-id`)))
+      setActiveStepIndex(activeIndex)
+      setData(JSON.parse(window.localStorage.getItem(`${reportId}-report-id`)))
     }
   }, [reportId])
 
@@ -121,6 +126,7 @@ export const AnalysData = ({reportId}) => {
         stepLabel={steps[activeStepIndex].label}
         onSubmit={(email) => handleReportSubmit(email)}
         onPrevClick={() => {}}
+        reportSendStatus={reportSendStatus}
       />}
     </div>
   )

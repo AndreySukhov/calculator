@@ -16,6 +16,10 @@
     color: #4461A1;
 }
 
+.text--error {
+    color: #961605;
+}
+
 .text--info {
     color: #3B3C57;
 }

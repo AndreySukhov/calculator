@@ -153,7 +153,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
   };
 
   const handleSubmit = () => {
-    const storedData = JSON.parse(localStorage.getItem(`${reportId}-report-id`))
+    const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
 
     const updatedData = {
       ...storedData,
@@ -161,7 +161,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
     }
 
     if (storedData) {
-      localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
+      window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
     }
     onSubmit()
   }

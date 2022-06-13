@@ -69,7 +69,16 @@ export const patientsOptions = {
 const labels = ['Текущий', 'Планируемый'];
 
 
-export const ReportSubmit = ({reportData, reportId, onSubmit, onPrevClick, regionId, tradeIncrease, stepLabel}) => {
+export const ReportSubmit = ({
+  reportData,
+  reportId,
+  onSubmit,
+  onPrevClick,
+  regionId,
+  tradeIncrease,
+  stepLabel,
+  reportSendStatus
+}) => {
   const [showConfirm, setShowConfirm] = useState(false)
   const { rootNosologia } = reportData
   const reportDate = new Date(Number(reportId))
@@ -127,10 +136,13 @@ export const ReportSubmit = ({reportData, reportId, onSubmit, onPrevClick, regio
     }
   })
 
+
   const chartData = {
     labels,
     datasets: dataSets,
   };
+
+
 
   const patientsLabels = reportData.data.map(({label}) => label)
 
@@ -155,7 +167,7 @@ export const ReportSubmit = ({reportData, reportId, onSubmit, onPrevClick, regio
   };
 
   const handleSubmit = () => {
-    const storedData = JSON.parse(localStorage.getItem(`${reportId}-report-id`))
+    const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
 
     const updatedData = {
       ...storedData,
@@ -163,7 +175,7 @@ export const ReportSubmit = ({reportData, reportId, onSubmit, onPrevClick, regio
     }
 
     if (storedData) {
-      localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
+      window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
     }
     onSubmit()
   }
@@ -407,7 +419,21 @@ export const ReportSubmit = ({reportData, reportId, onSubmit, onPrevClick, regio
       {showConfirm && (
         <ReactModal onClose={() => setShowConfirm(false)}>
           <Confirm
+            reportSendStatus={reportSendStatus}
             onSubmit={(email) => {
+              const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
+
+              const updatedData = {
+                ...storedData,
+                data: reportData.data,
+                stepLabel,
+              }
+
+              if (storedData) {
+                window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
+              }
+
+              onSubmit(updatedData)
               onSubmit(email)
             }}
             onCancel={() => setShowConfirm(false)}
