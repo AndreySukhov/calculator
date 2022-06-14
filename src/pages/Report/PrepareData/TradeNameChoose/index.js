@@ -191,19 +191,19 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                 type="button"
                 className={styles['additional-btn']}
                 onClick={() => {
-                const checkedAll = tradeNamesData.map((tradeName) => {
-                  return {
-                    label: tradeName.label,
-                    psa: !tradeName.psa.disabled || tradeName.psa.defaultChecked,
-                    ra: !tradeName.ra.disabled || tradeName.ra.defaultChecked,
-                    spa: !tradeName.spa.disabled || tradeName.spa.defaultChecked
-                  }
-                })
+                  const checkedAll = tradeNamesData.map((tradeName) => {
+                    return {
+                      label: tradeName.label,
+                      psa: !tradeName.psa.disabled || tradeName.psa.defaultChecked,
+                      ra: !tradeName.ra.disabled || tradeName.ra.defaultChecked,
+                      spa: !tradeName.spa.disabled || tradeName.spa.defaultChecked
+                    }
+                  })
 
                 setFieldValue('options', checkedAll)
               }}>
                 <div className={styles['additional-btn-icon']}>
-                  <Checkbox readonly checked />
+                  <Checkbox readOnly checked />
                 </div>
                 <Text size="xl">
                   Выбрать всё

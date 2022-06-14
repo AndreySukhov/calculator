@@ -33,16 +33,77 @@ export const AnalysData = ({reportId}) => {
   const [data, setData] = useState(null)
   const [reportSendStatus, setReportSendStatus] = useState('not-sent')
 
-  const handleReportSubmit = async (email) => {
-    const res = await axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
-      email,
-      report: data
+  const handleReportSubmit = async (email, chartData) => {
+    const content = document.getElementById('reportContent')
+    const contentCopy = content.cloneNode(true)
+    const script = document.createElement( 'script' );
+    script.type = 'text/javascript';
+    script.innerHTML = `
+
+      const options = {
+  indexAxis: 'y',
+  responsive: true,
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true,
+    },
+  },
+};
+
+const patientsOptions = {
+  indexAxis: 'y',
+  responsive: true,
+};
+
+const myChart = new Chart(document.getElementById('chart').getContext('2d'), {
+  type: 'horizontalBar',
+  data: {
+    labels: ['Текущий', 'Планируемый'],
+    datasets: ${chartData.chartData.datasets},
+  },
+  options: options,
+});
+
+const myChart1 = new Chart(document.getElementById('chart-patient').getContext('2d'), {
+  type: 'horizontalBar',
+  data: {
+      datasets: ${chartData.patientsData.datasets},
+      labels: ${chartData.patientsData.labels}
+  },
+options: patientsOptions
+})
+
+    `
+    let div = document.createElement("div")
+    div.append(contentCopy)
+    div.append(script)
+
+    axios.post('http://erelzi.fibonacci.digital/api/v1/pdf ', {
+
     })
 
-    if (res.status === 200) {
-      setReportSendStatus('success')
-    } else {
+    try {
+      const res = await axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
+        email,
+        report: data
+      })
+      if (res.status === 200) {
+        setReportSendStatus('success')
+      } else {
+        setReportSendStatus('error')
+        setTimeout(() => {
+          setReportSendStatus('not-sent')
+        }, 3000)
+      }
+    } catch (e) {
       setReportSendStatus('error')
+      setTimeout(() => {
+        setReportSendStatus('not-sent')
+      }, 3000)
+
     }
   }
 
@@ -50,7 +111,9 @@ export const AnalysData = ({reportId}) => {
     if (window.localStorage.getItem(`${reportId}-report-id`)) {
       const reportLabel = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`)).stepLabel
       const activeIndex = steps.findIndex((item) => item.label === reportLabel)
-      setActiveStepIndex(activeIndex)
+      if (activeIndex !== -1) {
+        setActiveStepIndex(activeIndex)
+      }
       setData(JSON.parse(window.localStorage.getItem(`${reportId}-report-id`)))
     }
   }, [reportId])
@@ -67,7 +130,7 @@ export const AnalysData = ({reportId}) => {
   }, [activeStepIndex])
 
   return (
-    <div className={styles.wrap} id="reportContent">
+    <div className={styles.wrap}>
       <Stepper
         steps={steps}
         activeStepIndex={activeStepIndex}
@@ -98,7 +161,8 @@ export const AnalysData = ({reportId}) => {
         reportData={data}
         reportId={reportId}
         tradeIncrease={data.tradeIncrease}
-        onSubmit={() => {
+        onSubmit={(data) => {
+          setData(data)
           setActiveStepIndex(3)
         }}
         onPrevClick={() => {
@@ -124,7 +188,10 @@ export const AnalysData = ({reportId}) => {
         regionId={data.regionId}
         tradeIncrease={data.tradeIncrease}
         stepLabel={steps[activeStepIndex].label}
-        onSubmit={(email) => handleReportSubmit(email)}
+        onSubmit={(email, data, chartData) => {
+          setData(setData)
+          handleReportSubmit(email, chartData)
+        }}
         onPrevClick={() => {}}
         reportSendStatus={reportSendStatus}
       />}

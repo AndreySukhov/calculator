@@ -36,12 +36,15 @@ ChartJS.register(
 
 export const options = {
   indexAxis: 'y',
-  elements: {
-    bar: {
-      borderWidth: 2,
+  responsive: true,
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true,
     },
   },
-  responsive: true
 };
 
 export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportData, reportId}) => {
@@ -91,21 +94,6 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
       }
     ],
   };
-
-  const dataSets = patientsLabels.map((label) => {
-    const current = reportData.data.find((reportItem) => reportItem.label === label)
-
-    return {
-      label: current.label,
-      backgroundColor: '#4461A1',
-      data: [getSavedPerPatientMoney({
-        item: current,
-        nosologia,
-        patientStatus,
-        tradeIncrease,
-      })]
-    }
-  })
 
   return (
     <>
@@ -202,7 +190,6 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
           />
         </ReactModal>
       )}
-
     </>
   )
 }

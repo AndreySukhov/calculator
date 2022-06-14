@@ -38,6 +38,7 @@ ChartJS.register(
 );
 
 const options = {
+  indexAxis: 'y',
   responsive: true,
   scales: {
     x: {

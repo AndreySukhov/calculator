@@ -44,6 +44,7 @@ ChartJS.register(
 );
 
 const options = {
+  indexAxis: 'y',
   responsive: true,
   scales: {
     x: {
@@ -57,12 +58,15 @@ const options = {
 
 export const patientsOptions = {
   indexAxis: 'y',
-  elements: {
-    bar: {
-      borderWidth: 2,
+  responsive: true,
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true,
     },
   },
-  responsive: true
 };
 
 const labels = ['Текущий', 'Планируемый'];
@@ -349,7 +353,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
           </Text>
         </div>
         <div className={styles.chart}>
-          <Bar options={patientsData} data={patientsData} />
+          <Bar options={patientsOptions} data={patientsData} />
         </div>
       </div>
       <div className={styles['report-row']}>
