@@ -4,7 +4,6 @@ import { Table } from '../../../../components/base/Table';
 import { useMemo, useState } from 'react';
 import { ReactModal } from '../../../../components/Modal';
 import styles from './styles.module.css';
-import headerLogo from '../../../../assets/images/header-logo.svg';
 import { ReactComponent as Calendar} from '../../../../assets/images/calendar.svg';
 import { ReactComponent as Pin} from '../../../../assets/images/pin.svg';
 import { ReactComponent as Info} from '../../../../assets/images/info.svg';
@@ -181,7 +180,7 @@ export const ReportSubmit = ({
       <div id="reportContent">
         <div className={styles['report-header']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Отправка отчёта
           </Text>
           <Text className={`${styles['report-date']} ${styles['text-with-icon']}`} size="l">
@@ -209,7 +208,7 @@ export const ReportSubmit = ({
         </div>
         <div className={styles['report-row']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Показания к применению по основным ревматическим заболеваниям <sup>1</sup>
           </Text>
           <Table
@@ -227,7 +226,7 @@ export const ReportSubmit = ({
         </div>
         <div className={styles['report-row']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Уровень исследования
           </Text>
           <Text className={styles['text-with-icon']}>
@@ -255,7 +254,7 @@ export const ReportSubmit = ({
         </div>
         <div className={styles['report-row']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Ценовой анализ торговых наименований лекарственных препаратов (ЛП) по показанию ревматоидный артрит (РА) <sup>1,2</sup>
           </Text>
           <div className={styles['stat-table']}>
@@ -281,11 +280,11 @@ export const ReportSubmit = ({
         </div>
         <div className={styles['report-row']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Результаты анализа затрат текущего и планируемого бюджета
           </Text>
           <div className={styles.chart}>
-            <Bar options={options} data={chartData} />
+            <Bar options={options} data={chartData} id="chart" />
           </div>
           <div className={styles['report-row-m']}>
             <table className={styles.table}>
@@ -351,7 +350,7 @@ export const ReportSubmit = ({
         </div>
         <div className={styles['report-row']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Количество новых пациентов в рамках высвободившегося бюджета на планируемый период
           </Text>
           <div className={styles['report-row-s']}>
@@ -360,12 +359,12 @@ export const ReportSubmit = ({
             </Text>
           </div>
           <div className={styles.chart}>
-            <Bar options={patientsOptions} data={patientsData} />
+            <Bar options={patientsOptions} data={patientsData} id="chart-patient" />
           </div>
         </div>
         <div className={styles['report-row']}>
           <Text color="blue" className={styles.heading} size="xxl">
-            <img src={headerLogo} alt=""/>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Значение показателя «Затраты-эффективность»
           </Text>
         </div>

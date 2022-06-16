@@ -62,7 +62,7 @@ const myChart = new Chart(document.getElementById('chart').getContext('2d'), {
   type: 'horizontalBar',
   data: {
     labels: ['Текущий', 'Планируемый'],
-    datasets: ${chartData.chartData.datasets},
+    datasets: ${JSON.stringify(chartData.chartData.datasets)},
   },
   options: options,
 });
@@ -70,8 +70,8 @@ const myChart = new Chart(document.getElementById('chart').getContext('2d'), {
 const myChart1 = new Chart(document.getElementById('chart-patient').getContext('2d'), {
   type: 'horizontalBar',
   data: {
-      datasets: ${chartData.patientsData.datasets},
-      labels: ${chartData.patientsData.labels}
+      datasets: ${JSON.stringify(chartData.patientsData.datasets)},
+      labels: ${JSON.stringify(chartData.patientsData.labels)}
   },
 options: patientsOptions
 })
@@ -81,8 +81,14 @@ options: patientsOptions
     div.append(contentCopy)
     div.append(script)
 
-    axios.post('http://erelzi.fibonacci.digital/api/v1/pdf ', {
-
+    fetch('http://erelzi.fibonacci.digital/api/v1/pdf', {
+      headers: new Headers({
+        'Accept': 'text/html;',
+        'Content-Type': 'text/html;'
+      }),
+      mode: 'no-cors',
+      method: 'POST',
+      body: div.innerHTML
     })
 
     try {
