@@ -76,6 +76,15 @@ const myChart1 = new Chart(document.getElementById('chart-patient').getContext('
 options: patientsOptions
 })
 
+const myChart2 = new Chart(document.getElementById('efficiency-patient').getContext('2d'), {
+  type: 'horizontalBar',
+  data: {
+      datasets: ${JSON.stringify(chartData.efficiencyChartData.datasets)},
+      labels: ${JSON.stringify(chartData.efficiencyChartData.labels)}
+  },
+options: patientsOptions
+})
+
     `
     let div = document.createElement("div")
     div.append(contentCopy)
@@ -133,7 +142,9 @@ options: patientsOptions
     if (activeStepIndex === 4) {
       setDisabledStepper(true)
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeStepIndex])
+
 
   return (
     <div className={styles.wrap}>

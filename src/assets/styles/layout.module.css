@@ -27,3 +27,15 @@
    background: #fff;
    overflow-y: auto;
 }
+
+:global(.ReactModal__Overlay) {
+   background: rgba(69,98,161, 0.8) !important;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+:global(.ReactModal__Content) {
+   position: relative;
+   padding: 100px 160px !important;
+}

@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import { regionsData } from '../../../../data';
 import { ActionBar } from '../../components/ActionBar';
 import { RadioGroup } from '../../../../components/base/forms/RadioGroup';
+import { ReactComponent as Cross } from '../../../../assets/images/cross.svg';
 
 import styles from './styles.module.css';
 import headerLogo from '../../../../assets/images/header-logo.svg';
@@ -19,8 +20,16 @@ export const ChooseRegion = ({
 
   const navigate = useNavigate();
 
-  const filteredItems = regionsData.filter((region) => {
+  const filteredItems = [...regionsData].filter((region) => {
     return region.label.toLowerCase().includes(search.toLowerCase())
+  }).sort((a,b) => {
+    if (a.label.toLowerCase().startsWith(search.toLowerCase())) {
+      return -1
+    }
+    if (b.label.toLowerCase().startsWith(search.toLowerCase())) {
+      return 1
+    }
+    return 0
   })
 
   return (
@@ -91,24 +100,42 @@ export const ChooseRegion = ({
                         setAutocompleteVisible(true)
                       }}
                     />
-                    {filteredItems.length > 0 && autocompleteVisible && search.length > 0 && (
+                    {autocompleteVisible && search.length > 0 && (
+                      <button type="button" className={styles['autocomplete-close']}
+                              onClick={() => setSearch('')}>
+                        <Cross />
+                      </button>
+                    )}
+                    {autocompleteVisible && search.length > 0 && (
                       <ul className={styles['autocomplete-list']}>
-                        {filteredItems.map((region) => {
-                          return (
-                            <li key={region.id} className={styles['autocomplete-list-item']}>
-                              <button
-                                type="button"
-                                className={styles['autocomplete-btn']}
-                                onClick={() => {
-                                  setFieldValue('regionId', parseInt(region.id))
-                                  setSearch(region.label)
-                                  setAutocompleteVisible(false)
-                                }}>
-                                {region.label}
-                              </button>
-                            </li>
-                          )
-                        })}
+                        {filteredItems.length > 0 ? (
+                          <>
+                            {filteredItems.map((region) => {
+                              return (
+                                <li key={region.id} className={styles['autocomplete-list-item']}>
+                                  <button
+                                    type="button"
+                                    className={styles['autocomplete-btn']}
+                                    onClick={() => {
+                                      setFieldValue('regionId', parseInt(region.id))
+                                      setSearch(region.label)
+                                      setAutocompleteVisible(false)
+                                    }}>
+                                    {region.label}
+                                  </button>
+                                </li>
+                              )
+                            })}
+                          </>
+                        ) : (
+                          <>
+                          <li className={styles['autocomplete-list-item']}>
+                            <Text className={styles['not-found']}>
+                              Такого субъекта нет. Попробуйте ввести название ещё раз
+                            </Text>
+                          </li>
+                          </>
+                        )}
                       </ul>
                     )}
                   </div>

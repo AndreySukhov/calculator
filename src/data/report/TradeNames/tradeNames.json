@@ -2,7 +2,7 @@
   {
     "label": "Оренсия",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -16,7 +16,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -66,7 +66,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -80,7 +80,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -102,8 +102,8 @@
   {
     "label": "Далибра",
     "psa": {
-      "disabled": true,
-      "defaultChecked": true,
+      "disabled": false,
+      "defaultChecked": false,
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -116,8 +116,8 @@
       }
     },
     "ra": {
-      "disabled": true,
-      "defaultChecked": true,
+      "disabled": false,
+      "defaultChecked": false,
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -130,8 +130,8 @@
       }
     },
     "spa": {
-      "disabled": true,
-      "defaultChecked": true,
+      "disabled": false,
+      "defaultChecked": false,
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -202,7 +202,7 @@
   {
     "label": "Олумиант",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -216,7 +216,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 14,
@@ -266,7 +266,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 12,
@@ -280,7 +280,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 12,
@@ -380,7 +380,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -416,7 +416,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 17,
@@ -430,7 +430,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 28,
@@ -466,7 +466,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 17,
@@ -480,7 +480,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 28,
@@ -516,7 +516,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 17,
@@ -530,7 +530,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 28,
@@ -580,7 +580,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 28,
@@ -602,7 +602,7 @@
   {
     "label": "Артлегиа",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -616,7 +616,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 26,
@@ -652,7 +652,7 @@
   {
     "label": "Кевзара",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -666,7 +666,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -702,7 +702,7 @@
   {
     "label": "Козэнтикс",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": 8,
@@ -716,7 +716,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -766,7 +766,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 14,
@@ -780,7 +780,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 14,
@@ -802,7 +802,7 @@
   {
     "label": "Актемра",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -816,7 +816,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -866,7 +866,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 14,
@@ -880,7 +880,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 14,
@@ -966,7 +966,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 15,
@@ -980,7 +980,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 15,
@@ -1016,7 +1016,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -1030,7 +1030,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -1053,7 +1053,7 @@
     "label": "Эрелзи",
     "psa": {
       "disabled": false,
-      "defaultChecked": false,
+      "defaultChecked": true,
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -1066,8 +1066,8 @@
       }
     },
     "ra": {
-      "disabled": true,
-      "defaultChecked": false,
+      "disabled": false,
+      "defaultChecked": true,
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -1080,8 +1080,8 @@
       }
     },
     "spa": {
-      "disabled": true,
-      "defaultChecked": false,
+      "disabled": false,
+      "defaultChecked": true,
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -1116,7 +1116,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -1130,7 +1130,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 13,
@@ -1152,7 +1152,7 @@
   {
     "label": "Мабтера",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -1166,7 +1166,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 12,
@@ -1202,7 +1202,7 @@
   {
     "label": "Ацеллбия",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -1216,7 +1216,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 12,
@@ -1252,7 +1252,7 @@
   {
     "label": "Реддитукс",
     "psa": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -1266,7 +1266,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 12,
@@ -1316,7 +1316,7 @@
       }
     },
     "ra": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -1330,7 +1330,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": null,

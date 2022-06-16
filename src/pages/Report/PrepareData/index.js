@@ -33,6 +33,7 @@ export const PrepareData = () => {
   }
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     if (activeStepIndex === 0 || activeStepIndex === 1) {
       setTradeNamesOptions([])
       setTradeIncrease(0)

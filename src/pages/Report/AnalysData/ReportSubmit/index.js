@@ -14,7 +14,7 @@ import { Confirm } from './Confirm';
 
 import { NOSOLOGY_DICTIONARY } from '../../../../utils/nosologyDictionary'
 import {
-  getCleanIncreaseVal,
+  getCleanIncreaseVal, getEfficiency,
   getExpenseCurrentBudget, getExpenseCurrentBudgetItem,
   getExpensePercentDiff,
   getExpensePlanBudget, getExpensePlanBudgetItem,
@@ -79,6 +79,9 @@ export const ReportSubmit = ({
   const reportDate = new Date(Number(reportId))
   const nosologiaShortName = NOSOLOGY_DICTIONARY[rootNosologia].short
   const nosologiaLongName = NOSOLOGY_DICTIONARY[rootNosologia].full
+  const patientsNum = reportData.data.reduce((acc, curr) => {
+    return Number(acc) + Number(curr.patients)
+  }, 0)
 
   const indicationsTable = reportData.data.map((item, i) => {
     return [i, item.mnn, item.ra.checked ? 'Да' : '-' , item.psa.checked ? 'Да' : '-', item.spa.checked ? 'Да' : '-' ]
@@ -141,12 +144,47 @@ export const ReportSubmit = ({
 
   const patientsLabels = reportData.data.map(({label}) => label)
 
+  let mostEfficientPrice = 0
+  let mostEfficientLabel = ''
+
+  const efficiencyChartData = {
+    labels: patientsLabels,
+    datasets: [
+      {
+        label: 'Затраты-эффективность',
+        backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
+        data: patientsLabels.map((label) => {
+          const current = reportData.data.find((reportItem) => reportItem.label === label)
+
+          const eff = getEfficiency({
+            item: current,
+            nosologia: rootNosologia,
+            patientStatus: 'first',
+            tradeIncrease,
+          })
+
+          if (mostEfficientPrice === 0) {
+            mostEfficientLabel = label
+          } else {
+            if (eff < mostEfficientPrice) {
+              mostEfficientPrice = eff
+              mostEfficientLabel = label
+            }
+          }
+
+          return eff
+        }),
+      }
+    ],
+  }
+
 
   const patientsData = {
     labels: patientsLabels,
     datasets: [
       {
         label: 'кол-во пациентов',
+        backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
         data: patientsLabels.map((label) => {
           const current = reportData.data.find((reportItem) => reportItem.label === label)
           return getSavedPerPatientMoney({
@@ -156,7 +194,6 @@ export const ReportSubmit = ({
             tradeIncrease,
           })
         }),
-        backgroundColor: '#4461A1',
       }
     ],
   };
@@ -237,7 +274,7 @@ export const ReportSubmit = ({
               data={[
                 {
                   title: `Количество пациетов с ${nosologiaShortName}`,
-                  text: '17 097'
+                  text: Math.round(patientsNum)
                 }, {
                   title: 'Доля пациентов, получающих ЛП впервые в 1-ый год',
                   text: '5%'
@@ -367,6 +404,9 @@ export const ReportSubmit = ({
             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMC41TDAgMjQuNUwyNCAyNC41VjAuNUwwIDAuNVoiIGZpbGw9IiNFOUQyOUMiLz4KPHBhdGggZD0iTTI0IDI0LjVMMCAyNC41TDAgMC41TDI0IDI0LjVaIiBmaWxsPSIjNDQ2MUExIi8+Cjwvc3ZnPgo=" alt=""/>
             Значение показателя «Затраты-эффективность»
           </Text>
+          <div className={styles.chart}>
+            <Bar options={patientsOptions} data={efficiencyChartData} id="efficiency-patient" />
+          </div>
         </div>
 
         <div className={styles['report-row']}>
@@ -400,6 +440,9 @@ export const ReportSubmit = ({
           <Text className={styles.tc} size="l-regular" color="info">
             Информация представлена для медицинских, фармацевтических работников
           </Text>
+          <Text className={styles.tc}>
+            RU2206074187
+          </Text>
         </div>
       </div>
 
@@ -430,7 +473,7 @@ export const ReportSubmit = ({
                 window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
               }
 
-              onSubmit(email, updatedData, {chartData, patientsData})
+              onSubmit(email, updatedData, {chartData, patientsData, efficiencyChartData})
             }}
             onCancel={() => setShowConfirm(false)}
           />

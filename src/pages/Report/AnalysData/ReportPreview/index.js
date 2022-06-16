@@ -14,7 +14,7 @@ import { getLocalCurrencyStr } from '../../../../utils/getLocalCurrencyStr';
 import { Confirm } from './Confirm';
 import { NOSOLOGY_DICTIONARY } from '../../../../utils/nosologyDictionary'
 import {
-  getCleanIncreaseVal,
+  getCleanIncreaseVal, getEfficiency,
   getExpenseCurrentBudget, getExpenseCurrentBudgetItem,
   getExpensePercentDiff,
   getExpensePlanBudget, getExpensePlanBudgetItem,
@@ -77,6 +77,10 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
   const reportDate = new Date(Number(reportId))
   const nosologiaShortName = NOSOLOGY_DICTIONARY[rootNosologia].short
   const nosologiaLongName = NOSOLOGY_DICTIONARY[rootNosologia].full
+  const patientsNum = reportData.data.reduce((acc, curr) => {
+    return Number(acc) + Number(curr.patients)
+  }, 0)
+
 
   const indicationsTable = reportData.data.map((item, i) => {
     return [i, item.mnn, item.ra.checked ? 'Да' : '-' , item.psa.checked ? 'Да' : '-', item.spa.checked ? 'Да' : '-' ]
@@ -135,13 +139,46 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
   };
 
   const patientsLabels = reportData.data.map(({label}) => label)
+  let mostEfficientPrice = 0
+  let mostEfficientLabel = ''
 
+  const efficiencyChartData = {
+    labels: patientsLabels,
+    datasets: [
+      {
+        label: 'Затраты-эффективность',
+        backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
+        data: patientsLabels.map((label) => {
+          const current = reportData.data.find((reportItem) => reportItem.label === label)
+
+          const eff = getEfficiency({
+            item: current,
+            nosologia: rootNosologia,
+            patientStatus: 'first',
+            tradeIncrease,
+          })
+
+          if (mostEfficientPrice === 0) {
+            mostEfficientLabel = label
+          } else {
+            if (eff < mostEfficientPrice) {
+              mostEfficientPrice = eff
+              mostEfficientLabel = label
+            }
+          }
+
+          return eff
+        }),
+      }
+    ],
+  }
 
   const patientsData = {
     labels: patientsLabels,
     datasets: [
       {
         label: 'кол-во пациентов',
+        backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
         data: patientsLabels.map((label) => {
           const current = reportData.data.find((reportItem) => reportItem.label === label)
           return getSavedPerPatientMoney({
@@ -151,7 +188,6 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
             tradeIncrease,
           })
         }),
-        backgroundColor: '#4461A1',
       }
     ],
   };
@@ -202,8 +238,10 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
       </div>
       <div className={styles['report-row']}>
         <Text color="blue" className={styles.heading} size="xxl">
-          <img src={headerLogo} alt=""/>
-          Показания к применению по основным ревматическим заболеваниям <sup>1</sup>
+          <div>
+            <img src={headerLogo} alt=""/>
+            Показания к применению по основным ревматическим заболеваниям <sup>1</sup>
+          </div>
         </Text>
         <Table
           heading={['№', 'МНН', 'РА', 'ПсА', 'СпА']}
@@ -231,7 +269,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
             data={[
               {
                 title: `Количество пациетов с ${nosologiaShortName}`,
-                text: '17 097'
+                text: Math.round(patientsNum)
               }, {
                 title: 'Доля пациентов, получающих ЛП впервые в 1-ый год',
                 text: '5%'
@@ -248,8 +286,10 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
       </div>
       <div className={styles['report-row']}>
         <Text color="blue" className={styles.heading} size="xxl">
-          <img src={headerLogo} alt=""/>
-          Ценовой анализ торговых наименований лекарственных препаратов (ЛП) по показанию ревматоидный артрит (РА) <sup>1,2</sup>
+          <div>
+            <img src={headerLogo} alt=""/>
+            Ценовой анализ торговых наименований лекарственных препаратов (ЛП) по показанию ревматоидный артрит (РА) <sup>1,2</sup>
+          </div>
         </Text>
         <div className={styles['stat-table']}>
           <StatList
@@ -361,6 +401,9 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
           <img src={headerLogo} alt=""/>
           Значение показателя «Затраты-эффективность»
         </Text>
+        <div className={styles.chart}>
+          <Bar options={patientsOptions} data={efficiencyChartData} />
+        </div>
       </div>
 
       <div className={styles['report-row']}>
@@ -372,7 +415,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
             Заключение
           </Text>
           <Text size="l-regular" className={styles['yellow-block-text']}>
-            По результатам данного анализа ЛП* этанерцепта Эрелзи® характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
+            По результатам данного анализа ЛП* этанерцепта {mostEfficientLabel}® характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
           </Text>
         </div>
       </div>
@@ -393,6 +436,10 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
         </Text>
         <Text className={styles.tc} size="l-regular" color="info">
           Информация представлена для медицинских, фармацевтических работников
+        </Text>
+        <br/>
+        <Text className={styles.tc}>
+          RU2206074187
         </Text>
       </div>
       <form className={styles.form} onSubmit={(e) => {

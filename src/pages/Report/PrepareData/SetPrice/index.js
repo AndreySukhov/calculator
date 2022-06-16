@@ -22,7 +22,7 @@ const getPriceWithIncrease = (price, increase) => {
 }
 
 const getPriceWithNds = (price, increase) => {
-  return getLocalCurrencyStr(getIncreaseVal(price, increase) + Number(price*10/100));
+  return getLocalCurrencyStr(getIncreaseVal(price, increase) * 1.1);
 }
 
 export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubmit}) => {
@@ -41,6 +41,7 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
   }, [regionId])
 
   const isFederal = regionId === 0
+  const hasTradeIncrease = !!(tradeIncrease && tradeIncrease !== 0)
 
   return (
     <>
@@ -53,11 +54,11 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
         В расчёте итоговой цены ТН ЛП используется НДС 10% и оптовая надбавка для анализируемого региона.
       </Text>
       <div className={styles['increase-wrap']}>
-        <Text size="text--xl-bold" color="info" className={styles['increase-title']}>
+        <Text size="xl-bold" color="info" className={styles['increase-title']}>
           Оптовая надбавка
         </Text>
         <div className={styles['increase-body']}>
-          <Text size="text--l-regular" color="info" className={styles['increase-region']}>
+          <Text size="l-regular" color="info" className={styles['increase-region']}>
             ({regionTitle})
           </Text>
           {!isFederal && (
@@ -68,7 +69,7 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
                 min={0}
                 max={100}
                 disabled={regionId === 0}
-                value={tradeIncrease} onChange={(e) => {
+                value={hasTradeIncrease ? tradeIncrease : '-'} onChange={(e) => {
                 const val = e.target.value
 
                 if (val < 0  || val > 100) {
@@ -80,15 +81,13 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
               />
             </div>
           )}
-          <Text size="text--xl" color="info">
+          <Text size="xl" color="info">
             {isFederal && '0 '}%
           </Text>
         </div>
       </div>
-      <Text>
-        <strong>
-          Итоговая цена за упаковку ТН ЛП
-        </strong>
+      <Text size="xl-bold" color="info">
+        Итоговая цена за упаковку ТН ЛП
       </Text>
       <button onClick={() => setIsFull(!isFull)} className={styles['toggle-view']}>
         {isFull ? (
@@ -175,7 +174,7 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
                         {option.mnn}
                       </Text>
                     </td>
-                    <td>
+                    <td className={styles.application}>
                       <Text size="m" color="info">
                         {option.application}
                       </Text>
@@ -200,13 +199,13 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
                 {!isFederal && (
                   <td>
                     <Text size="m" color="info">
-                      {getPriceWithIncrease(option.pricePerPack, tradeIncrease)}
+                      {hasTradeIncrease ? getPriceWithIncrease(option.pricePerPack, tradeIncrease) : '-'}
                     </Text>
                   </td>
                 )}
                 <td>
                   <Text size="m" color="info">
-                    {getPriceWithNds(option.pricePerPack, tradeIncrease)}
+                    {hasTradeIncrease ? getPriceWithNds(option.pricePerPack, tradeIncrease) :  '-'}
                   </Text>
                 </td>
               </tr>

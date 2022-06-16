@@ -24,6 +24,7 @@ import {
   getExpensePlanBudget,
   getSavedPerPatientMoney
 } from '../calculations';
+import { CHART_HEX } from '../../../../utils/chartHex';
 
 ChartJS.register(
   CategoryScale,
@@ -37,14 +38,6 @@ ChartJS.register(
 export const options = {
   indexAxis: 'y',
   responsive: true,
-  scales: {
-    x: {
-      stacked: true,
-    },
-    y: {
-      stacked: true,
-    },
-  },
 };
 
 export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportData, reportId}) => {
@@ -81,6 +74,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
     datasets: [
       {
         label: 'кол-во пациентов',
+        backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
         data: patientsLabels.map((label) => {
           const current = reportData.data.find((reportItem) => reportItem.label === label)
           return getSavedPerPatientMoney({
@@ -90,7 +84,6 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
             tradeIncrease,
           })
         }),
-        backgroundColor: '#4461A1',
       }
     ],
   };

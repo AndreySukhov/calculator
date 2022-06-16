@@ -1,8 +1,10 @@
+import { tradeNamesData } from '../../../../data';
+
 export const getIncreaseVal = (price, increase) => {
   if (increase <= 0) {
-    return Number(price)  + Number(price*10/100)
+    return Number(price) * 1.1
   }
-  return Number(price) + Number(price*increase/100) + Number(price*10/100)
+  return (Number(price) + Number(price*increase/100)) * 1.1
 }
 
 export const getCleanIncreaseVal = (price, increase) => {
@@ -162,4 +164,30 @@ export const getSavedPerPatientMoney = ({
   }
 
   return Number((packsRequired * getIncreaseVal(item.pricePerPack, tradeIncrease)).toFixed(2))
+}
+
+const metoDject = tradeNamesData.find((item) => item.label === 'Методжект')
+
+export const getEfficiency = ({
+  item,
+  nosologia,
+  patientStatus,
+  tradeIncrease,
+}) => {
+  const currentNosology = item[nosologia]
+  const metoDjectNosology = metoDject[nosologia]
+
+  let packsRequired = 0
+  let metoDjectRequired = 0
+
+  if (patientStatus === 'first') {
+    packsRequired = 52/24 * currentNosology.initial.year1
+    metoDjectRequired = 52/24 * metoDjectNosology.initial.year1
+  } else {
+    packsRequired = 52/24 * currentNosology.secondary.year1
+    metoDjectRequired = 52/24 * metoDjectNosology.secondary.year1
+  }
+
+  return Number((packsRequired * getIncreaseVal(item.pricePerPack, tradeIncrease)).toFixed(2)) +
+    Number((metoDjectRequired * getIncreaseVal(metoDject.pricePerPack, tradeIncrease)).toFixed(2))
 }

@@ -8,7 +8,8 @@ export const Stepper = ({steps, onStepClick, activeStepIndex, prevStepsDisabled 
         {steps.map((step, i) => {
           const clickable = i <= activeStepIndex && !prevStepsDisabled
           return (
-            <li key={step.id} className={styles['list-item']}>
+            <li key={step.id}
+                className={`${styles['list-item']} ${(clickable || activeStepIndex === i) ? styles.active : ''}`}>
               <button disabled={!clickable} className={styles.button} type="button" onClick={() => {
                 if (activeStepIndex === i) {
                   return false

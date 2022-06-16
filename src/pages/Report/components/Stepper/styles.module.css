@@ -11,11 +11,27 @@
     padding: 13px 40px;
 }
 
-.list-item {
+.button {
     margin-right: 48px;
 }
 
-.list-item:last-of-type {
+.list-item {
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.list-item.active:after {
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: -20px;
+}
+
+.active {
+    border-bottom: 5px solid #89BADE;
+}
+
+.list-item:last-of-type .button{
     margin-right: 0;
 }
 

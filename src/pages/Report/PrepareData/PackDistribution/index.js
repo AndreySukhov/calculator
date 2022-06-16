@@ -7,6 +7,7 @@ import styles from './styles.module.css';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import { declension } from '../../../../utils/declension'
 import { getPacksValue, getPatientsValue, getIsPatientsError, getIsPacksError } from './calculations'
+import { isNaN } from 'formik';
 
 export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId, tradeIncrease, stepLabel}) => {
   const [packagesSelect, setPackagesSelect] = useState('percent');
@@ -31,14 +32,14 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
       }
 
       return {
-        packages: 0,
-        patients: 0,
-        packsPsa: 0,
-        packsRa: 0,
-        packsSpa: 0,
-        patientsPsa: 0,
-        patientsRa: 0,
-        patientsSpa: 0,
+        packages: '',
+        patients: '',
+        packsPsa: '',
+        packsRa: '',
+        packsSpa: '',
+        patientsPsa: '',
+        patientsRa: '',
+        patientsSpa: '',
         enabledInputs,
         psa: {
           ...option.psa,
@@ -264,7 +265,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="packages"
-                           value={Math.round(tradeOption.packages)}
+                           value={tradeOption.packages === '' ? '' : Math.round(tradeOption.packages)}
                            onChange={(e) => handlePacks(e, tradeOption.label)}
                     />
                   </div>
@@ -280,7 +281,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                            value={
                              (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
                                packagesSelect === 'percent' ? 100 : Math.round(tradeOption.packages) :
-                             Math.round(tradeOption.packsRa)
+                               (tradeOption.packsRa === '' ? '' : Math.round(tradeOption.packsRa))
                              } />
                     {packagesSelect === 'percent' && (
                       <div className={`${styles['percent-mark']} ${tradeOption.ra.disabled ? `${styles['percent-mark--disabled']}` : ''}`}>%</div>
@@ -298,9 +299,12 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                            value={
                              (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
                                packagesSelect === 'percent' ? 100 : Math.round(tradeOption.packages) :
-                               Math.round(tradeOption.packsPsa)
+                               (tradeOption.packsPsa === '' ? '' : Math.round(tradeOption.packsPsa))
                            }
                       />
+                    {packagesSelect === 'percent' && (
+                      <div className={`${styles['percent-mark']} ${tradeOption.psa.disabled ? `${styles['percent-mark--disabled']}` : ''}`}>%</div>
+                    )}
                   </div>
                 </td>
                 <td className={`${styles['bordered']}`}>
@@ -314,7 +318,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                            value={
                              (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
                                packagesSelect === 'percent' ? 100 : Math.round(tradeOption.packages) :
-                               Math.round(tradeOption.packsSpa)
+                               (tradeOption.packsSpa === '' ? '' : Math.round(tradeOption.packsSpa))
                            }
                     />
                     {packagesSelect === 'percent' && (
@@ -326,10 +330,9 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
-                           value={Math.round(tradeOption.patients)}
+                           value={tradeOption.patients === '' ? '' : Math.round(tradeOption.patients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
-                    {patientsSelect === 'percent' && <div className={styles['percent-mark']}>%</div>}
                   </div>
                 </td>
                 <td>
@@ -344,7 +347,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       value={
                         (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
                           patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
-                          Math.round(tradeOption.patientsRa)
+                          (tradeOption.patientsRa === '' ? '' : Math.round(tradeOption.patientsRa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -363,7 +366,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       value={
                         (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
                           patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
-                          Math.round(tradeOption.patientsPsa)
+                          (tradeOption.patientsPsa === '' ? '' : Math.round(tradeOption.patientsPsa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -383,7 +386,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       value={
                         (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
                           patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
-                          Math.round(tradeOption.patientsSpa)
+                          (tradeOption.patientsSpa === '' ? '' : Math.round(tradeOption.patientsSpa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -398,20 +401,24 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
             <td colSpan={3} />
             <td colSpan={4} className={styles.bordered} >
               <div className={styles['table-summary']}>
-                {totalPacks > 0 ? (
-                  <Text>
-                    {totalPacks} {declension(['упаковка', 'упаковки', 'упаковок'],totalPacks)} в сумме
-                  </Text>
-                ) : ''}
+                <Text>
+                  {!isNaN(totalPacks) && (
+                    <>
+                      {totalPacks} {declension(['упаковка', 'упаковки', 'упаковок'],totalPacks)} в сумме
+                    </>
+                  )}
+                </Text>
               </div>
             </td>
             <td colSpan={4} className={styles.bordered}>
               <div className={styles['table-summary']}>
-                {totalPatients > 0 ? (
-                  <Text>
-                    {totalPatients} {declension(['пациент', 'пацента', 'пациентов'],totalPatients)} в сумме
-                  </Text>
-                ) : ''}
+                <Text>
+                  {!isNaN(totalPatients) && (
+                    <>
+                      {totalPatients} {declension(['пациент', 'пацента', 'пациентов'],totalPatients)} в сумме
+                    </>
+                  )}
+                </Text>
               </div>
             </td>
           </tr>
@@ -423,9 +430,32 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
         onSubmit={(e) =>{
           const date = +new Date()
           e.preventDefault()
+          const newData = data.map((dataItem) => {
+            return {
+              ...dataItem,
+              packsPsa: (!dataItem.psa.disabled && dataItem.enabledInputs === 1) ?
+                packagesSelect === 'percent' ? 100 : Math.round(dataItem.packages) :
+                (dataItem.packsPsa === '' ? '' : Math.round(dataItem.packsPsa)),
+              packsRa: (!dataItem.ra.disabled && dataItem.enabledInputs === 1) ?
+                packagesSelect === 'percent' ? 100 : Math.round(dataItem.packages) :
+                (dataItem.packsRa === '' ? '' : Math.round(dataItem.packsRa)),
+              packsSpa: (!dataItem.spa.disabled && dataItem.enabledInputs === 1) ?
+                packagesSelect === 'percent' ? 100 : Math.round(dataItem.packages) :
+                (dataItem.packsSpa === '' ? '' : Math.round(dataItem.packsSpa)),
+              patientsPsa: (!dataItem.psa.disabled && dataItem.enabledInputs === 1) ?
+                patientsSelect === 'percent' ? 100 : Math.round(dataItem.patients) :
+                (dataItem.patientsPsa === '' ? '' : Math.round(dataItem.patientsPsa)),
+              patientsRa: (!dataItem.ra.disabled && dataItem.enabledInputs === 1) ?
+                patientsSelect === 'percent' ? 100 : Math.round(dataItem.patients) :
+                (dataItem.patientsRa === '' ? '' : Math.round(dataItem.patientsRa)),
+              patientsSpa: (!dataItem.spa.disabled && dataItem.enabledInputs === 1) ?
+                patientsSelect === 'percent' ? 100 : Math.round(dataItem.patients) :
+                (dataItem.patientsSpa === '' ? '' : Math.round(dataItem.patientsSpa))
+            }
+          })
           setReportId(date)
           localStorage.setItem(`${date}-report-id`, JSON.stringify({
-            data,
+            data: newData,
             regionId,
             tradeIncrease,
             stepLabel

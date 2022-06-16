@@ -41,16 +41,11 @@
 }
 
 .additional-btn-icon-bordered svg {
-    top: 2px;
-    right: 2px;
-    bottom: 2px;
-    left: 2px;
-    opacity: 0;
-    transition: opacity 0.15s ease-out;
+    top: 50%;
+    right: 50%;
+    margin-top: -5px;
+    margin-right: -5px;
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .additional-btn-icon {

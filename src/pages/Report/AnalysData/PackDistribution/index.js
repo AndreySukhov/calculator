@@ -106,6 +106,10 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     return acc + parseInt(curr.planPackages, 10)
   }, 0)
 
+  const totalFactPacks = data.reduce((acc, curr) => {
+    return acc + parseInt(curr.packages, 10)
+  }, 0)
+
   const totalPatients = data.reduce((acc, curr) => {
     return acc + parseInt(curr.planPatients, 10)
   }, 0)
@@ -155,6 +159,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     onSubmit(updatedData)
   }
 
+  const packsDiff = totalFactPacks - totalPacks
+
   return (
     <>
       <Text color="blue" className={styles.heading} size="xxl">
@@ -167,7 +173,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           ) :
           <Chart />
         }
-        {isFull ? 'Скрыть' : 'Показать'} {' '} данные о форме выпуска
+        {isFull ? 'Скрыть' : 'Показать'} {' '} распределение по нозологиям
       </button>
       <div className={styles['table-wrap']}>
         <table className={styles.table}>
@@ -306,7 +312,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   </>
                 )}
                 <td className={`${styles['bordered']}`}>
-                  {tradeOption.patients}
+                  {Math.round(tradeOption.patients)}
                 </td>
                 <td>
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
@@ -340,20 +346,32 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           })}
           <tr>
             <td colSpan={3} className={styles.bordered} />
-            <td colSpan={2} className={isFull ? '' : styles.bordered} >
+            <td colSpan={2} className={isFull ? '' : styles.bordered} style={{
+              verticalAlign: 'top'
+            }}>
               <div className={styles['table-summary']}>
-                {totalPacks > 0 ? (
-                  <Text>
-                    {totalPacks} {declension(['упаковка', 'упаковки', 'упаковок'],totalPacks)} в сумме
+                {totalFactPacks > 0 ? (
+                  <Text size="m--bold">
+                    {totalFactPacks} {declension(['упаковка', 'упаковки', 'упаковок'],totalFactPacks)} в сумме
                   </Text>
                 ) : ''}
+                {packsDiff !== 0 && !isNaN(packsDiff) && (
+                  <>
+                    <br/>
+                    <Text color="error" size="m--bold">
+                      {packsDiff > 0 ? 'Добавьте' : 'Уберите'} {Math.abs(packsDiff)} {declension(['упаковка', 'упаковки', 'упаковок'],packsDiff)}
+                    </Text>
+                  </>
+                )}
               </div>
             </td>
             {isFull && <td colSpan={3} className={styles.bordered} />}
-            <td colSpan={4} className={styles.bordered}>
+            <td colSpan={4} className={styles.bordered} style={{
+              verticalAlign: 'top'
+            }}>
               <div className={styles['table-summary']}>
                 {totalPatients > 0 ? (
-                  <Text>
+                  <Text size="m--bold">
                     {totalPatients} {declension(['пациент', 'пацента', 'пациентов'],totalPatients)} в сумме
                   </Text>
                 ) : ''}
@@ -367,6 +385,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         className={styles.form}
         onSubmit={handleSubmit}>
         <ActionBar
+          nextBtnDisabled={packsDiff !== 0 }
           onPrevButtonClick={() => navigate('/reports')}
           prevBtnText="Отмена"
           nextBtnText="Перейти к анализу затрат"

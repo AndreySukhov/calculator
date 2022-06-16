@@ -26,6 +26,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { CHART_HEX } from '../../../../utils/chartHex';
+import { NOSOLOGY_DICTIONARY } from '../../../../utils/nosologyDictionary';
 
 
 ChartJS.register(
@@ -244,7 +245,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
       </div>
       <div className={styles.summary}>
         <Text className={styles['summary-row']} size="xl-bold">
-          Высвободившийся бюджет для лечения РА
+          Высвободившийся бюджет для лечения {NOSOLOGY_DICTIONARY[nosologia].short}
         </Text>
         <div className={`${styles['summary-row']} ${styles['summary-row--flex']}`}>
           <Text className={styles['summary-row-title']} size="l-regular">
@@ -278,13 +279,19 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
         <Bar options={options} data={chartData} />
       </div>
       <div>
+        <br/>
+        <br/>
+        <br/>
+        <Text className={styles['summary-row']} size="xl-bold">
+          Затраты на одного пациента
+        </Text>
         <button onClick={() => setShowDiagram(!showDiagram)} className={styles['toggle-view']}>
           {showDiagram ? (
               <Clear />
             ) :
             <Chart />
           }
-          {showDiagram ? 'Скрыть' : 'Показать'} {' '} данные о форме выпуска
+          {showDiagram ? 'Скрыть' : 'Показать'} {' '} диаграмму
         </button>
       </div>
       {showDiagram && (

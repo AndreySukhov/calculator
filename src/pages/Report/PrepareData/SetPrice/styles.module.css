@@ -4,6 +4,10 @@
     align-items: center;
 }
 
+.application {
+    width: 200px;
+}
+
 .heading img {
     margin-right: 16px;
 }
@@ -44,7 +48,7 @@
 
 .table th, .table td {
     text-align: left;
-    padding: 12px 0;
+    padding: 12px;
 }
 
 .table tr {

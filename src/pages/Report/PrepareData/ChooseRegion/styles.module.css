@@ -24,6 +24,24 @@
     width: 460px;
 }
 
+.autocomplete-close {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    bottom: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 5px;
+    background: #fff;
+    width: 40px;
+}
+
+.not-found {
+    padding: 8px 24px;
+}
+
 .autocomplete-list {
     position: absolute;
     top: calc(100% + 10px);

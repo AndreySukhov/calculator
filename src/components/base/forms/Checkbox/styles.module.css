@@ -5,6 +5,7 @@
     width: 19px;
     height: 19px;
     display: inline-block;
+    cursor: pointer;
 }
 
 .checkbox {

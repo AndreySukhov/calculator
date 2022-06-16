@@ -4,10 +4,10 @@ export const getLocalCurrencyStr = (num) => {
     currency: 'rub',
   })
 
-  const splitVal = res.split(',')
-  if (splitVal.length > 1) {
-    return `${splitVal[0]} ₽`
-  }
+  // const splitVal = res.split(',')
+  // if (splitVal.length > 1) {
+  //   return `${splitVal[0]} ₽`
+  // }
 
   return res
 }

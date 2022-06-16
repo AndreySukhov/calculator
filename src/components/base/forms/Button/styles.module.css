@@ -4,6 +4,7 @@
     border: none;
     border-radius: 16px;
     text-align: center;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
 }
 
 .button--primary {
@@ -14,9 +15,6 @@
     font-size: 24px;
     line-height: 29px;
     border: 2px solid #89BADE;
-
-    transition: border-color 0.15s ease-out, background-color 0.15s ease-out;
-
 }
 
 .button--primary:disabled {
@@ -32,4 +30,19 @@
 
     color: #6F768C;
     border: 2px solid #6F768C;
+}
+
+.button--bordered:hover,
+.button--primary:hover {
+    background-color: #4461A1;
+    border-color: #4461A1;
+    color: #FFFFFF;
+}
+
+.button--bordered:active,
+.button--primary:active {
+    background-color: #023A63;
+    border-color: #023A63;
+    color: #FFFFFF;
+
 }
