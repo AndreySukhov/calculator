@@ -8,9 +8,8 @@
 }
 
 .form {
-    flex: 1;
-    display: flex;
-    flex-flow: column;
+    position: sticky;
+    bottom: 0;
 }
 
 .table th {

@@ -11,6 +11,7 @@
 .main {
     padding: 48px 28px 0 28px;
     height: 100%;
+    position: relative;
 }
 
 .nav {

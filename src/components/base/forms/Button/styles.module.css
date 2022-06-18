@@ -20,6 +20,7 @@
 .button--primary:disabled {
     background: #ECEFF6;
     border-color: #C5C8D1;
+    cursor: not-allowed;
 }
 
 .button--bordered {
@@ -32,15 +33,15 @@
     border: 2px solid #6F768C;
 }
 
-.button--bordered:hover,
-.button--primary:hover {
+.button--bordered:not(:disabled):hover,
+.button--primary:not(:disabled):hover {
     background-color: #4461A1;
     border-color: #4461A1;
     color: #FFFFFF;
 }
 
-.button--bordered:active,
-.button--primary:active {
+.button--bordered:not(:disabled):active,
+.button--primary:not(:disabled):active {
     background-color: #023A63;
     border-color: #023A63;
     color: #FFFFFF;

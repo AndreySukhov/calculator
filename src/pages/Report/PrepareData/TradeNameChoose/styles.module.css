@@ -14,6 +14,14 @@
     flex-direction: column;
 }
 
+.table {
+    width: 100%;
+}
+
+.table-wrap {
+    overflow: auto;
+}
+
 .table th, .table td {
     text-align: left;
     padding: 12px 0;

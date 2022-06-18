@@ -6,7 +6,7 @@ import { ReactModal } from '../../../../components/Modal';
 import styles from './styles.module.css';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import { declension } from '../../../../utils/declension'
-import { getPacksValue, getPatientsValue, getIsPatientsError, getIsPacksError } from './calculations'
+import { getPacksValue, getPatientsValue, getIsPatientsError, getIsPacksError, convertByUnits } from './calculations'
 import { isNaN } from 'formik';
 
 export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId, tradeIncrease, stepLabel}) => {
@@ -17,9 +17,9 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
   const [data, setData] = useState(() => {
     return tradeNamesOptions.map((option) => {
       let enabledInputs = 0
-      const psaEnabled = !option.psa.disabled && option.psa.checked
-      const raEnabled = !option.ra.disabled && option.ra.checked
-      const spaEnabled = !option.spa.disabled && option.spa.checked
+      const psaEnabled = (!option.psa.disabled && option.psa.checked)
+      const raEnabled = (!option.ra.disabled && option.ra.checked)
+      const spaEnabled = (!option.spa.disabled && option.spa.checked)
 
       if (psaEnabled) {
         enabledInputs += 1
@@ -33,7 +33,9 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
 
       return {
         packages: '',
+        packagesTouched: false,
         patients: '',
+        patientsTouched: false,
         packsPsa: '',
         packsRa: '',
         packsSpa: '',
@@ -59,14 +61,18 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
   });
 
   const handleSelect = (e) => {
-    const val = e.target.value
-    if (e.target.name === 'packages') {
+    const val = e.target.value;
+    const name = e.target.name;
+    if (name === 'packages') {
       setPackagesSelect(val)
     }
 
-    if (e.target.name === 'patients') {
+    if (name === 'patients') {
       setPatientsSelect(val)
     }
+
+    const newData = convertByUnits(data,name, val)
+    setData(newData)
   }
 
   const handlePatients = (e, label) => {
@@ -75,9 +81,14 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     const newData = data.map((item) => {
       if (item.label === label) {
         const res = {...item}
+        let isTouched = true
+        if (!val) {
+          isTouched = false
+        }
         let newVal = val
         if (val < 0) {
           newVal = 0
+          isTouched = false
         }
 
         if (patientsSelect === 'quantity' && val > 1_000_000_000) {
@@ -91,7 +102,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
 
         return {
           ...updatedData,
-          ...getPacksValue(updatedData)
+          ...getPacksValue(updatedData, patientsSelect),
+          patientsTouched: isTouched
         }
       }
       return item
@@ -108,8 +120,14 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
       if (item.label === label) {
         const res = {...item}
         let newVal = val
+        let isTouched = true
+        if (!val) {
+          isTouched = false
+        }
+
         if (val < 0) {
           newVal = 0
+          isTouched = false
         }
         if (packagesSelect === 'quantity' && val > 1_000_000_000) {
           newVal = 1_000_000_000
@@ -120,7 +138,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
         }
         return {
           ...updatedData,
-          ...getPatientsValue(updatedData)
+          ...getPatientsValue(updatedData, packagesSelect),
+          packagesTouched: isTouched,
         }
       }
       return item
@@ -143,9 +162,14 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
 
     const newData = data.map((item) => {
       if (item.label === label) {
-        return {
+        const updatedData = {
           ...item,
           [name]: parseInt(val, 10)
+        }
+
+        return {
+          ...updatedData,
+          ...getPatientsValue(updatedData, packagesSelect)
         }
       }
 
@@ -155,6 +179,10 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     })
 
     setData(newData)
+  }
+
+  const getPacksPsaValue = (item) => {
+
   }
 
   return (
@@ -265,6 +293,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="packages"
+                           readOnly={tradeOption.patientsTouched}
                            value={tradeOption.packages === '' ? '' : Math.round(tradeOption.packages)}
                            onChange={(e) => handlePacks(e, tradeOption.label)}
                     />
@@ -330,6 +359,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
+                           readOnly={tradeOption.packagesTouched}
                            value={tradeOption.patients === '' ? '' : Math.round(tradeOption.patients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
@@ -361,7 +391,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       onChange={(e) => handleDiseaseInput(e, tradeOption.label)}
                       name="patientsPsa"
                       readOnly={tradeOption.enabledInputs === 1}
-                      type="number" disabled={tradeOption.psa.disabled}
+                      type="number"
+                      disabled={tradeOption.psa.disabled}
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?

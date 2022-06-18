@@ -86,8 +86,9 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
 
         return (
           <form onSubmit={handleSubmit} className={styles.form}>
-            <table className={styles.table}>
-              <thead>
+            <div className={styles['table-wrap']}>
+              <table className={styles.table}>
+                <thead>
                 <tr>
                   <th>
                     <Text size="l">
@@ -115,61 +116,61 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                     </Text>
                   </th>
                 </tr>
-              </thead>
-              <tbody>
-              {tradeNamesData.map((tradeName, i) => {
-                const current = options.find((option) => {
-                  return option.label === tradeName.label
-                })
+                </thead>
+                <tbody>
+                {tradeNamesData.map((tradeName, i) => {
+                  const current = options.find((option) => {
+                    return option.label === tradeName.label
+                  })
 
-                return (
-                  <tr key={tradeName.label}>
-                    <td>
-                      <Text size="m">
-                        {i + 1}
-                      </Text>
-                    </td>
-                    <td>
-                      <Text size="m">
-                        {tradeName.label}
-                      </Text>
-                    </td>
-                    <td>
-                      <Checkbox
-                        type="checkbox"
-                        value={`${tradeName.label}-psa`}
-                        name="tradeName"
-                        disabled={tradeName.psa.disabled}
-                        checked={current?.psa}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td>
-                      <Checkbox
-                        type="checkbox"
-                        value={`${tradeName.label}-ra`}
-                        name="tradeName"
-                        disabled={tradeName.ra.disabled}
-                        checked={current?.ra}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td>
-                      <Checkbox
-                        type="checkbox"
-                        value={`${tradeName.label}-spa`}
-                        name="tradeName"
-                        disabled={tradeName.spa.disabled}
-                        checked={current?.spa}
-                        onChange={handleChange}
-                      />
-                    </td>
-                  </tr>
-                )
-              })}
-              </tbody>
-            </table>
-
+                  return (
+                    <tr key={tradeName.label}>
+                      <td>
+                        <Text size="m">
+                          {i + 1}
+                        </Text>
+                      </td>
+                      <td>
+                        <Text size="m">
+                          {tradeName.label}
+                        </Text>
+                      </td>
+                      <td>
+                        <Checkbox
+                          type="checkbox"
+                          value={`${tradeName.label}-psa`}
+                          name="tradeName"
+                          disabled={tradeName.psa.disabled || tradeName.psa.defaultChecked}
+                          checked={current?.psa}
+                          onChange={handleChange}
+                        />
+                      </td>
+                      <td>
+                        <Checkbox
+                          type="checkbox"
+                          value={`${tradeName.label}-ra`}
+                          name="tradeName"
+                          disabled={tradeName.ra.disabled || tradeName.ra.defaultChecked}
+                          checked={current?.ra}
+                          onChange={handleChange}
+                        />
+                      </td>
+                      <td>
+                        <Checkbox
+                          type="checkbox"
+                          value={`${tradeName.label}-spa`}
+                          name="tradeName"
+                          disabled={tradeName.spa.disabled || tradeName.spa.defaultChecked}
+                          checked={current?.spa}
+                          onChange={handleChange}
+                        />
+                      </td>
+                    </tr>
+                  )
+                })}
+                </tbody>
+              </table>
+            </div>
 
             <ActionBar
               onPrevButtonClick={onPrevButtonClick}

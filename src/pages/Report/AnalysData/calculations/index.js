@@ -70,13 +70,13 @@ export const getExpensePlanBudgetItem = ({
     const totalPackPrice = getIncreaseVal(Number(item.pricePerPack) * Number(item.planPatients), Number(tradeIncrease))
 
     if (includeFirst) {
-      totalPacks += (0.05 * item.planPatients * currentNosology.initial.year1) + (0.95 * item.planPatients * currentNosology.secondary.year1)
+      totalPacks += (0.05 * item.planPackages * currentNosology.initial.year1) + (0.95 * item.planPackages * currentNosology.secondary.year1)
     }
     if (includeSecond) {
-      totalPacks += (0.05 * item.planPatients * currentNosology.initial.year2) + (0.95 * item.planPatients * currentNosology.secondary.year2)
+      totalPacks += (0.05 * item.planPackages * currentNosology.initial.year2) + (0.95 * item.planPackages * currentNosology.secondary.year2)
     }
     if (includeThird) {
-      totalPacks += (0.05 * item.planPatients * currentNosology.initial.year3) + (0.95 * item.planPatients * currentNosology.secondary.year3)
+      totalPacks += (0.05 * item.planPackages * currentNosology.initial.year3) + (0.95 * item.planPackages * currentNosology.secondary.year3)
     }
 
     return totalPackPrice * totalPacks

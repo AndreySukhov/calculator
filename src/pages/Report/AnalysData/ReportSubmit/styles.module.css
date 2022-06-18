@@ -1,8 +1,6 @@
 .form {
-    flex: 1;
-    display: flex;
-    flex-flow: column;
-    margin-top: auto;
+    position: sticky;
+    bottom: 0;
 }
 
 .tc {

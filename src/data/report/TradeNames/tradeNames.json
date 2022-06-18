@@ -68,6 +68,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,2328",
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -118,6 +119,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,2328",
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -218,6 +220,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,2701",
       "initial": {
         "year1": 14,
         "year2": 13,
@@ -268,6 +271,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,22",
       "initial": {
         "year1": 12,
         "year2": 12,
@@ -418,6 +422,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,2253",
       "initial": {
         "year1": 17,
         "year2": 15,
@@ -468,6 +473,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,2253",
       "initial": {
         "year1": 17,
         "year2": 15,
@@ -750,7 +756,7 @@
     "pricePerPack": "69097.32"
   },
   {
-    "label": "Янвинус",
+    "label": "Яквинус",
     "psa": {
       "disabled": false,
       "defaultChecked": false,
@@ -768,6 +774,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,2996",
       "initial": {
         "year1": 14,
         "year2": 13,
@@ -818,6 +825,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,3064",
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -968,6 +976,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,3561",
       "initial": {
         "year1": 15,
         "year2": 13,
@@ -1018,6 +1027,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,5886",
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -1068,6 +1078,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": true,
+      "efficiencyCoefficient": "0,5886",
       "initial": {
         "year1": 13,
         "year2": 13,
@@ -1118,6 +1129,7 @@
     "ra": {
       "disabled": false,
       "defaultChecked": false,
+      "efficiencyCoefficient": "0,5886",
       "initial": {
         "year1": 13,
         "year2": 13,

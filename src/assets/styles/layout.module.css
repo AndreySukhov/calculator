@@ -7,7 +7,6 @@
 .main {
    padding: var(--globalPadding);
    margin: 0 auto;
-   overflow: auto;
    width: 100%;
    display: flex;
    flex-direction: column;
@@ -17,7 +16,7 @@
    background: #F5F9FD;
    margin:0;
    display:grid;
-   grid-template-columns: 350px 1fr;
+   grid-template-columns: 350px minmax(0,1fr);
 }
 
 .navigation {
@@ -26,16 +25,4 @@
    box-sizing: border-box;
    background: #fff;
    overflow-y: auto;
-}
-
-:global(.ReactModal__Overlay) {
-   background: rgba(69,98,161, 0.8) !important;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-
-:global(.ReactModal__Content) {
-   position: relative;
-   padding: 100px 160px !important;
 }

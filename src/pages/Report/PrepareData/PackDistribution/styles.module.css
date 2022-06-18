@@ -13,14 +13,21 @@
 }
 
 .form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    position: sticky;
+    bottom: 0;
+}
+
+.table {
+    width: 100%;
 }
 
 .table th {
     font-size: 20px;
     font-weight: 700;
+}
+
+.table input {
+    width: 140px;
 }
 
 .table th, .table td {
@@ -50,11 +57,11 @@
 }
 
 .with-input input {
-    width: 80px;
+    width: 140px;
 }
 
 .with-input--wide input {
-    width: 124px;
+    width: 140px;
 }
 
 .percent-mark {

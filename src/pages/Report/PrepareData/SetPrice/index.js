@@ -41,7 +41,7 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
   }, [regionId])
 
   const isFederal = regionId === 0
-  const hasTradeIncrease = !!(tradeIncrease && tradeIncrease !== 0)
+  const hasTradeIncrease = !!(tradeIncrease && tradeIncrease !== 0) || isFederal
 
   return (
     <>
@@ -97,8 +97,9 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
         }
         {isFull ? 'Скрыть' : 'Показать'} {' '} данные о форме выпуска
       </button>
-      <table className={styles.table}>
-        <thead>
+      <div className={styles['table-wrap']}>
+        <table className={styles.table}>
+          <thead>
           <tr>
             <th>
               <Text size="l">
@@ -152,8 +153,8 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
               </Text>
             </th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           {tradeNamesOptions.map((option, i) => {
             return (
               <tr key={option.label}>
@@ -211,8 +212,9 @@ export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubm
               </tr>
             )
           })}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <form
         className={styles.form}
         onSubmit={(e) =>{
