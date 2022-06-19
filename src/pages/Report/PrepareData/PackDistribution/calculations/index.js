@@ -39,7 +39,7 @@ const calculatePatientsPerPacks = ({
     }
     total = (0.05 * packs / year1Val) + (0.95 * packs / yearNextVal)
 
-    res.patients = Number(parseFloat(total).toFixed(2))
+    res.patients = Number(parseFloat(total))
 
     return res
   }
@@ -100,7 +100,7 @@ const calculatePatientsPerPacks = ({
     }
   }
   if (total) {
-    res.patients = Number(parseFloat(total).toFixed(2))
+    res.patients = Number(parseFloat(total))
   }
 
   return res;
@@ -182,7 +182,7 @@ const getPatientPerPack = ({
     }
     total = (0.05 * patients * year1Val) + (0.95 * patients * yearNextVal)
 
-    res.packages = parseFloat(total).toFixed(2)
+    res.packages = Number(total)
 
     return res
   }
@@ -242,7 +242,7 @@ const getPatientPerPack = ({
   }
 
   if (total) {
-    res.packages = parseFloat(total).toFixed(2)
+    res.packages = Number(total)
   }
 
   return res;
