@@ -30,6 +30,10 @@
     padding-right: 0;
 }
 
+.table input {
+    width: 150px;
+}
+
 .table tr {
     border-bottom: 1px solid #EEEEF3;
 }

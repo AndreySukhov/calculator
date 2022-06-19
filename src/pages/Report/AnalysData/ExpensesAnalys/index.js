@@ -27,6 +27,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { CHART_HEX } from '../../../../utils/chartHex';
 import { NOSOLOGY_DICTIONARY } from '../../../../utils/nosologyDictionary';
+import { getPatientStatusText } from '../../../../utils/getPatientStatus'
 
 
 ChartJS.register(
@@ -37,19 +38,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-const options = {
-  indexAxis: 'y',
-  responsive: true,
-  scales: {
-    x: {
-      stacked: true,
-    },
-    y: {
-      stacked: true,
-    },
-  },
-};
 
 const labels = ['Текущий', 'Планируемый'];
 
@@ -82,12 +70,16 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
     healYear,
     data: reportData.data,
     tradeIncrease,
+    packagesUnit: reportData.packagesSelect,
+    patientsUnit: reportData.patientsSelect,
   });
   const planBudget = getExpensePlanBudget({
     nosologia,
     healYear,
     data: reportData.data,
     tradeIncrease,
+    packagesUnit: reportData.packagesSelect,
+    patientsUnit: reportData.patientsSelect,
   });
   const budgetDiff = getExpensePercentDiff(currentBudget, planBudget);
   const includeFirst = healYear.includes(1)
@@ -99,9 +91,11 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
       label: item.label,
       backgroundColor: CHART_HEX[item.label],
       data: [getExpenseCurrentBudgetItem({
-        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird, packagesUnit: reportData.packagesSelect,
+        patientsUnit: reportData.patientsSelect,
       }), getExpensePlanBudgetItem({
-        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird, packagesUnit: reportData.packagesSelect,
+        patientsUnit: reportData.patientsSelect,
       })]
     }
   })
@@ -168,6 +162,69 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
     labels: patientsLabels,
     datasets: patientsDataSets
   }
+
+  const options = {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          callback: function(value) {
+            if (value === 0) {
+              return value
+            }
+            return getLocalCurrencyStr(value)
+          }
+        }
+      },
+      y: {
+        stacked: true,
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const label = context.dataset.label
+            const current = reportData.data.find((reportItem) => reportItem.label === label)
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.round(current.patients)} чел.`
+          }
+        }
+      }
+    }
+  };
+
+  const patientsChartoptions = {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          callback: function(value) {
+            if (value === 0) {
+              return value
+            }
+            return getLocalCurrencyStr(value)
+          }
+        }
+      },
+      y: {
+        stacked: true,
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return `${NOSOLOGY_DICTIONARY[nosologia].short} ${getPatientStatusText(patientStatus)} ${context.dataset.label} год ${getLocalCurrencyStr(context.raw)}
+            `
+          }
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -268,11 +325,13 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
             Освобождено
           </Text>
           <Text className={styles['summary-row-body']} size="l">
-            {getLocalCurrencyStr(currentBudget - planBudget)}
+            {currentBudget - planBudget > 0 ? getLocalCurrencyStr(currentBudget - planBudget) : 0}
           </Text>
-          <Text size="l">
-            {budgetDiff}%
-          </Text>
+          {budgetDiff && (
+            <Text size="l">
+              {budgetDiff}%
+            </Text>
+          )}
         </div>
       </div>
       <div className={styles.chart}>
@@ -315,15 +374,13 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
             />
           </div>
           <div className={styles.chart}>
-            <Bar options={options} data={patientChartsData} />
+            <Bar options={patientsChartoptions} data={patientChartsData} />
           </div>
         </div>
       )}
       <form
         className={styles.form}
-        onSubmit={() => {
-          onSubmit()
-        }}>
+        onSubmit={onSubmit}>
         <ActionBar
           onPrevButtonClick={onPrevClick}
           prevBtnText="Назад"

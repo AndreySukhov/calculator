@@ -102,12 +102,12 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                   </th>
                   <th>
                     <Text size="l">
-                      ПсА
+                      РА
                     </Text>
                   </th>
                   <th>
                     <Text size="l">
-                      РА
+                      ПсА
                     </Text>
                   </th>
                   <th>
@@ -138,20 +138,20 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
                       <td>
                         <Checkbox
                           type="checkbox"
-                          value={`${tradeName.label}-psa`}
+                          value={`${tradeName.label}-ra`}
                           name="tradeName"
-                          disabled={tradeName.psa.disabled || tradeName.psa.defaultChecked}
-                          checked={current?.psa}
+                          disabled={tradeName.ra.disabled || tradeName.ra.defaultChecked}
+                          checked={current?.ra}
                           onChange={handleChange}
                         />
                       </td>
                       <td>
                         <Checkbox
                           type="checkbox"
-                          value={`${tradeName.label}-ra`}
+                          value={`${tradeName.label}-psa`}
                           name="tradeName"
-                          disabled={tradeName.ra.disabled || tradeName.ra.defaultChecked}
-                          checked={current?.ra}
+                          disabled={tradeName.psa.disabled || tradeName.psa.defaultChecked}
+                          checked={current?.psa}
                           onChange={handleChange}
                         />
                       </td>
@@ -214,7 +214,6 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
           </form>
         )
       }}
-
       </Formik>
     </>
   )

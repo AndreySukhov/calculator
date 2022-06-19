@@ -13,6 +13,7 @@ import { StatList } from '../../../../components/base/StatList';
 import { getLocalCurrencyStr } from '../../../../utils/getLocalCurrencyStr';
 import { Confirm } from './Confirm';
 import { NOSOLOGY_DICTIONARY } from '../../../../utils/nosologyDictionary'
+import { getPatientStatusText } from '../../../../utils/getPatientStatus'
 import {
   getCleanIncreaseVal, getEfficiency,
   getExpenseCurrentBudget, getExpenseCurrentBudgetItem,
@@ -43,32 +44,6 @@ ChartJS.register(
   Legend
 );
 
-const options = {
-  indexAxis: 'y',
-  responsive: true,
-  scales: {
-    x: {
-      stacked: true,
-    },
-    y: {
-      stacked: true,
-    },
-  },
-};
-
-export const patientsOptions = {
-  indexAxis: 'y',
-  responsive: true,
-  scales: {
-    x: {
-      stacked: true,
-    },
-    y: {
-      stacked: true,
-    },
-  },
-};
-
 const labels = ['Текущий', 'Планируемый'];
 
 export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regionId, tradeIncrease, stepLabel}) => {
@@ -80,7 +55,6 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
   const patientsNum = reportData.data.reduce((acc, curr) => {
     return Number(acc) + Number(curr.patients)
   }, 0)
-
 
   const indicationsTable = reportData.data.map((item, i) => {
     return [i, item.mnn, item.ra.checked ? 'Да' : '-' , item.psa.checked ? 'Да' : '-', item.spa.checked ? 'Да' : '-' ]
@@ -111,12 +85,16 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
     healYear: [1],
     data: reportData.data,
     tradeIncrease,
+    packagesUnit: reportData.packagesSelect,
+    patientsUnit: reportData.patientsSelect,
   });
   const planBudget = getExpensePlanBudget({
     nosologia: rootNosologia,
     healYear: [1],
     data: reportData.data,
     tradeIncrease,
+    packagesUnit: reportData.packagesSelect,
+    patientsUnit: reportData.patientsSelect,
   });
   const budgetDiff = getExpensePercentDiff(currentBudget, planBudget);
 
@@ -205,6 +183,69 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
     }
     onSubmit()
   }
+
+  const options = {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          callback: function(value) {
+            if (value === 0) {
+              return value
+            }
+            return getLocalCurrencyStr(value)
+          }
+        }
+      },
+      y: {
+        stacked: true,
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const label = context.dataset.label
+            const current = reportData.data.find((reportItem) => reportItem.label === label)
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.round(current.patients)} чел.`
+          }
+        }
+      }
+    }
+  };
+
+  const patientsOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          callback: function(value) {
+            if (value === 0) {
+              return value
+            }
+            return getLocalCurrencyStr(value)
+          }
+        }
+      },
+      y: {
+        stacked: true,
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return `${NOSOLOGY_DICTIONARY[rootNosologia].short} ${getPatientStatusText('first')} ${context.dataset.label} год ${getLocalCurrencyStr(context.raw)}
+            `
+          }
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -378,7 +419,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
            Бюджет планируемого распределения предоставляет экономию средств в сравнении с бюджетом текущего распределения в размере
          </Text>
          <Text size="xxl">
-           {getLocalCurrencyStr(currentBudget - planBudget)} или {budgetDiff}%
+           {currentBudget - planBudget > 0 ? getLocalCurrencyStr(currentBudget - planBudget) : 0} или {budgetDiff}%
          </Text>
        </div>
      </div>
@@ -396,29 +437,36 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
           <Bar options={patientsOptions} data={patientsData} />
         </div>
       </div>
-      <div className={styles['report-row']}>
-        <Text color="blue" className={styles.heading} size="xxl">
-          <img src={headerLogo} alt=""/>
-          Значение показателя «Затраты-эффективность»
-        </Text>
-        <div className={styles.chart}>
-          <Bar options={patientsOptions} data={efficiencyChartData} />
-        </div>
-      </div>
-
-      <div className={styles['report-row']}>
-        <div className={styles['yellow-block']}>
-          <div className={styles['yellow-block-icon']}>
-            <Info />
+      {rootNosologia === 'ra' && (
+        <>
+          <div className={styles['report-row']}>
+            <Text color="blue" className={styles.heading} size="xxl">
+              <img src={headerLogo} alt=""/>
+              Значение показателя «Затраты-эффективность»
+            </Text>
+            <div className={styles.chart}>
+              <Bar options={{
+                indexAxis: 'y',
+                responsive: true,
+              }} data={efficiencyChartData} />
+            </div>
           </div>
-          <Text size="xxl" className={styles['yellow-block-title']} color="blue">
-            Заключение
-          </Text>
-          <Text size="l-regular" className={styles['yellow-block-text']}>
-            По результатам данного анализа ЛП* этанерцепта {mostEfficientLabel}® характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
-          </Text>
-        </div>
-      </div>
+          <div className={styles['report-row']}>
+            <div className={styles['yellow-block']}>
+              <div className={styles['yellow-block-icon']}>
+                <Info />
+              </div>
+              <Text size="xxl" className={styles['yellow-block-title']} color="blue">
+                Заключение
+              </Text>
+              <Text size="l-regular" className={styles['yellow-block-text']}>
+                По результатам данного анализа ЛП* этанерцепта {mostEfficientLabel}® характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
+              </Text>
+            </div>
+          </div>
+        </>
+      )}
+
       <div className={styles['report-footer']}>
         <Text color="info" className={styles['report-row-m']}>
           *ЛП лекарственных препаратов. <br/>

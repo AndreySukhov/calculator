@@ -12,26 +12,95 @@ export const getCleanIncreaseVal = (price, increase) => {
 }
 
 export const getExpenseCurrentBudgetItem = ({
-  item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+  item, nosologia, packagesUnit, patientsUnit,
+  tradeIncrease, includeFirst, includeSecond, includeThird,
 }) => {
   const currentNosology = item[nosologia]
-  if (!currentNosology.disabled) {
-    let totalPacks = 0
-    const totalPackPrice = getIncreaseVal(Number(item.pricePerPack) * Number(item.patients), Number(tradeIncrease))
 
-    if (includeFirst) {
-      totalPacks += (0.05 * item.packages * currentNosology.initial.year1) + (0.95 * item.packages * currentNosology.secondary.year1)
-    }
-    if (includeSecond) {
-      totalPacks += (0.05 * item.packages * currentNosology.initial.year2) + (0.95 * item.packages * currentNosology.secondary.year2)
-    }
-    if (includeThird) {
-      totalPacks += (0.05 * item.packages * currentNosology.initial.year3) + (0.95 * item.packages * currentNosology.secondary.year3)
-    }
-    return totalPackPrice * totalPacks
+  let res = 0
+  const { patientsPsa, patientsRa, patientsSpa, patients } = item
+  const totalPackPrice = getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease))
+  if (item.label === 'Артлегиа') {
+    console.log(item, 'item')
+    console.log({totalPackPrice})
   }
 
-  return 0
+  if (patientsPsa && nosologia === 'psa') {
+    let percent = null
+
+    if (patientsUnit === 'percent') {
+      percent = patientsPsa / 100
+    } else {
+      percent = patientsPsa / Math.round(patients)
+    }
+
+    if (includeFirst) {
+      res +=
+        (((0.05 * patientsPsa * currentNosology.initial.year1) + (0.95 * patientsPsa * currentNosology.secondary.year1)) * percent)
+    }
+    if (includeSecond) {
+      res += (((0.05 * patientsPsa * currentNosology.initial.year2) + (0.95 * patientsPsa * currentNosology.secondary.year2)) * percent)
+    }
+    if (includeThird) {
+      res += (((0.05 * patientsPsa * currentNosology.initial.year3) + (0.95 * patientsPsa * currentNosology.secondary.year3)) * percent)
+    }
+  }
+
+  if (patientsRa && nosologia === 'ra') {
+    let percent = null
+
+
+    if (patientsUnit === 'percent') {
+      percent = patientsRa / 100
+    } else {
+      percent = patientsRa / Math.round(patients)
+    }
+
+    console.log({percent})
+
+    if (includeFirst) {
+      res +=
+        (((0.05 * patientsRa * currentNosology.initial.year1) + (0.95 * patientsRa * currentNosology.secondary.year1)) * percent)
+    }
+    if (includeSecond) {
+      res +=
+        (((0.05 * patientsRa * currentNosology.initial.year2) + (0.95 * patientsRa * currentNosology.secondary.year2)) * percent)
+    }
+    if (includeThird) {
+      res += (((0.05 * patientsRa * currentNosology.initial.year3) + (0.95 * patientsRa * currentNosology.secondary.year3)) * percent)
+    }
+  }
+
+  if (patientsSpa && nosologia === 'spa') {
+    let percent = null
+
+    if (patientsUnit === 'percent') {
+      percent = patientsSpa / 100
+    } else {
+      percent = patientsSpa / Math.round(patients)
+    }
+
+    if (includeFirst) {
+      res +=
+        (((0.05 * patientsSpa * currentNosology.initial.year1) + (0.95 * patientsSpa * currentNosology.secondary.year1)) * percent)
+    }
+    if (includeSecond) {
+      res += (((0.05 * patientsSpa * currentNosology.initial.year2) + (0.95 * patientsSpa * currentNosology.secondary.year2)) * percent
+      )   }
+    if (includeThird) {
+      res += ( ((0.05 * patientsSpa * currentNosology.initial.year3) + (0.95 * patientsSpa * currentNosology.secondary.year3)) * percent)
+    }
+  }
+
+  if (res < 0) {
+    return 0
+  }
+
+  if (item.label === 'Артлегиа') {
+    console.log(res, 'res')
+  }
+
+  return res * totalPackPrice
 }
 
 export const getExpenseCurrentBudget = ({
@@ -39,6 +108,8 @@ export const getExpenseCurrentBudget = ({
   healYear,
   data,
   tradeIncrease,
+  packagesUnit,
+  patientsUnit
 }) => {
   if (!data) {
     return 0
@@ -54,7 +125,8 @@ export const getExpenseCurrentBudget = ({
 
   data.forEach((item) => {
     res += getExpenseCurrentBudgetItem({
-      item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+      item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird,
+      packagesUnit, patientsUnit
     })
   })
 
@@ -62,27 +134,88 @@ export const getExpenseCurrentBudget = ({
 }
 
 export const getExpensePlanBudgetItem = ({
- item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+ item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird,
+     packagesUnit,
+     patientsUnit
 }) => {
   const currentNosology = item[nosologia]
-  if (!currentNosology.disabled) {
-    let totalPacks = 0
-    const totalPackPrice = getIncreaseVal(Number(item.pricePerPack) * Number(item.planPatients), Number(tradeIncrease))
+
+  let res = 0
+  const { patientsPsa, patientsRa, patientsSpa, planPatients } = item
+  const totalPackPrice = getIncreaseVal(Math.round(item.pricePerPack), Number(tradeIncrease))
+
+
+  if (patientsPsa && nosologia === 'psa') {
+    let percent = null
+
+    if (patientsUnit === 'percent') {
+      percent = patientsPsa / 100
+    } else {
+      percent = patientsPsa / Math.round(planPatients)
+    }
 
     if (includeFirst) {
-      totalPacks += (0.05 * item.planPackages * currentNosology.initial.year1) + (0.95 * item.planPackages * currentNosology.secondary.year1)
+      res +=
+        (((0.05 * patientsPsa * currentNosology.initial.year1) + (0.95 * patientsPsa * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
-      totalPacks += (0.05 * item.planPackages * currentNosology.initial.year2) + (0.95 * item.planPackages * currentNosology.secondary.year2)
+      res += (((0.05 * patientsPsa * currentNosology.initial.year2) + (0.95 * patientsPsa * currentNosology.secondary.year2)) * percent)
     }
     if (includeThird) {
-      totalPacks += (0.05 * item.planPackages * currentNosology.initial.year3) + (0.95 * item.planPackages * currentNosology.secondary.year3)
+      res += (((0.05 * patientsPsa * currentNosology.initial.year3) + (0.95 * patientsPsa * currentNosology.secondary.year3)) * percent)
     }
-
-    return totalPackPrice * totalPacks
   }
 
-  return 0
+  if (patientsRa && nosologia === 'ra') {
+    let percent = null
+
+    if (patientsUnit === 'percent') {
+      percent = patientsRa / 100
+    } else {
+      percent = patientsRa / Math.round(planPatients)
+    }
+
+    if (includeFirst) {
+      res +=
+        (((0.05 * patientsRa * currentNosology.initial.year1) + (0.95 * patientsRa * currentNosology.secondary.year1)) * percent)
+    }
+    if (includeSecond) {
+      res +=
+        (((0.05 * patientsRa * currentNosology.initial.year2) + (0.95 * patientsRa * currentNosology.secondary.year2)) * percent)
+    }
+    if (includeThird) {
+      res += (((0.05 * patientsRa * currentNosology.initial.year3) + (0.95 * patientsRa * currentNosology.secondary.year3)) * percent)
+    }
+  }
+
+  if (patientsSpa && nosologia === 'spa') {
+    let percent = null
+
+    if (patientsUnit === 'percent') {
+      percent = patientsSpa / 100
+    } else {
+      percent = patientsSpa / Number(planPatients)
+    }
+
+    if (includeFirst) {
+      res +=
+        (((0.05 * patientsSpa * currentNosology.initial.year1) + (0.95 * patientsSpa * currentNosology.secondary.year1)) * percent)
+    }
+    if (includeSecond) {
+      res += (((0.05 * patientsSpa * currentNosology.initial.year2) + (0.95 * patientsSpa * currentNosology.secondary.year2)) * percent
+      )}
+    if (includeThird) {
+      res += ( ((0.05 * patientsSpa * currentNosology.initial.year3) + (0.95 * patientsSpa * currentNosology.secondary.year3)) * percent)
+    }
+  }
+
+
+
+  if (res < 0) {
+    return 0
+  }
+
+  return res  * totalPackPrice
 }
 
 export const getExpensePlanBudget = ({
@@ -90,10 +223,13 @@ export const getExpensePlanBudget = ({
    healYear,
    data,
    tradeIncrease,
+   packagesUnit,
+   patientsUnit
  }) => {
   if (!data) {
     return 0
   }
+
   const includeFirst = healYear.includes(1)
   const includeSecond = healYear.includes(2)
   const includeThird = healYear.includes(3)
@@ -106,7 +242,9 @@ export const getExpensePlanBudget = ({
 
   data.forEach((item) => {
       res += getExpensePlanBudgetItem({
-        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird
+        item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird,
+        packagesUnit,
+        patientsUnit
       })
   })
 
@@ -117,8 +255,13 @@ export const getExpensePercentDiff = (currentBudget, planBudget) => {
   if (!currentBudget || !planBudget) {
     return ''
   }
+  const res = ( currentBudget - planBudget ) / ( (currentBudget+planBudget)/2 )
 
-  return 100 * Math.abs( ( currentBudget - planBudget ) / ( (currentBudget+planBudget)/2 ) ).toFixed(2);
+  if (res < 0) {
+    return null
+  }
+
+  return 100 * Math.abs( res ).toFixed(2);
 }
 
 export const getPricePackPerPatient = ({
@@ -152,7 +295,9 @@ export const getSavedPerPatientMoney = ({
   nosologia,
   patientStatus,
   tradeIncrease,
+  diff
 }) => {
+  // при отрицательном бюджете выводим 0 во всех расчетах в анализе данных
   const currentNosology = item[nosologia]
 
   let packsRequired = 0
@@ -163,7 +308,7 @@ export const getSavedPerPatientMoney = ({
     packsRequired = currentNosology.secondary.year1
   }
 
-  return Number((packsRequired * getIncreaseVal(item.pricePerPack, tradeIncrease)).toFixed(2))
+  return diff / Number((packsRequired * getIncreaseVal(item.pricePerPack, tradeIncrease)).toFixed(2))
 }
 
 const metoDject = tradeNamesData.find((item) => item.label === 'Методжект')

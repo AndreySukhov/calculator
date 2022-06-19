@@ -9,6 +9,7 @@ import { declension } from '../../../../utils/declension';
 import { ReactComponent as Clear } from '../../../../assets/images/clear-bordered.svg';
 import { ReactComponent as Chart } from '../../../../assets/images/chart-bordered.svg';
 import {
+  convertByUnits,
   getPlanPacksValue,
   getPlanPatientsValue
 } from '../../PrepareData/PackDistribution/calculations';
@@ -40,7 +41,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
       return {
         enabledInputs,
         planPatients: option.patients,
+        planPatientsTouched: false,
         planPackages: option.packages,
+        planPackagesTouched: false,
         psa: {
           ...option.psa,
           disabled: !psaEnabled
@@ -61,13 +64,17 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
 
   const handleSelect = (e) => {
 
-    const val = e.target.value
-    if (e.target.name === 'packages') {
+    const val = e.target.value;
+    const name = e.target.name;
+    if (name === 'packages') {
       setPackagesSelect(val)
     }
-    if (e.target.name === 'patients') {
+    if (name === 'patients') {
       setPatientsSelect(val)
     }
+
+    const newData = convertByUnits(data,name, val)
+    setData(newData)
   }
 
   const handlePatients = (e, label) => {
@@ -76,9 +83,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     const newData = data.map((item) => {
       if (item.label === label) {
         const res = {...item}
+        let isTouched = true
+        if (!val) {
+          isTouched = false
+        }
         let newVal = val
         if (val < 0) {
           newVal = 0
+          isTouched = false
         }
 
         if (patientsSelect === 'quantity' && val > 1_000_000_000) {
@@ -92,7 +104,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
 
         return {
           ...updatedData,
-          planPackages: getPlanPacksValue(updatedData).packages
+          planPackages: getPlanPacksValue(updatedData, patientsSelect).packages,
+          planPatientsTouched: isTouched
         }
       }
       return item
@@ -121,8 +134,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
       if (item.label === label) {
         const res = {...item}
         let newVal = val
+        let isTouched = true
+        if (!val) {
+          isTouched = false
+        }
+
         if (val < 0) {
           newVal = 0
+          isTouched = false
         }
         if (packagesSelect === 'quantity' && val > 1_000_000_000) {
           newVal = 1_000_000_000
@@ -133,7 +152,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         }
         return {
           ...updatedData,
-          planPatients: getPlanPatientsValue(updatedData).patients
+          planPatients: getPlanPatientsValue(updatedData, packagesSelect).patients,
+          planPackagesTouched: isTouched
         }
       }
       return item
@@ -149,7 +169,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     const updatedData = {
       ...storedData,
       data,
-      stepLabel,
+      stepLabel
     }
 
     if (storedData) {
@@ -288,7 +308,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                 <td className={isFull ? '' : styles.bordered}>
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
-                           name="packsRa"
+                           name="planPackages"
+                           readOnly={tradeOption.planPatientsTouched}
                            onChange={(e) => handlePacks(e, tradeOption.label)}
                            value={Math.round(tradeOption.planPackages)} />
                   </div>
@@ -318,6 +339,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
+                           readOnly={tradeOption.planPackagesTouched}
                            value={Math.round(tradeOption.planPatients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
@@ -327,16 +349,16 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <>
                     <td>
                       <Text size="m">
-                        {tradeOption.ra.disabled ? '-' : <>{tradeOption.packsRa}</>}
+                        {tradeOption.ra.disabled ? '-' : <>{Math.round(tradeOption.patientsRa)}</>}
                       </Text></td>
                     <td>
                       <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{tradeOption.packsPsa}</>}
+                        {tradeOption.psa.disabled ? '-' : <>{Math.round(tradeOption.patientsPsa)}</>}
                       </Text>
                     </td>
                     <td className={`${styles['bordered']}`}>
                       <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{tradeOption.packsSpa}</>}
+                        {tradeOption.spa.disabled ? '-' : <>{Math.round(tradeOption.patientsPsa)}</>}
                       </Text>
                     </td>
                   </>

@@ -1,4 +1,4 @@
-import { Text, Button } from '../../../../components/base';
+import { Text } from '../../../../components/base';
 import { ActionBar } from '../../components/ActionBar';
 import { useState } from 'react';
 import { RadioGroup } from '../../../../components/base/forms/RadioGroup'
@@ -20,7 +20,6 @@ import {
 import { Bar } from 'react-chartjs-2';
 import {
   getExpenseCurrentBudget,
-  getExpensePercentDiff,
   getExpensePlanBudget,
   getSavedPerPatientMoney
 } from '../calculations';
@@ -34,11 +33,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-export const options = {
-  indexAxis: 'y',
-  responsive: true,
-};
 
 export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportData, reportId}) => {
   const [nosologia, setNosologia] = useState('ra')
@@ -59,15 +53,36 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
     healYear: [1],
     data: reportData.data,
     tradeIncrease,
+    packagesUnit: reportData.packagesSelect,
+    patientsUnit: reportData.patientsSelect,
   });
   const planBudget = getExpensePlanBudget({
     nosologia,
     healYear: [1],
     data: reportData.data,
     tradeIncrease,
+    packagesUnit: reportData.packagesSelect,
+    patientsUnit: reportData.patientsSelect,
   });
 
   const patientsLabels = reportData.data.map(({label}) => label)
+
+  const options = {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          callback: function(value) {
+            if (value === 0) {
+              return value
+            }
+            return getLocalCurrencyStr(value)
+          }
+        }
+      }
+    }
+  };
 
   const patientsData = {
     labels: patientsLabels,
@@ -82,6 +97,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
             nosologia,
             patientStatus,
             tradeIncrease,
+            diff: currentBudget - planBudget > 0 ? currentBudget - planBudget : 0
           })
         }),
       }
@@ -99,7 +115,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
           Высвобожденный бюджет
         </Text>
         <Text size="l">
-          {getLocalCurrencyStr(currentBudget - planBudget)}
+          { currentBudget - planBudget > 0 ? getLocalCurrencyStr(currentBudget - planBudget) : 0}
         </Text>
       </div>
       <div className={styles.row}>

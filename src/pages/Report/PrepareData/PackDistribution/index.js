@@ -181,10 +181,6 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     setData(newData)
   }
 
-  const getPacksPsaValue = (item) => {
-
-  }
-
   return (
     <>
       <Text color="blue" className={styles.heading} size="xxl">
@@ -489,7 +485,9 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
             data: newData,
             regionId,
             tradeIncrease,
-            stepLabel
+            stepLabel,
+            packagesSelect,
+            patientsSelect
           }))
           setShowModal(true)
         }}>
