@@ -39,7 +39,7 @@ const calculatePatientsPerPacks = ({
     }
     total = (0.05 * packs / year1Val) + (0.95 * packs / yearNextVal)
 
-    res.patients = parseFloat(total).toFixed(2)
+    res.patients = Number(parseFloat(total).toFixed(2))
 
     return res
   }
@@ -100,7 +100,7 @@ const calculatePatientsPerPacks = ({
     }
   }
   if (total) {
-    res.patients = parseFloat(total).toFixed(2)
+    res.patients = Number(parseFloat(total).toFixed(2))
   }
 
   return res;
@@ -330,9 +330,6 @@ export const getIsPatientsError = (option, units) => {
 }
 
 export const convertByUnits = (data, name, newSelectVal) => {
-  console.log(data,'data')
-  console.log(name,'name')
-  console.log(newSelectVal,'newSelectVal')
   if (name === 'packages') {
     if (newSelectVal === 'percent') {
       return data.map((item) => {
@@ -382,7 +379,6 @@ export const convertByUnits = (data, name, newSelectVal) => {
   }
 
   if (name === 'patients') {
-    console.log('wat')
     if (newSelectVal === 'percent') {
       return data.map((item) => {
         if (item.enabledInputs === 1) {
@@ -404,7 +400,6 @@ export const convertByUnits = (data, name, newSelectVal) => {
 
         if (item.patientsRa) {
           newData.patientsRa = valueToPercent(Number(item.patientsRa), Number(item.patients))
-
         }
         return newData
       })

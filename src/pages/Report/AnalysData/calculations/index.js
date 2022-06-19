@@ -19,30 +19,26 @@ export const getExpenseCurrentBudgetItem = ({
 
   let res = 0
   const { patientsPsa, patientsRa, patientsSpa, patients } = item
-  const totalPackPrice = getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease))
-  if (item.label === 'Артлегиа') {
-    console.log(item, 'item')
-    console.log({totalPackPrice})
-  }
+  const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)).toFixed(2))
 
   if (patientsPsa && nosologia === 'psa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
-      percent = patientsPsa / 100
+      percent = Number(patientsPsa) / 100
     } else {
-      percent = patientsPsa / Math.round(patients)
+      percent = Number(patientsPsa) / Number(patients)
     }
 
     if (includeFirst) {
       res +=
-        (((0.05 * patientsPsa * currentNosology.initial.year1) + (0.95 * patientsPsa * currentNosology.secondary.year1)) * percent)
+        (((0.05 * Number(patientsPsa) * currentNosology.initial.year1) + (0.95 * Number(patientsPsa) * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
-      res += (((0.05 * patientsPsa * currentNosology.initial.year2) + (0.95 * patientsPsa * currentNosology.secondary.year2)) * percent)
+      res += (((0.05 * Number(patientsPsa) * currentNosology.initial.year2) + (0.95 * Number(patientsPsa) * currentNosology.secondary.year2)) * percent)
     }
     if (includeThird) {
-      res += (((0.05 * patientsPsa * currentNosology.initial.year3) + (0.95 * patientsPsa * currentNosology.secondary.year3)) * percent)
+      res += (((0.05 * Number(patientsPsa) * currentNosology.initial.year3) + (0.95 * Number(patientsPsa) * currentNosology.secondary.year3)) * percent)
     }
   }
 
@@ -51,23 +47,21 @@ export const getExpenseCurrentBudgetItem = ({
 
 
     if (patientsUnit === 'percent') {
-      percent = patientsRa / 100
+      percent = Number(patientsRa) / 100
     } else {
-      percent = patientsRa / Math.round(patients)
+      percent = Number(patientsRa) / Number(patients)
     }
-
-    console.log({percent})
 
     if (includeFirst) {
       res +=
-        (((0.05 * patientsRa * currentNosology.initial.year1) + (0.95 * patientsRa * currentNosology.secondary.year1)) * percent)
+        (((0.05 * Number(patientsRa) * currentNosology.initial.year1) + (0.95 * Number(patientsRa) * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
       res +=
-        (((0.05 * patientsRa * currentNosology.initial.year2) + (0.95 * patientsRa * currentNosology.secondary.year2)) * percent)
+        (((0.05 * Number(patientsRa) * currentNosology.initial.year2) + (0.95 * Number(patientsRa) * currentNosology.secondary.year2)) * percent)
     }
     if (includeThird) {
-      res += (((0.05 * patientsRa * currentNosology.initial.year3) + (0.95 * patientsRa * currentNosology.secondary.year3)) * percent)
+      res += (((0.05 * Number(patientsRa) * currentNosology.initial.year3) + (0.95 * Number(patientsRa) * currentNosology.secondary.year3)) * percent)
     }
   }
 
@@ -75,29 +69,25 @@ export const getExpenseCurrentBudgetItem = ({
     let percent = null
 
     if (patientsUnit === 'percent') {
-      percent = patientsSpa / 100
+      percent = Number(patientsSpa) / 100
     } else {
-      percent = patientsSpa / Math.round(patients)
+      percent = Number(patientsSpa) / Number(patients)
     }
 
     if (includeFirst) {
       res +=
-        (((0.05 * patientsSpa * currentNosology.initial.year1) + (0.95 * patientsSpa * currentNosology.secondary.year1)) * percent)
+        (((0.05 * Number(patientsSpa) * currentNosology.initial.year1) + (0.95 * Number(patientsSpa) * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
-      res += (((0.05 * patientsSpa * currentNosology.initial.year2) + (0.95 * patientsSpa * currentNosology.secondary.year2)) * percent
+      res += (((0.05 * Number(patientsSpa) * currentNosology.initial.year2) + (0.95 * Number(patientsSpa) * currentNosology.secondary.year2)) * percent
       )   }
     if (includeThird) {
-      res += ( ((0.05 * patientsSpa * currentNosology.initial.year3) + (0.95 * patientsSpa * currentNosology.secondary.year3)) * percent)
+      res += ( ((0.05 * Number(patientsSpa) * currentNosology.initial.year3) + (0.95 * Number(patientsSpa) * currentNosology.secondary.year3)) * percent)
     }
   }
 
   if (res < 0) {
     return 0
-  }
-
-  if (item.label === 'Артлегиа') {
-    console.log(res, 'res')
   }
 
   return res * totalPackPrice
@@ -133,6 +123,11 @@ export const getExpenseCurrentBudget = ({
   return res
 }
 
+const percentToValue = (percent, num) => (percent / 100) * num;
+function valueToPercent(partialValue, totalValue) {
+  return (100 * partialValue) / totalValue;
+}
+
 export const getExpensePlanBudgetItem = ({
  item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird,
      packagesUnit,
@@ -141,71 +136,72 @@ export const getExpensePlanBudgetItem = ({
   const currentNosology = item[nosologia]
 
   let res = 0
-  const { patientsPsa, patientsRa, patientsSpa, planPatients } = item
-  const totalPackPrice = getIncreaseVal(Math.round(item.pricePerPack), Number(tradeIncrease))
+  const { planPatientsPsa, planPatientsRa, planPatientsSpa, planPatients } = item
+  const totalPackPrice = Number(getIncreaseVal(Math.round(item.pricePerPack), Number(tradeIncrease)).toFixed(2))
 
 
-  if (patientsPsa && nosologia === 'psa') {
+  if (planPatientsPsa && nosologia === 'psa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
-      percent = patientsPsa / 100
+      percent = Number(planPatientsPsa) / 100
     } else {
-      percent = patientsPsa / Math.round(planPatients)
+      percent = Number(planPatientsPsa) / (Number(planPatients))
     }
 
     if (includeFirst) {
       res +=
-        (((0.05 * patientsPsa * currentNosology.initial.year1) + (0.95 * patientsPsa * currentNosology.secondary.year1)) * percent)
+        (((0.05 * Number(planPatientsPsa) * currentNosology.initial.year1) + (0.95 * Number(planPatientsPsa) * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
-      res += (((0.05 * patientsPsa * currentNosology.initial.year2) + (0.95 * patientsPsa * currentNosology.secondary.year2)) * percent)
+      res += (((0.05 * Number(planPatientsPsa) * currentNosology.initial.year2) + (0.95 * Number(planPatientsPsa) * currentNosology.secondary.year2)) * percent)
     }
     if (includeThird) {
-      res += (((0.05 * patientsPsa * currentNosology.initial.year3) + (0.95 * patientsPsa * currentNosology.secondary.year3)) * percent)
+      res += (((0.05 * Number(planPatientsPsa) * currentNosology.initial.year3) + (0.95 * Number(planPatientsPsa) * currentNosology.secondary.year3)) * percent)
     }
   }
 
-  if (patientsRa && nosologia === 'ra') {
+  if (planPatientsRa && nosologia === 'ra') {
     let percent = null
 
     if (patientsUnit === 'percent') {
-      percent = patientsRa / 100
+      percent = Number(planPatientsRa) / 100
     } else {
-      percent = patientsRa / Math.round(planPatients)
+      percent = Number(planPatientsRa) / Number(planPatients)
     }
+
 
     if (includeFirst) {
       res +=
-        (((0.05 * patientsRa * currentNosology.initial.year1) + (0.95 * patientsRa * currentNosology.secondary.year1)) * percent)
+        (((0.05 * Number(planPatientsRa) * currentNosology.initial.year1) + (0.95 * Number(planPatientsRa) * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
       res +=
-        (((0.05 * patientsRa * currentNosology.initial.year2) + (0.95 * patientsRa * currentNosology.secondary.year2)) * percent)
+        (((0.05 * Number(planPatientsRa) * currentNosology.initial.year2) + (0.95 * Number(planPatientsRa) * currentNosology.secondary.year2)) * percent)
     }
     if (includeThird) {
-      res += (((0.05 * patientsRa * currentNosology.initial.year3) + (0.95 * patientsRa * currentNosology.secondary.year3)) * percent)
+      res += (((0.05 * Number(planPatientsRa) * currentNosology.initial.year3) + (0.95 * Number(planPatientsRa) * currentNosology.secondary.year3)) * percent)
     }
   }
 
-  if (patientsSpa && nosologia === 'spa') {
+  if (planPatientsSpa && nosologia === 'spa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
-      percent = patientsSpa / 100
+      percent = Number(planPatientsSpa) / 100
     } else {
-      percent = patientsSpa / Number(planPatients)
+      percent = Number(planPatientsSpa) / Number(planPatients)
     }
 
     if (includeFirst) {
       res +=
-        (((0.05 * patientsSpa * currentNosology.initial.year1) + (0.95 * patientsSpa * currentNosology.secondary.year1)) * percent)
+        (((0.05 * Number(planPatientsSpa) * currentNosology.initial.year1) + (0.95 * Number(planPatientsSpa) * currentNosology.secondary.year1)) * percent)
     }
     if (includeSecond) {
-      res += (((0.05 * patientsSpa * currentNosology.initial.year2) + (0.95 * patientsSpa * currentNosology.secondary.year2)) * percent
+      res += (((0.05 * Number(planPatientsSpa) * currentNosology.initial.year2) + (0.95 * Number(planPatientsSpa) * currentNosology.secondary.year2)) * percent
       )}
     if (includeThird) {
-      res += ( ((0.05 * patientsSpa * currentNosology.initial.year3) + (0.95 * patientsSpa * currentNosology.secondary.year3)) * percent)
+      res += ( ((0.05 * Number(planPatientsSpa) * currentNosology.initial.year3) + (0.95 * Number(planPatientsSpa) * currentNosology.secondary.year3)) * percent)
     }
   }
 
@@ -214,6 +210,7 @@ export const getExpensePlanBudgetItem = ({
   if (res < 0) {
     return 0
   }
+
 
   return res  * totalPackPrice
 }

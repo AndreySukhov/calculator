@@ -102,9 +102,18 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           planPatients: newVal,
         }
 
+        const planPackages = getPlanPacksValue(updatedData, patientsSelect)
+        const planPackagesData = {
+          planPackages: planPackages.packages,
+          planPacksRa: planPackages.packsRa,
+          planPacksPsa: planPackages.packsPsa,
+          planPacksSpa: planPackages.packsSpa,
+        }
+
+
         return {
           ...updatedData,
-          planPackages: getPlanPacksValue(updatedData, patientsSelect).packages,
+          ...planPackagesData,
           planPatientsTouched: isTouched
         }
       }
@@ -150,9 +159,18 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           ...res,
           planPackages: newVal,
         }
+
+        const planPatients = getPlanPatientsValue(updatedData, packagesSelect)
+        const planPatientsData = {
+          planPatients: planPatients.patients,
+          planPatientsRa: planPatients.patientsRa,
+          planPatientsPsa: planPatients.patientsPsa,
+          planPatientsSpa: planPatients.patientsSpa,
+        }
+
         return {
           ...updatedData,
-          planPatients: getPlanPatientsValue(updatedData, packagesSelect).patients,
+          ...planPatientsData,
           planPackagesTouched: isTouched
         }
       }
@@ -333,14 +351,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   </>
                 )}
                 <td className={`${styles['bordered']}`}>
-                  {Math.round(tradeOption.patients)}
+                  {Math.floor(tradeOption.patients)}
                 </td>
                 <td>
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
                            readOnly={tradeOption.planPackagesTouched}
-                           value={Math.round(tradeOption.planPatients)}
+                           value={Math.floor(tradeOption.planPatients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
                   </div>
@@ -349,16 +367,16 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <>
                     <td>
                       <Text size="m">
-                        {tradeOption.ra.disabled ? '-' : <>{Math.round(tradeOption.patientsRa)}</>}
+                        {tradeOption.ra.disabled ? '-' : <>{Math.floor(tradeOption.patientsRa)}</>}
                       </Text></td>
                     <td>
                       <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{Math.round(tradeOption.patientsPsa)}</>}
+                        {tradeOption.psa.disabled ? '-' : <>{Math.floor(tradeOption.patientsPsa)}</>}
                       </Text>
                     </td>
                     <td className={`${styles['bordered']}`}>
                       <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{Math.round(tradeOption.patientsPsa)}</>}
+                        {tradeOption.spa.disabled ? '-' : <>{Math.floor(tradeOption.patientsPsa)}</>}
                       </Text>
                     </td>
                   </>

@@ -188,7 +188,10 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
           label: function(context) {
             const label = context.dataset.label
             const current = reportData.data.find((reportItem) => reportItem.label === label)
-            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.round(current.patients)} чел.`
+            if (context.label === 'Планируемый') {
+              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(current.planPatients)} чел.`
+            }
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(current.patients)} чел.`
           }
         }
       }

@@ -6,7 +6,14 @@ import { ReactModal } from '../../../../components/Modal';
 import styles from './styles.module.css';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import { declension } from '../../../../utils/declension'
-import { getPacksValue, getPatientsValue, getIsPatientsError, getIsPacksError, convertByUnits } from './calculations'
+import {
+  getPacksValue,
+  getPatientsValue,
+  getIsPatientsError,
+  getIsPacksError,
+  convertByUnits,
+  getPlanPatientsValue
+} from './calculations'
 import { isNaN } from 'formik';
 
 export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId, tradeIncrease, stepLabel}) => {
@@ -136,6 +143,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
           ...res,
           packages: newVal,
         }
+
         return {
           ...updatedData,
           ...getPatientsValue(updatedData, packagesSelect),
@@ -164,7 +172,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
       if (item.label === label) {
         const updatedData = {
           ...item,
-          [name]: parseInt(val, 10)
+          [name]: Number(val)
         }
 
         return {
@@ -356,7 +364,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                     <Input type="number"
                            name="patients"
                            readOnly={tradeOption.packagesTouched}
-                           value={tradeOption.patients === '' ? '' : Math.round(tradeOption.patients)}
+                           value={tradeOption.patients === '' ? '' : Math.floor(tradeOption.patients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
                   </div>
@@ -372,8 +380,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
-                          patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
-                          (tradeOption.patientsRa === '' ? '' : Math.round(tradeOption.patientsRa))
+                          patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
+                          (tradeOption.patientsRa === '' ? '' : Math.floor(tradeOption.patientsRa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -392,8 +400,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
-                          patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
-                          (tradeOption.patientsPsa === '' ? '' : Math.round(tradeOption.patientsPsa))
+                          patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
+                          (tradeOption.patientsPsa === '' ? '' : Math.floor(tradeOption.patientsPsa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -412,8 +420,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
-                          patientsSelect === 'percent' ? 100 : Math.round(tradeOption.patients) :
-                          (tradeOption.patientsSpa === '' ? '' : Math.round(tradeOption.patientsSpa))
+                          patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
+                          (tradeOption.patientsSpa === '' ? '' : Math.floor(tradeOption.patientsSpa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -461,23 +469,23 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
             return {
               ...dataItem,
               packsPsa: (!dataItem.psa.disabled && dataItem.enabledInputs === 1) ?
-                packagesSelect === 'percent' ? 100 : Math.round(dataItem.packages) :
-                (dataItem.packsPsa === '' ? '' : Math.round(dataItem.packsPsa)),
+                packagesSelect === 'percent' ? 100 : Number(dataItem.packages) :
+                (dataItem.packsPsa === '' ? '' : Number(dataItem.packsPsa)),
               packsRa: (!dataItem.ra.disabled && dataItem.enabledInputs === 1) ?
-                packagesSelect === 'percent' ? 100 : Math.round(dataItem.packages) :
-                (dataItem.packsRa === '' ? '' : Math.round(dataItem.packsRa)),
+                packagesSelect === 'percent' ? 100 : Number(dataItem.packages) :
+                (dataItem.packsRa === '' ? '' : Number(dataItem.packsRa)),
               packsSpa: (!dataItem.spa.disabled && dataItem.enabledInputs === 1) ?
-                packagesSelect === 'percent' ? 100 : Math.round(dataItem.packages) :
-                (dataItem.packsSpa === '' ? '' : Math.round(dataItem.packsSpa)),
+                packagesSelect === 'percent' ? 100 : Number(dataItem.packages) :
+                (dataItem.packsSpa === '' ? '' : Number(dataItem.packsSpa)),
               patientsPsa: (!dataItem.psa.disabled && dataItem.enabledInputs === 1) ?
-                patientsSelect === 'percent' ? 100 : Math.round(dataItem.patients) :
-                (dataItem.patientsPsa === '' ? '' : Math.round(dataItem.patientsPsa)),
+                patientsSelect === 'percent' ? 100 : Number(dataItem.patients) :
+                (dataItem.patientsPsa === '' ? '' : Number(dataItem.patientsPsa)),
               patientsRa: (!dataItem.ra.disabled && dataItem.enabledInputs === 1) ?
-                patientsSelect === 'percent' ? 100 : Math.round(dataItem.patients) :
-                (dataItem.patientsRa === '' ? '' : Math.round(dataItem.patientsRa)),
+                patientsSelect === 'percent' ? 100 : Number(dataItem.patients) :
+                (dataItem.patientsRa === '' ? '' : Number(dataItem.patientsRa)),
               patientsSpa: (!dataItem.spa.disabled && dataItem.enabledInputs === 1) ?
-                patientsSelect === 'percent' ? 100 : Math.round(dataItem.patients) :
-                (dataItem.patientsSpa === '' ? '' : Math.round(dataItem.patientsSpa))
+                patientsSelect === 'percent' ? 100 : Number(dataItem.patients) :
+                (dataItem.patientsSpa === '' ? '' : Number(dataItem.patientsSpa))
             }
           })
           setReportId(date)
