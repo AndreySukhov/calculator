@@ -103,13 +103,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         }
 
         const planPackages = getPlanPacksValue(updatedData, patientsSelect)
+
+
         const planPackagesData = {
           planPackages: planPackages.packages,
           planPacksRa: planPackages.packsRa,
           planPacksPsa: planPackages.packsPsa,
           planPacksSpa: planPackages.packsSpa,
         }
-
 
         return {
           ...updatedData,

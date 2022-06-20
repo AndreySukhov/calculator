@@ -708,7 +708,7 @@
   {
     "label": "Козэнтикс",
     "psa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 8,
@@ -722,7 +722,7 @@
       }
     },
     "ra": {
-      "disabled": false,
+      "disabled": true,
       "defaultChecked": false,
       "initial": {
         "year1": null,
@@ -736,7 +736,7 @@
       }
     },
     "spa": {
-      "disabled": true,
+      "disabled": false,
       "defaultChecked": false,
       "initial": {
         "year1": 8,
@@ -1310,55 +1310,5 @@
     "productionForm": "500мг/50мл 50мл",
     "itemsInPack": 1,
     "pricePerPack": "32104"
-  },
-  {
-    "label": "Методжект",
-    "psa": {
-      "disabled": false,
-      "defaultChecked": false,
-      "initial": {
-        "year1": null,
-        "year2": null,
-        "year3": null
-      },
-      "secondary": {
-        "year1": null,
-        "year2": null,
-        "year3": null
-      }
-    },
-    "ra": {
-      "disabled": false,
-      "defaultChecked": false,
-      "initial": {
-        "year1": null,
-        "year2": null,
-        "year3": null
-      },
-      "secondary": {
-        "year1": null,
-        "year2": null,
-        "year3": null
-      }
-    },
-    "spa": {
-      "disabled": false,
-      "defaultChecked": false,
-      "initial": {
-        "year1": null,
-        "year2": null,
-        "year3": null
-      },
-      "secondary": {
-        "year1": null,
-        "year2": null,
-        "year3": null
-      }
-    },
-    "mnn": "Метотрексат",
-    "application": "Подкожно",
-    "productionForm": "10мг/мл 0,75мл",
-    "itemsInPack": 1,
-    "pricePerPack": "705.83"
   }
 ]

@@ -110,7 +110,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
 
     if (year === 1) {
       return {
-        label: 'Первый',
+        label: patientStatus === 'first' ? 'Первый год' : 'Продолжающие лечение',
         backgroundColor: '#c09d55',
         data: patientsLabels.map((label) => {
           const current = reportData.data.find((reportItem) => reportItem.label === label)

@@ -45,27 +45,27 @@ export const Reports = () => {
           </tr>
         </thead>
         <tbody>
-          {reports.map((report) => {
-            const date = new Date(Number(report.date))
+          {reports?.map((report) => {
+            const date = new Date(Number(report?.date))
             return (
-              <tr key={report.title} className={report.stepLabel === 'Отправление отчёта' ? styles.success : ''}>
+              <tr key={report?.title} className={report?.stepLabel === 'Отправление отчёта' ? styles.success : ''}>
                 <td onClick={() => {
                   if (search.includes('useReady')) {
-                    handleCreateReportCopy(report.date)
+                    handleCreateReportCopy(report?.date)
                   } else {
-                    navigate(`/reports/${report.date}`)
+                    navigate(`/reports/${report?.date}`)
                   }
                 }}>
                   <Text size="m">
                     Отчёт от {date.toLocaleString('ru', {
                       year: 'numeric', month: 'long', day: 'numeric'
                     }
-                  )} ({report.regionLabel})
+                  )} ({report?.regionLabel})
                   </Text>
                 </td>
                 <td>
                   <Text size="m">
-                    {report.stepLabel}
+                    {report?.stepLabel}
                   </Text>
                 </td>
               </tr>

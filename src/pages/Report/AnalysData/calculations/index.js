@@ -1,4 +1,4 @@
-import { tradeNamesData } from '../../../../data';
+import { metoJectData } from '../../../../data';
 
 export const getIncreaseVal = (price, increase) => {
   if (increase <= 0) {
@@ -301,7 +301,7 @@ export const getSavedPerPatientMoney = ({
   return diff / Number((packsRequired * getIncreaseVal(item.pricePerPack, tradeIncrease)).toFixed(2))
 }
 
-const metoDject = tradeNamesData.find((item) => item.label === 'Методжект')
+const metoDject = metoJectData
 
 export const getEfficiency = ({
   item,

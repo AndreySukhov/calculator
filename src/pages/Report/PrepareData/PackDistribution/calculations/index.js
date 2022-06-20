@@ -269,6 +269,7 @@ export const getPacksValue = (data, patientsSelect) => {
 }
 
 export const getPlanPacksValue = (data, patientsSelect) => {
+  const planPatientsCoef = data.planPatients / data.patients
   return getPatientPerPack({
     patients: data.planPatients,
     psaYear1: data.psa.initial.year1,
@@ -280,11 +281,11 @@ export const getPlanPacksValue = (data, patientsSelect) => {
     psaDisabled: data.psa.disabled && !data.psa.defaultChecked,
     raDisabled: data.ra.disabled && !data.ra.defaultChecked,
     spaDisabled: data.spa.disabled && !data.spa.defaultChecked,
-    patientsPsa: data.patientsPsa,
-    patientsRa: data.patientsRa,
-    patientsSpa: data.patientsSpa,
+    patientsPsa: planPatientsCoef * data.patientsPsa,
+    patientsRa: planPatientsCoef * data.patientsRa,
+    patientsSpa: planPatientsCoef * data.patientsSpa,
     enabledInputs: data.enabledInputs,
-
+    patientsSelect
   })
 }
 

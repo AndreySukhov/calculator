@@ -1,0 +1,50 @@
+{
+  "label": "Методжект",
+  "psa": {
+    "disabled": false,
+    "defaultChecked": false,
+    "initial": {
+      "year1": null,
+      "year2": null,
+      "year3": null
+    },
+    "secondary": {
+      "year1": null,
+      "year2": null,
+      "year3": null
+    }
+  },
+  "ra": {
+    "disabled": false,
+    "defaultChecked": false,
+    "initial": {
+      "year1": null,
+      "year2": null,
+      "year3": null
+    },
+    "secondary": {
+      "year1": null,
+      "year2": null,
+      "year3": null
+    }
+  },
+  "spa": {
+    "disabled": false,
+    "defaultChecked": false,
+    "initial": {
+      "year1": null,
+      "year2": null,
+      "year3": null
+    },
+    "secondary": {
+      "year1": null,
+      "year2": null,
+      "year3": null
+    }
+  },
+  "mnn": "Метотрексат",
+  "application": "Подкожно",
+  "productionForm": "10мг/мл 0,75мл",
+  "itemsInPack": 1,
+  "pricePerPack": "705.83"
+}
