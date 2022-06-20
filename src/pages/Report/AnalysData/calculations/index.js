@@ -19,7 +19,7 @@ export const getExpenseCurrentBudgetItem = ({
 
   let res = 0
   const { patientsPsa, patientsRa, patientsSpa, patients } = item
-  const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)).toFixed(2))
+  const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
   if (patientsPsa && nosologia === 'psa') {
     let percent = null
@@ -123,11 +123,6 @@ export const getExpenseCurrentBudget = ({
   return res
 }
 
-const percentToValue = (percent, num) => (percent / 100) * num;
-function valueToPercent(partialValue, totalValue) {
-  return (100 * partialValue) / totalValue;
-}
-
 export const getExpensePlanBudgetItem = ({
  item, nosologia, tradeIncrease, includeFirst, includeSecond, includeThird,
      packagesUnit,
@@ -137,7 +132,7 @@ export const getExpensePlanBudgetItem = ({
 
   let res = 0
   const { planPatientsPsa, planPatientsRa, planPatientsSpa, planPatients } = item
-  const totalPackPrice = Number(getIncreaseVal(Math.round(item.pricePerPack), Number(tradeIncrease)).toFixed(2))
+  const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
 
   if (planPatientsPsa && nosologia === 'psa') {
@@ -169,7 +164,6 @@ export const getExpensePlanBudgetItem = ({
     } else {
       percent = Number(planPatientsRa) / Number(planPatients)
     }
-
 
     if (includeFirst) {
       res +=
@@ -211,8 +205,7 @@ export const getExpensePlanBudgetItem = ({
     return 0
   }
 
-
-  return res  * totalPackPrice
+  return Number(res.toFixed(3))  * totalPackPrice
 }
 
 export const getExpensePlanBudget = ({
