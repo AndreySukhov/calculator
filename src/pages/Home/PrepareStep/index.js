@@ -5,27 +5,7 @@ import pen from '../../../assets/images/index/pen.svg'
 import report from '../../../assets/images/index/report.svg'
 import { useState } from 'react';
 
-export const PrepareStep = ({userEmail, setUserEmail}) => {
-  const [email, setEmail] = useState('')
-
-  if (!userEmail) {
-    return (
-      <div className={styles.component}>
-        <Text size="xxl" color="blue" className={styles.title}>
-          Добавьте свою почту для работы с отчетами
-        </Text>
-        <div className={styles.input}>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-        </div>
-        <div>
-          <Button theme="primary" disabled={!email} onClick={() => setUserEmail(email)}>
-            Отправить
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
+export const PrepareStep = () => {
   return (
     <div className={styles.component}>
       <Text size="xxl" color="blue" className={styles.title}>

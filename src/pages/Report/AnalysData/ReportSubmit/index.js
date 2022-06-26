@@ -47,7 +47,6 @@ ChartJS.register(
 
 const labels = ['Текущий', 'Планируемый'];
 
-
 export const ReportSubmit = ({
   reportData,
   reportId,
@@ -127,8 +126,6 @@ export const ReportSubmit = ({
     labels,
     datasets: dataSets,
   };
-
-
 
   const patientsLabels = reportData.data.map(({label}) => label)
 

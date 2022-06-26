@@ -44,58 +44,65 @@ const calculatePatientsPerPacks = ({
     return res
   }
 
-  if (packsPsa) {
-    let psaTotal = null
-    if (packagesSelect === 'percent') {
-      const percent = (packsPsa / 100)
-      psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
-    } else {
-      const percent = (packsPsa / packs)
-      psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
-    }
-
-    if (psaTotal) {
-      res.patientsPsa = psaTotal
-      total = psaTotal
-    }
-  }
-  if (packsRa) {
-    let packsRaTotal = null
-    if (packagesSelect === 'percent') {
-      const percent = (packsRa / 100)
-      packsRaTotal = ((0.05 * packs / raYear1) + (0.95 * packs / raYearNext)) * percent
-    } else {
-      const percent = (packsRa / packs)
-      packsRaTotal = ((0.05 * packs / raYear1) + (0.95 * packs / raYearNext)) * percent
-    }
-
-    if (packsRaTotal) {
-      res.patientsRa = packsRaTotal;
-
-      if (!total) {
-        total = packsRaTotal
+  if (packs === 0) {
+    res.patients = Number(parseFloat(packs))
+    res.patientsPsa = ''
+    res.packsRa = ''
+    res.packsSpa = ''
+  } else {
+    if (packsPsa) {
+      let psaTotal = null
+      if (packagesSelect === 'percent') {
+        const percent = (packsPsa / 100)
+        psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
       } else {
-        total += packsRaTotal
+        const percent = (packsPsa / packs)
+        psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
+      }
+
+      if (psaTotal) {
+        res.patientsPsa = psaTotal
+        total = psaTotal
       }
     }
-  }
+    if (packsRa) {
+      let packsRaTotal = null
+      if (packagesSelect === 'percent') {
+        const percent = (packsRa / 100)
+        packsRaTotal = ((0.05 * packs / raYear1) + (0.95 * packs / raYearNext)) * percent
+      } else {
+        const percent = (packsRa / packs)
+        packsRaTotal = ((0.05 * packs / raYear1) + (0.95 * packs / raYearNext)) * percent
+      }
 
-  if (packsSpa) {
-    let packsSpaTotal = null
-    if (packagesSelect === 'percent') {
-      const percent = (packsSpa / 100)
-      packsSpaTotal = ((0.05 * packs / spaYear1) + (0.95 * packs / spaYearNext)) * percent
-    } else {
-      const percent = (packsSpa / packs)
-      packsSpaTotal = ((0.05 * packs / spaYear1) + (0.95 * packs / spaYearNext)) * percent
+      if (packsRaTotal) {
+        res.patientsRa = packsRaTotal;
+
+        if (!total) {
+          total = packsRaTotal
+        } else {
+          total += packsRaTotal
+        }
+      }
     }
 
-    if (packsSpaTotal) {
-      res.patientsSpa = packsSpaTotal;
-      if (!total) {
-        total = packsSpaTotal
+    if (packsSpa) {
+      let packsSpaTotal = null
+      if (packagesSelect === 'percent') {
+        const percent = (packsSpa / 100)
+        packsSpaTotal = ((0.05 * packs / spaYear1) + (0.95 * packs / spaYearNext)) * percent
       } else {
-        total += packsSpaTotal
+        const percent = (packsSpa / packs)
+        packsSpaTotal = ((0.05 * packs / spaYear1) + (0.95 * packs / spaYearNext)) * percent
+      }
+
+      if (packsSpaTotal) {
+        res.patientsSpa = packsSpaTotal;
+        if (!total) {
+          total = packsSpaTotal
+        } else {
+          total += packsSpaTotal
+        }
       }
     }
   }
@@ -187,62 +194,69 @@ const getPatientPerPack = ({
     return res
   }
 
-  if (patientsPsa) {
-    let psaTotal = null
-    if (patientsSelect === 'percent') {
-      const percent = (patientsPsa / 100)
-      psaTotal = ((0.05 * patients * psaYear1) + (0.95 * patients * psaYearNext)) * percent
-    } else {
-      const percent = (patientsPsa / patients)
-      psaTotal = ((0.05 * patients * psaYear1) + (0.95 * patients * psaYearNext)) * percent
-    }
-
-    if (psaTotal) {
-      res.packsPsa = psaTotal
-      total = psaTotal
-    }
-  }
-
-  if (patientsRa) {
-    let raTotal = null
-    if (patientsSelect === 'percent') {
-      const percent = (patientsRa / 100)
-      raTotal = ((0.05 * patients * raYear1) + (0.95 * patients * raYearNext)) * percent
-    } else {
-      const percent = (patientsRa / patients)
-      raTotal = ((0.05 * patients * raYear1) + (0.95 * patients * raYearNext)) * percent
-    }
-    if (raTotal) {
-      if (!total) {
-        total = raTotal
+  if (patients === 0) {
+    res.packages = 0
+    res.packsPsa = ''
+    res.packsRa = ''
+    res.packsSpa = ''
+  } else {
+    if (patientsPsa) {
+      let psaTotal = null
+      if (patientsSelect === 'percent') {
+        const percent = (patientsPsa / 100)
+        psaTotal = ((0.05 * patients * psaYear1) + (0.95 * patients * psaYearNext)) * percent
       } else {
-        total += raTotal
+        const percent = (patientsPsa / patients)
+        psaTotal = ((0.05 * patients * psaYear1) + (0.95 * patients * psaYearNext)) * percent
       }
-      res.packsRa = raTotal
-    }
-  }
 
-  if (patientsSpa) {
-    let spaTotal = null
-    if (patientsSelect === 'percent') {
-      const percent = (patientsSpa / 100)
-      spaTotal = ((0.05 * patients * spaYear1) + (0.95 * patients * spaYearNext)) * percent
-    } else {
-      const percent = (patientsSpa / patients)
-      spaTotal = ((0.05 * patients * spaYear1) + (0.95 * patients * spaYearNext)) * percent
+      if (psaTotal) {
+        res.packsPsa = psaTotal
+        total = psaTotal
+      }
     }
-    if (spaTotal) {
-      if (!total) {
-        total = spaTotal
+
+    if (patientsRa) {
+      let raTotal = null
+      if (patientsSelect === 'percent') {
+        const percent = (patientsRa / 100)
+        raTotal = ((0.05 * patients * raYear1) + (0.95 * patients * raYearNext)) * percent
       } else {
-        total += spaTotal
+        const percent = (patientsRa / patients)
+        raTotal = ((0.05 * patients * raYear1) + (0.95 * patients * raYearNext)) * percent
       }
-      res.packsSpa = spaTotal
+      if (raTotal) {
+        if (!total) {
+          total = raTotal
+        } else {
+          total += raTotal
+        }
+        res.packsRa = raTotal
+      }
     }
-  }
 
-  if (total) {
-    res.packages = Number(total)
+    if (patientsSpa) {
+      let spaTotal = null
+      if (patientsSelect === 'percent') {
+        const percent = (patientsSpa / 100)
+        spaTotal = ((0.05 * patients * spaYear1) + (0.95 * patients * spaYearNext)) * percent
+      } else {
+        const percent = (patientsSpa / patients)
+        spaTotal = ((0.05 * patients * spaYear1) + (0.95 * patients * spaYearNext)) * percent
+      }
+      if (spaTotal) {
+        if (!total) {
+          total = spaTotal
+        } else {
+          total += spaTotal
+        }
+        res.packsSpa = spaTotal
+      }
+    }
+
+    if (total) {
+      res.packages = Number(total)
+    }
   }
 
   return res;

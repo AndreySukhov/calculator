@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Text } from '../../components/base';
 import styles from './styles.module.css'
 import headerLogo from '../../assets/images/header-logo.svg';
@@ -48,7 +47,7 @@ export const Reports = () => {
           {reports?.map((report) => {
             const date = new Date(Number(report?.date))
             return (
-              <tr key={report?.title} className={report?.stepLabel === 'Отправление отчёта' ? styles.success : ''}>
+              <tr key={date} className={report?.stepLabel === 'Отправление отчёта' ? styles.success : ''}>
                 <td onClick={() => {
                   if (search.includes('useReady')) {
                     handleCreateReportCopy(report?.date)

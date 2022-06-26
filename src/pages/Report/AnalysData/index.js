@@ -90,29 +90,26 @@ options: patientsOptions
     div.append(contentCopy)
     div.append(script)
 
-    fetch('http://erelzi.fibonacci.digital/api/v1/pdf', {
-      headers: new Headers({
-        'Accept': 'text/html;',
-        'Content-Type': 'text/html;'
-      }),
-      mode: 'no-cors',
-      method: 'POST',
-      body: div.innerHTML
-    })
 
-    try {
-      const res = await axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
+    if (window.localStorage.getItem('userEmail')) {
+      axios.post('http://erelzi.fibonacci.digital/api/v1/history', {
         email,
         report: data
       })
-      if (res.status === 200) {
-        setReportSendStatus('success')
-      } else {
-        setReportSendStatus('error')
-        setTimeout(() => {
-          setReportSendStatus('not-sent')
-        }, 3000)
-      }
+    }
+
+    try {
+      await fetch(`http://erelzi.fibonacci.digital/api/v1/pdf?email=${email}`, {
+        headers: new Headers({
+          'Accept': 'text/html;',
+          'Content-Type': 'text/html;'
+        }),
+        mode: 'no-cors',
+        method: 'POST',
+        body: div.innerHTML
+      })
+
+      setReportSendStatus('success')
     } catch (e) {
       setReportSendStatus('error')
       setTimeout(() => {

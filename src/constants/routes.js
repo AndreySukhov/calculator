@@ -23,4 +23,10 @@ export const ROUTES = [
     title: 'Отчёты',
     icon: 'report',
   },
+  {
+    url: '/profile',
+    component: 'Profile',
+    title: 'Профиль',
+    icon: null,
+  },
 ]

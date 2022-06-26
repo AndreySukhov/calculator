@@ -12,7 +12,6 @@ import {
   getIsPatientsError,
   getIsPacksError,
   convertByUnits,
-  getPlanPatientsValue
 } from './calculations'
 import { isNaN } from 'formik';
 
@@ -122,6 +121,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
 
   const handlePacks = (e, label) => {
     const val = parseInt(e.target.value, 10)
+    console.log({val})
 
     const newData = data.map((item) => {
       if (item.label === label) {

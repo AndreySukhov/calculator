@@ -6,7 +6,7 @@ import visual from '../../assets/images/index/index-visual.png'
 import styles from './styles.module.css'
 import { ReactModal } from '../../components/Modal';
 
-export const Home = ({userEmail, setUserEmail}) => {
+export const Home = () => {
   const [modalOpen, setModalOpen] = useState(false)
   return (
     <div className={styles.wrap}>
@@ -24,7 +24,7 @@ export const Home = ({userEmail, setUserEmail}) => {
       </div>
       {modalOpen &&
       <ReactModal onClose={() => setModalOpen(false)}>
-        <PrepareStep userEmail={userEmail} setUserEmail={setUserEmail} />
+        <PrepareStep />
       </ReactModal>
       }
     </div>
