@@ -164,11 +164,14 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
             nosologia: rootNosologia,
             patientStatus: 'first',
             tradeIncrease,
+            diff: currentBudget - planBudget > 0 ? currentBudget - planBudget : 0
           })
         }),
       }
     ],
   };
+
+  console.log(patientsData, 'patientsData')
 
   const handleSubmit = () => {
     const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))

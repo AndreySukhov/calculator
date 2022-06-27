@@ -11,6 +11,6 @@ export const Input = ({
   return (
     <input type={type} {...rest} readOnly={readOnly}
            value={value}
-           className={`${styles.input}  ${className} ${error ? styles.error : ''}`} />
+           className={`${styles.input}  ${className} ${error ? styles.error : ''}`} onWheel={(e) => e.target.blur()} />
   )
 }

@@ -6,12 +6,13 @@ export const ActionBar = ({
   prevBtnText,
   nextBtnText,
   nextBtnDisabled = false,
+  prevBtnDisabled = false,
   children
 }) => {
   return (
     <div className={styles.wrap}>
       {children}
-      {prevBtnText && <Button theme="bordered" type="button" onClick={onPrevButtonClick}>{prevBtnText}</Button>}
+      {prevBtnText && <Button theme="bordered" type="button" disabled={prevBtnDisabled} onClick={onPrevButtonClick}>{prevBtnText}</Button>}
       {nextBtnText && <Button theme="primary" type="submit" disabled={nextBtnDisabled}>{nextBtnText}</Button>}
     </div>
   )

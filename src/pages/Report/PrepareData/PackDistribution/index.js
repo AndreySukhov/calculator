@@ -121,7 +121,6 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
 
   const handlePacks = (e, label) => {
     const val = parseInt(e.target.value, 10)
-    console.log({val})
 
     const newData = data.map((item) => {
       if (item.label === label) {
@@ -172,7 +171,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
       if (item.label === label) {
         const updatedData = {
           ...item,
-          [name]: Number(val)
+          [name]: val === '' ? val : Number(val)
         }
 
         return {

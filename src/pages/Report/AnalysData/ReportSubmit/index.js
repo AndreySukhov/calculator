@@ -51,7 +51,6 @@ export const ReportSubmit = ({
   reportData,
   reportId,
   onSubmit,
-  onPrevClick,
   regionId,
   tradeIncrease,
   stepLabel,
@@ -177,6 +176,7 @@ export const ReportSubmit = ({
             nosologia: rootNosologia,
             patientStatus: 'first',
             tradeIncrease,
+            diff: currentBudget - planBudget > 0 ? currentBudget - planBudget : 0
           })
         }),
       }
@@ -494,7 +494,7 @@ export const ReportSubmit = ({
         setShowConfirm(true)
       }}>
         <ActionBar
-          onPrevButtonClick={onPrevClick}
+          prevBtnDisabled
           prevBtnText="Назад"
           nextBtnText="Отправить"
         />
