@@ -413,7 +413,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
               <div className={styles['table-summary']}>
                 {totalPatients > 0 ? (
                   <Text size="m--bold">
-                    {totalPatients} {declension(['пациент', 'пацента', 'пациентов'],totalPatients)} в сумме
+                    {totalPatients} {declension(['пациент', 'пациента', 'пациентов'],totalPatients)} в сумме
                   </Text>
                 ) : ''}
               </div>
