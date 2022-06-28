@@ -494,8 +494,6 @@ export const ReportSubmit = ({
         setShowConfirm(true)
       }}>
         <ActionBar
-          prevBtnDisabled
-          prevBtnText="Назад"
           nextBtnText="Отправить"
         />
       </form>

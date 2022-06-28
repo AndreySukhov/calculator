@@ -27,7 +27,6 @@ const App = () => {
         if (res.data.length) {
           res.data.forEach((item) => {
             if (item.reportId) {
-              console.log(item, 'item')
               window.localStorage.setItem(`${item.reportId}-report-id`, JSON.stringify(item))
             }
           })

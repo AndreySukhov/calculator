@@ -206,7 +206,6 @@ options: patientsOptions
           setData(setData)
           handleReportSubmit(email, chartData)
         }}
-        onPrevClick={() => {}}
         reportSendStatus={reportSendStatus}
       />}
     </div>

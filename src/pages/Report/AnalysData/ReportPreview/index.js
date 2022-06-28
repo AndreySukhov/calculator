@@ -171,8 +171,6 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
     ],
   };
 
-  console.log(patientsData, 'patientsData')
-
   const handleSubmit = () => {
     const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
 

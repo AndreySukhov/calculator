@@ -86,7 +86,8 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
   const includeSecond = healYear.includes(2)
   const includeThird = healYear.includes(3)
 
-  const dataSets = reportData.data.map((item) => {
+  const dataSets = reportData.data
+    .map((item) => {
     return {
       label: item.label,
       backgroundColor: CHART_HEX[item.label],
