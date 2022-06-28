@@ -71,6 +71,25 @@
     margin-top: 16px;
 }
 
+.table {
+    width: 100%;
+}
+
+.table th {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: left;
+}
+
+.table tr {
+    border-bottom: 1px solid #EEEEF3;
+}
+
+.table tr td,
+.table tr th {
+    padding: 12px;
+}
+
 .yellow-block {
     padding: 36px 32px 32px 32px;
     text-align: center;

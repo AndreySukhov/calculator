@@ -374,6 +374,16 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
             </thead>
            <tbody>
            {reportData.data.map((item) => {
+             if (item[rootNosologia].disabled) {
+               return null
+             }
+
+             const currentBudget = Number(getExpenseCurrentBudgetItem({
+               item, nosologia: rootNosologia, tradeIncrease, includeFirst: true, includeSecond: false, includeThird: false
+             }));
+             const planBudget = Number(getExpensePlanBudgetItem({
+               item, nosologia: rootNosologia, tradeIncrease, includeFirst: true, includeSecond: false, includeThird: false
+             }));
              return (
                <tr key={item.label}>
                 <td>
@@ -387,24 +397,28 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
                   </div>
                 </td>
                  <td>
-                   <Text size="m" className={styles['cost-chart-text']}>
-                     {getLocalCurrencyStr(Number(getExpenseCurrentBudgetItem({
-                       item, nosologia: rootNosologia, tradeIncrease, includeFirst: true, includeSecond: false, includeThird: false
-                     }).toFixed(2)))}
-                   </Text>
-                   <Text color="disabled" size="xs">
-                     {Math.round(item.patients)} чел
-                   </Text>
+                   {currentBudget > 0 ? (
+                     <>
+                       <Text size="m" className={styles['cost-chart-text']}>
+                         {getLocalCurrencyStr(currentBudget.toFixed(2))}
+                       </Text>
+                       <Text color="disabled" size="xs">
+                         {Math.round(item.patients)} чел
+                       </Text>
+                     </>
+                   ) : <>-</>}
                  </td>
                  <td>
-                   <Text size="m" className={styles['cost-chart-text']}>
-                     {getLocalCurrencyStr(Number(getExpensePlanBudgetItem({
-                       item, nosologia: rootNosologia, tradeIncrease, includeFirst: true, includeSecond: false, includeThird: false
-                     }).toFixed(2)))}
-                   </Text>
-                   <Text color="disabled" size="xs">
-                     {Math.round(item.planPatients)} чел
-                   </Text>
+                   {planBudget > 0 ? (
+                     <>
+                       <Text size="m" className={styles['cost-chart-text']}>
+                         {getLocalCurrencyStr(planBudget.toFixed(2))}
+                       </Text>
+                       <Text color="disabled" size="xs">
+                         {Math.round(item.planPatients)} чел
+                       </Text>
+                     </>
+                   ) : <>-</>}
                  </td>
                </tr>
              )
