@@ -25,8 +25,8 @@ export const Packages = () => {
   useEffect(() => {
     const res = tradeNamesData.map((pack) => {
       const temp = {
+        label: pack.label,
         mnn: pack.mnn,
-        tn: pack.tn
       }
       const filtered = pack[nosologia][healType]
 

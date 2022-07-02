@@ -11,8 +11,9 @@ import { ReactComponent as Chart } from '../../../../assets/images/chart-bordere
 import {
   convertByUnits,
   getPlanPacksValue,
-  getPlanPatientsValue
+  getPlanPatientsValue, getFormattedNumber
 } from '../../PrepareData/PackDistribution/calculations';
+import { isNaN } from 'formik';
 
 export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) => {
   const [isFull, setIsFull] = useState(false)
@@ -41,9 +42,13 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
       return {
         enabledInputs,
         planPatients: option.patients,
-        planPatientsTouched: false,
+        planPatientsRa: option.patientsRa,
+        planPatientsPsa: option.patientsPsa,
+        planPatientsSpa: option.patientsSpa,
         planPackages: option.packages,
-        planPackagesTouched: false,
+        planPacksRa: option.packsRa,
+        planPacksPsa: option.packsPsa,
+        planPacksSpa: option.packsSpa,
         psa: {
           ...option.psa,
           disabled: !psaEnabled
@@ -77,20 +82,29 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     setData(newData)
   }
 
+  const totalPatients = data.reduce((acc, curr) => {
+    if (isNaN(curr.planPatients) || curr.planPatients === '') {
+      return acc
+    }
+    return acc + getFormattedNumber(curr.planPatients)
+  }, 0)
+
+  const totalFactPatients = data.reduce((acc, curr) => {
+    if (isNaN(curr.patients)) {
+      return acc
+    }
+    return acc + getFormattedNumber(curr.patients)
+  }, 0)
+
   const handlePatients = (e, label) => {
-    const val = parseInt(e.target.value, 10)
+    let val = e.target.value === '' ? '' : Number(e.target.value)
 
     const newData = data.map((item) => {
       if (item.label === label) {
         const res = {...item}
-        let isTouched = true
-        if (!val) {
-          isTouched = false
-        }
         let newVal = val
         if (val < 0) {
-          newVal = 0
-          isTouched = false
+          newVal = ""
         }
 
         if (patientsSelect === 'quantity' && val > 1_000_000_000) {
@@ -104,6 +118,15 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
 
         const planPackages = getPlanPacksValue(updatedData, patientsSelect)
 
+        const planPatients = getPlanPatientsValue(updatedData, packagesSelect)
+
+
+        const planPatientsData = {
+          planPatientsRa: planPatients.patientsRa,
+          planPatientsPsa: planPatients.patientsPsa,
+          planPatientsSpa: planPatients.patientsSpa,
+        }
+
 
         const planPackagesData = {
           planPackages: planPackages.packages,
@@ -112,74 +135,32 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           planPacksSpa: planPackages.packsSpa,
         }
 
+        console.log(newVal, 'newVal')
+
+        console.log({
+          ...updatedData,
+          ...planPackagesData,
+          ...planPatientsData
+        })
+
         return {
           ...updatedData,
           ...planPackagesData,
-          planPatientsTouched: isTouched
+          ...planPatientsData
         }
       }
       return item
     })
 
     setData(newData)
-
   }
-
-  const totalPacks = data.reduce((acc, curr) => {
-    return acc + parseInt(curr.planPackages, 10)
-  }, 0)
 
   const totalFactPacks = data.reduce((acc, curr) => {
     return acc + parseInt(curr.packages, 10)
   }, 0)
 
-  const totalPatients = data.reduce((acc, curr) => {
-    return acc + parseInt(curr.planPatients, 10)
-  }, 0)
 
-  const handlePacks = (e, label) => {
-    const val = parseInt(e.target.value, 10)
-
-    const newData = data.map((item) => {
-      if (item.label === label) {
-        const res = {...item}
-        let newVal = val
-        let isTouched = true
-        if (!val) {
-          isTouched = false
-        }
-
-        if (val < 0) {
-          newVal = 0
-          isTouched = false
-        }
-        if (packagesSelect === 'quantity' && val > 1_000_000_000) {
-          newVal = 1_000_000_000
-        }
-        const updatedData = {
-          ...res,
-          planPackages: newVal,
-        }
-
-        const planPatients = getPlanPatientsValue(updatedData, packagesSelect)
-        const planPatientsData = {
-          planPatients: planPatients.patients,
-          planPatientsRa: planPatients.patientsRa,
-          planPatientsPsa: planPatients.patientsPsa,
-          planPatientsSpa: planPatients.patientsSpa,
-        }
-
-        return {
-          ...updatedData,
-          ...planPatientsData,
-          planPackagesTouched: isTouched
-        }
-      }
-      return item
-    })
-
-    setData(newData)
-  }
+  const patientsDiff = totalFactPatients - totalPatients
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -195,10 +176,10 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
       window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
     }
 
+    console.log(updatedData, 'updatedData')
+
     onSubmit(updatedData)
   }
-
-  const packsDiff = totalFactPacks - totalPacks
 
   return (
     <>
@@ -328,8 +309,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="planPackages"
-                           readOnly={tradeOption.planPatientsTouched}
-                           onChange={(e) => handlePacks(e, tradeOption.label)}
+                           readOnly
                            value={Math.round(tradeOption.planPackages)} />
                   </div>
                 </td>
@@ -352,14 +332,13 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   </>
                 )}
                 <td className={`${styles['bordered']}`}>
-                  {Math.floor(tradeOption.patients)}
+                  {getFormattedNumber(tradeOption.patients)}
                 </td>
                 <td>
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
-                           readOnly={tradeOption.planPackagesTouched}
-                           value={Math.floor(tradeOption.planPatients)}
+                           value={getFormattedNumber(tradeOption.planPatients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
                   </div>
@@ -368,16 +347,16 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <>
                     <td>
                       <Text size="m">
-                        {tradeOption.ra.disabled ? '-' : <>{Math.floor(tradeOption.patientsRa)}</>}
+                        {tradeOption.ra.disabled ? '-' : <>{getFormattedNumber(tradeOption.patientsRa)}</>}
                       </Text></td>
                     <td>
                       <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{Math.floor(tradeOption.patientsPsa)}</>}
+                        {tradeOption.psa.disabled ? '-' : <>{getFormattedNumber(tradeOption.patientsPsa)}</>}
                       </Text>
                     </td>
                     <td className={`${styles['bordered']}`}>
                       <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{Math.floor(tradeOption.patientsPsa)}</>}
+                        {tradeOption.spa.disabled ? '-' : <>{getFormattedNumber(tradeOption.patientsPsa)}</>}
                       </Text>
                     </td>
                   </>
@@ -396,14 +375,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                     {totalFactPacks} {declension(['упаковка', 'упаковки', 'упаковок'],totalFactPacks)} в сумме
                   </Text>
                 ) : ''}
-                {packsDiff !== 0 && !isNaN(packsDiff) && (
-                  <>
-                    <br/>
-                    <Text color="error" size="m--bold">
-                      {packsDiff > 0 ? 'Добавьте' : 'Уберите'} {Math.abs(packsDiff)} {declension(['упаковка', 'упаковки', 'упаковок'],packsDiff)}
-                    </Text>
-                  </>
-                )}
               </div>
             </td>
             {isFull && <td colSpan={3} className={styles.bordered} />}
@@ -413,9 +384,17 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
               <div className={styles['table-summary']}>
                 {totalPatients > 0 ? (
                   <Text size="m--bold">
-                    {totalPatients} {declension(['пациент', 'пациента', 'пациентов'],totalPatients)} в сумме
+                    {getFormattedNumber(totalPatients)} {declension(['пациент', 'пациента', 'пациентов'],parseInt(totalPatients, 10))} в сумме
                   </Text>
                 ) : ''}
+                {patientsDiff !== 0 && !isNaN(patientsDiff) && (
+                  <>
+                    <br/>
+                    <Text color="error" size="m--bold">
+                      {patientsDiff > 0 ? 'Добавьте' : 'Уберите'} {Math.abs(getFormattedNumber(patientsDiff))} {declension(['пациента', 'пациентов', 'пациентов'],parseInt(patientsDiff, 10))}
+                    </Text>
+                  </>
+                )}
               </div>
             </td>
           </tr>
@@ -426,7 +405,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         className={styles.form}
         onSubmit={handleSubmit}>
         <ActionBar
-          nextBtnDisabled={packsDiff !== 0 }
+          nextBtnDisabled={patientsDiff !== 0 }
           onPrevButtonClick={() => navigate('/reports')}
           prevBtnText="Отмена"
           nextBtnText="Перейти к анализу затрат"

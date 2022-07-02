@@ -39,9 +39,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
 
       return {
         packages: '',
-        packagesTouched: false,
         patients: '',
-        patientsTouched: false,
         packsPsa: '',
         packsRa: '',
         packsSpa: '',
@@ -87,14 +85,10 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     const newData = data.map((item) => {
       if (item.label === label) {
         const res = {...item}
-        let isTouched = true
-        if (!val) {
-          isTouched = false
-        }
+
         let newVal = val
         if (val < 0) {
-          newVal = 0
-          isTouched = false
+          newVal = ""
         }
 
         if (patientsSelect === 'quantity' && val > 1_000_000_000) {
@@ -109,7 +103,6 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
         return {
           ...updatedData,
           ...getPacksValue(updatedData, patientsSelect),
-          patientsTouched: isTouched
         }
       }
       return item
@@ -126,14 +119,9 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
       if (item.label === label) {
         const res = {...item}
         let newVal = val
-        let isTouched = true
-        if (!val) {
-          isTouched = false
-        }
 
         if (val < 0) {
-          newVal = 0
-          isTouched = false
+          newVal = ""
         }
         if (packagesSelect === 'quantity' && val > 1_000_000_000) {
           newVal = 1_000_000_000
@@ -146,7 +134,6 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
         return {
           ...updatedData,
           ...getPatientsValue(updatedData, packagesSelect),
-          packagesTouched: isTouched,
         }
       }
       return item
@@ -155,12 +142,16 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     setData(newData)
   }
 
+  const getFormattedNumber = (num) => {
+    return Number(Number(num).toFixed(2))
+  }
+
   const totalPacks = data.reduce((acc, curr) => {
     return acc + Math.round(curr.packages)
   }, 0)
 
   const totalPatients = data.reduce((acc, curr) => {
-    return acc + Math.round(curr.patients)
+    return acc + getFormattedNumber(curr.patients)
   }, 0)
 
   const handleDiseaseInput = (e, label) => {
@@ -296,7 +287,6 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="packages"
-                           readOnly={tradeOption.patientsTouched}
                            value={tradeOption.packages === '' ? '' : Math.round(tradeOption.packages)}
                            onChange={(e) => handlePacks(e, tradeOption.label)}
                     />
@@ -362,8 +352,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
                     <Input type="number"
                            name="patients"
-                           readOnly={tradeOption.packagesTouched}
-                           value={tradeOption.patients === '' ? '' : Math.floor(tradeOption.patients)}
+                           readOnly
+                           value={tradeOption.patients === '' ? '' : getFormattedNumber(tradeOption.patients)}
                            onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
                   </div>
@@ -371,16 +361,15 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                 <td>
                   <div className={`${styles['with-input']}`}>
                     <Input
-                      onChange={(e) => handleDiseaseInput(e, tradeOption.label)}
                       type="number"
                       name="patientsRa"
-                      readOnly={tradeOption.enabledInputs === 1}
+                      readOnly
                       disabled={tradeOption.ra.disabled}
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
                           patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
-                          (tradeOption.patientsRa === '' ? '' : Math.floor(tradeOption.patientsRa))
+                          (tradeOption.patientsRa === '' ? '' : getFormattedNumber(tradeOption.patientsRa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -391,16 +380,15 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                 <td>
                   <div className={`${styles['with-input']}`}>
                     <Input
-                      onChange={(e) => handleDiseaseInput(e, tradeOption.label)}
                       name="patientsPsa"
-                      readOnly={tradeOption.enabledInputs === 1}
+                      readOnly
                       type="number"
                       disabled={tradeOption.psa.disabled}
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
                           patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
-                          (tradeOption.patientsPsa === '' ? '' : Math.floor(tradeOption.patientsPsa))
+                          (tradeOption.patientsPsa === '' ? '' : getFormattedNumber(tradeOption.patientsPsa))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -413,14 +401,13 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                     <Input
                       type="number"
                       name="patientsSpa"
-                      readOnly={tradeOption.enabledInputs === 1}
-                      onChange={(e) => handleDiseaseInput(e, tradeOption.label)}
+                      readOnly
                       disabled={tradeOption.spa.disabled}
                       error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
                           patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
-                          (tradeOption.patientsSpa === '' ? '' : Math.floor(tradeOption.patientsSpa))
+                          (tradeOption.patientsSpa === '' ? '' : getFormattedNumber(tradeOption.patientsSpa))
                       }
                     />
                     {patientsSelect === 'percent' && (

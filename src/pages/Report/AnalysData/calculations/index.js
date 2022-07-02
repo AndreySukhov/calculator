@@ -216,6 +216,7 @@ export const getExpensePlanBudget = ({
    packagesUnit,
    patientsUnit
  }) => {
+
   if (!data) {
     return 0
   }
@@ -325,4 +326,11 @@ export const getEfficiency = ({
 
   return Number((packsRequired * getIncreaseVal(item.pricePerPack, tradeIncrease)).toFixed(2)) +
     Number((metoDjectRequired * getIncreaseVal(metoDject.pricePerPack, tradeIncrease)).toFixed(2))
+}
+
+export const getFormattedNumber = (num) => {
+  if (num === '') {
+    return ''
+  }
+  return Number(Number(num).toFixed(2))
 }

@@ -429,3 +429,10 @@ export const convertByUnits = (data, name, newSelectVal) => {
     }
   }
 }
+
+export const getFormattedNumber = (num) => {
+  if (num === '') {
+    return ''
+  }
+  return Number(Number(num).toFixed(2))
+}

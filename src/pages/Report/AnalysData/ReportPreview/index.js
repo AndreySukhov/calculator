@@ -19,7 +19,7 @@ import {
   getExpenseCurrentBudget, getExpenseCurrentBudgetItem,
   getExpensePercentDiff,
   getExpensePlanBudget, getExpensePlanBudgetItem,
-  getIncreaseVal, getSavedPerPatientMoney
+  getIncreaseVal, getSavedPerPatientMoney, getFormattedNumber
 } from '../calculations';
 import { regionsData } from '../../../../data';
 import {
@@ -211,9 +211,28 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
             const label = context.dataset.label
             const current = reportData.data.find((reportItem) => reportItem.label === label)
             if (context.label === 'Планируемый') {
-              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(current.planPatients)} чел.`
+              let patientsNum = 0
+              if (rootNosologia === 'ra') {
+                patientsNum = current.planPacksRa
+              } else if (rootNosologia === 'psa') {
+                patientsNum = current.planPacksPsa
+              } else {
+                patientsNum = current.planPacksSpa
+              }
+
+              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
             }
-            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(current.patients)} чел.`
+
+            let patientsNum = 0
+            if (rootNosologia === 'ra') {
+              patientsNum = current.patientsRa
+            } else if (rootNosologia === 'psa') {
+              patientsNum = current.patientsPsa
+            } else {
+              patientsNum = current.patientsSpa
+            }
+
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
           }
         }
       }

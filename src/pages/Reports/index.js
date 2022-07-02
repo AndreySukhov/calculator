@@ -57,7 +57,7 @@ export const Reports = () => {
                 }}>
                   <Text size="m">
                     Отчёт от {date.toLocaleString('ru', {
-                      year: 'numeric', month: 'long', day: 'numeric'
+                      year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'
                     }
                   )} ({report?.regionLabel})
                   </Text>

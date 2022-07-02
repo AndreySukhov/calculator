@@ -13,7 +13,8 @@ import {
   getExpensePercentDiff,
   getExpensePlanBudget,
   getExpensePlanBudgetItem,
-  getExpenseCurrentBudgetItem, getPricePackPerPatient
+  getExpenseCurrentBudgetItem, getPricePackPerPatient,
+  getFormattedNumber
 } from '../calculations';
 import {
   Chart as ChartJS,
@@ -81,10 +82,12 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
     packagesUnit: reportData.packagesSelect,
     patientsUnit: reportData.patientsSelect,
   });
+
   const budgetDiff = getExpensePercentDiff(currentBudget, planBudget);
   const includeFirst = healYear.includes(1)
   const includeSecond = healYear.includes(2)
   const includeThird = healYear.includes(3)
+
 
   const dataSets = reportData.data
     .map((item) => {
@@ -190,9 +193,28 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
             const label = context.dataset.label
             const current = reportData.data.find((reportItem) => reportItem.label === label)
             if (context.label === 'Планируемый') {
-              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(current.planPatients)} чел.`
+              let patientsNum = 0
+              if (nosologia === 'ra') {
+                patientsNum = current.planPacksRa
+              } else if (nosologia === 'psa') {
+                patientsNum = current.planPacksPsa
+              } else {
+                patientsNum = current.planPacksSpa
+              }
+
+              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
             }
-            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(current.patients)} чел.`
+
+            let patientsNum = 0
+            if (nosologia === 'ra') {
+              patientsNum = current.patientsRa
+            } else if (nosologia === 'psa') {
+              patientsNum = current.patientsPsa
+            } else {
+              patientsNum = current.patientsSpa
+            }
+
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
           }
         }
       }
