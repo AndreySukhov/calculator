@@ -11,9 +11,32 @@ import {
   getPatientsValue,
   getIsPatientsError,
   getIsPacksError,
-  convertByUnits,
+  convertByUnits, percentToValue, valueToPercent,
 } from './calculations'
 import { isNaN } from 'formik';
+
+const getFormattedNumber = (num) => {
+  return Number(Number(num).toFixed(2))
+}
+
+const formatByUnit = ({val, data, unit, base}) => {
+  if (unit === base) {
+    return val
+  } else if (unit === 'quantity') {
+    return valueToPercent(val, data.packages)
+  }
+
+  return val
+}
+
+const formatPatientsByUnit = ({val, data, unit, base}) => {
+  if (unit === base) {
+    return val
+  } else if (unit === 'percent') {
+    return Math.round(valueToPercent(val, data.patients))
+  }
+  return val
+}
 
 export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId, tradeIncrease, stepLabel}) => {
   const [packagesSelect, setPackagesSelect] = useState('percent');
@@ -69,14 +92,13 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     const name = e.target.name;
     if (name === 'packages') {
       setPackagesSelect(val)
+      const newData = convertByUnits(data,name, val)
+      setData(newData)
     }
 
     if (name === 'patients') {
       setPatientsSelect(val)
     }
-
-    const newData = convertByUnits(data,name, val)
-    setData(newData)
   }
 
   const handlePatients = (e, label) => {
@@ -142,16 +164,12 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
     setData(newData)
   }
 
-  const getFormattedNumber = (num) => {
-    return Number(Number(num).toFixed(2))
-  }
-
   const totalPacks = data.reduce((acc, curr) => {
     return acc + Math.round(curr.packages)
   }, 0)
 
   const totalPatients = data.reduce((acc, curr) => {
-    return acc + getFormattedNumber(curr.patients)
+    return getFormattedNumber(acc + curr.patients)
   }, 0)
 
   const handleDiseaseInput = (e, label) => {
@@ -365,11 +383,21 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       name="patientsRa"
                       readOnly
                       disabled={tradeOption.ra.disabled}
-                      error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.ra.disabled && tradeOption.enabledInputs === 1) ?
-                          patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
-                          (tradeOption.patientsRa === '' ? '' : getFormattedNumber(tradeOption.patientsRa))
+                          patientsSelect === 'percent' ? 100 : formatPatientsByUnit({
+                            val: getFormattedNumber(tradeOption.patients),
+                            data: tradeOption,
+                            unit: patientsSelect,
+                            base: 'quantity'
+                          }) :
+                          (tradeOption.patientsRa === '' ? '' :
+                            formatPatientsByUnit({
+                              val: getFormattedNumber(tradeOption.patientsRa),
+                              data: tradeOption,
+                              unit: patientsSelect,
+                              base: 'quantity'
+                            }))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -384,11 +412,20 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       readOnly
                       type="number"
                       disabled={tradeOption.psa.disabled}
-                      error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.psa.disabled && tradeOption.enabledInputs === 1) ?
-                          patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
-                          (tradeOption.patientsPsa === '' ? '' : getFormattedNumber(tradeOption.patientsPsa))
+                          patientsSelect === 'percent' ? 100 : formatPatientsByUnit({
+                            val: getFormattedNumber(tradeOption.patients),
+                            data: tradeOption,
+                            unit: patientsSelect,
+                            base: 'quantity'
+                          }) :
+                          (tradeOption.patientsPsa === '' ? '' : formatPatientsByUnit({
+                            val: getFormattedNumber(tradeOption.patientsPsa),
+                            data: tradeOption,
+                            unit: patientsSelect,
+                            base: 'quantity'
+                          }))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -403,11 +440,20 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                       name="patientsSpa"
                       readOnly
                       disabled={tradeOption.spa.disabled}
-                      error={getIsPatientsError(tradeOption, patientsSelect)}
                       value={
                         (!tradeOption.spa.disabled && tradeOption.enabledInputs === 1) ?
-                          patientsSelect === 'percent' ? 100 : Math.floor(tradeOption.patients) :
-                          (tradeOption.patientsSpa === '' ? '' : getFormattedNumber(tradeOption.patientsSpa))
+                          patientsSelect === 'percent' ? 100 : formatPatientsByUnit({
+                            val: getFormattedNumber(tradeOption.patients),
+                            data: tradeOption,
+                            unit: patientsSelect,
+                            base: 'quantity'
+                          }) :
+                          (tradeOption.patientsSpa === '' ? '' : formatPatientsByUnit({
+                            val: getFormattedNumber(tradeOption.patientsSpa),
+                            data: tradeOption,
+                            unit: patientsSelect,
+                            base: 'quantity'
+                          }))
                       }
                     />
                     {patientsSelect === 'percent' && (
@@ -473,8 +519,34 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                 patientsSelect === 'percent' ? 100 : Number(dataItem.patients) :
                 (dataItem.patientsSpa === '' ? '' : Number(dataItem.patientsSpa))
             }
+          }).map((dataItem) => {
+            let isPacksQuantity = packagesSelect === 'quantity'
+
+            return {
+              ...dataItem,
+              packsPsa: isPacksQuantity ? formatByUnit({
+                val: dataItem.packsPsa,
+                data: dataItem,
+                unit: packagesSelect,
+                base: 'percent'
+              }) : dataItem.packsPsa,
+              packsRa: isPacksQuantity ? formatByUnit({
+                val: dataItem.packsRa,
+                data: dataItem,
+                unit: packagesSelect,
+                base: 'percent'
+              }) : dataItem.packsRa,
+              packsSpa: isPacksQuantity ? formatByUnit({
+                val: dataItem.packsSpa,
+                data: dataItem,
+                unit: packagesSelect,
+                base: 'percent'
+              }) : dataItem.packsSpa,
+            }
           })
+
           setReportId(date)
+
           localStorage.setItem(`${date}-report-id`, JSON.stringify({
             data: newData,
             regionId,

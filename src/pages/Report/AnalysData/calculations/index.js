@@ -134,7 +134,6 @@ export const getExpensePlanBudgetItem = ({
   const { planPatientsPsa, planPatientsRa, planPatientsSpa, planPatients } = item
   const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
-
   if (planPatientsPsa && nosologia === 'psa') {
     let percent = null
 

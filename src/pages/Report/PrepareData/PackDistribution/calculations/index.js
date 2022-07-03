@@ -1,5 +1,5 @@
-const percentToValue = (percent, num) => (percent / 100) * num;
-function valueToPercent(partialValue, totalValue) {
+export const percentToValue = (percent, num) => (percent / 100) * num;
+export function valueToPercent(partialValue, totalValue) {
   return (100 * partialValue) / totalValue;
 }
 
@@ -269,7 +269,6 @@ export const getPacksValue = (data, patientsSelect) => {
 }
 
 export const getPlanPacksValue = (data, patientsSelect) => {
-  const planPatientsCoef = data.planPatients / data.patients
   return getPatientPerPack({
     patients: data.planPatients,
     psaYear1: data.psa.initial.year1,
@@ -281,9 +280,9 @@ export const getPlanPacksValue = (data, patientsSelect) => {
     psaDisabled: data.psa.disabled && !data.psa.defaultChecked,
     raDisabled: data.ra.disabled && !data.ra.defaultChecked,
     spaDisabled: data.spa.disabled && !data.spa.defaultChecked,
-    patientsPsa: planPatientsCoef * data.patientsPsa,
-    patientsRa: planPatientsCoef * data.patientsRa,
-    patientsSpa: planPatientsCoef * data.patientsSpa,
+    patientsPsa: data.planPatientsPsa,
+    patientsRa: data.planPatientsRa,
+    patientsSpa: data.planPatientsSpa,
     enabledInputs: data.enabledInputs,
     patientsSelect
   })
@@ -306,8 +305,11 @@ export const getIsPacksError = (option, units) => {
   if (!option.ra.disabled) {
     compareNum += Number(option.packsRa)
   }
+  if (units === 'quantity') {
+    return Math.round(compareNum) !== Math.round(option.packages)
+  }
 
-  return Math.round(compareNum) !== (units === 'quantity' ? Math.round(option.packages) : 100)
+  return Math.round(compareNum) !== 100
 }
 
 export const getIsPatientsError = (option, units) => {
@@ -327,7 +329,11 @@ export const getIsPatientsError = (option, units) => {
   if (!option.ra.disabled) {
     compareNum += Number(option.patientsRa)
   }
-  return Math.round(compareNum) !== (units === 'quantity' ? Math.round(option.patients) : 100)
+  if (units === 'quantity') {
+    return Math.round(compareNum) !== Math.round(option.patients)
+  }
+
+  return Math.round(compareNum) !== 100
 }
 
 export const convertByUnits = (data, name, newSelectVal) => {
@@ -352,6 +358,7 @@ export const convertByUnits = (data, name, newSelectVal) => {
         if (newData.packsRa) {
           newData.packsRa = valueToPercent(Number(item.packsRa), Number(item.packages))
         }
+
         return newData
       })
     } else if (newSelectVal === 'quantity') {
@@ -374,6 +381,7 @@ export const convertByUnits = (data, name, newSelectVal) => {
         if (item.packsRa) {
           newData.packsRa = percentToValue(Number(item.packsRa), Math.round(item.packages))
         }
+
         return newData
       })
     }

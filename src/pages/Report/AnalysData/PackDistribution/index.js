@@ -9,11 +9,31 @@ import { declension } from '../../../../utils/declension';
 import { ReactComponent as Clear } from '../../../../assets/images/clear-bordered.svg';
 import { ReactComponent as Chart } from '../../../../assets/images/chart-bordered.svg';
 import {
-  convertByUnits,
   getPlanPacksValue,
-  getPlanPatientsValue, getFormattedNumber
+  getPlanPatientsValue, getFormattedNumber,
+  valueToPercent, percentToValue
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
+import { getIncreaseVal } from '../calculations';
+
+const formatByUnit = ({val, data, unit, base}) => {
+  if (unit === base) {
+    return val
+  } else if (unit === 'quantity') {
+    return percentToValue(val, data.packages)
+  }
+
+  return val
+}
+
+const formatPatientsByUnit = ({val, data, unit, base}) => {
+  if (unit === base) {
+    return val
+  } else if (unit === 'percent') {
+    return Math.round(valueToPercent(val, data.patients))
+  }
+  return val
+}
 
 export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) => {
   const [isFull, setIsFull] = useState(false)
@@ -66,7 +86,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     })
   });
 
-
   const handleSelect = (e) => {
 
     const val = e.target.value;
@@ -77,23 +96,20 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     if (name === 'patients') {
       setPatientsSelect(val)
     }
-
-    const newData = convertByUnits(data,name, val)
-    setData(newData)
   }
 
   const totalPatients = data.reduce((acc, curr) => {
     if (isNaN(curr.planPatients) || curr.planPatients === '') {
-      return acc
+      return getFormattedNumber(acc)
     }
-    return acc + getFormattedNumber(curr.planPatients)
+    return getFormattedNumber(acc) + getFormattedNumber(curr.planPatients)
   }, 0)
 
   const totalFactPatients = data.reduce((acc, curr) => {
-    if (isNaN(curr.patients)) {
-      return acc
+    if (isNaN(curr.patients) || curr.planPatients === '') {
+      return getFormattedNumber(acc)
     }
-    return acc + getFormattedNumber(curr.patients)
+    return getFormattedNumber(acc) + getFormattedNumber(curr.patients)
   }, 0)
 
   const handlePatients = (e, label) => {
@@ -116,10 +132,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           planPatients: newVal,
         }
 
-        const planPackages = getPlanPacksValue(updatedData, patientsSelect)
-
         const planPatients = getPlanPatientsValue(updatedData, packagesSelect)
-
 
         const planPatientsData = {
           planPatientsRa: planPatients.patientsRa,
@@ -127,6 +140,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           planPatientsSpa: planPatients.patientsSpa,
         }
 
+        const planPackages = getPlanPacksValue({...updatedData, ...planPatientsData}, patientsSelect)
 
         const planPackagesData = {
           planPackages: planPackages.packages,
@@ -134,14 +148,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           planPacksPsa: planPackages.packsPsa,
           planPacksSpa: planPackages.packsSpa,
         }
-
-        console.log(newVal, 'newVal')
-
-        console.log({
-          ...updatedData,
-          ...planPackagesData,
-          ...planPatientsData
-        })
 
         return {
           ...updatedData,
@@ -160,7 +166,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
   }, 0)
 
 
-  const patientsDiff = totalFactPatients - totalPatients
+  const patientsDiff = getFormattedNumber(totalFactPatients) - getFormattedNumber(totalPatients)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -175,8 +181,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
     if (storedData) {
       window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
     }
-
-    console.log(updatedData, 'updatedData')
 
     onSubmit(updatedData)
   }
@@ -249,6 +253,11 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
             <th className={styles['bordered']}>
               МНН
             </th>
+            {!isFull && (
+              <th>
+                Стоимость
+              </th>
+            )}
             <th>
               Факт
             </th>
@@ -302,6 +311,11 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                 <td className={styles['bordered']}>
                   {tradeOption.mnn}
                 </td>
+                {!isFull && (
+                  <td>
+                    {getIncreaseVal(Number(tradeOption.pricePerPack), Number(reportData.tradeIncrease))}
+                  </td>
+                )}
                 <td>
                   {Math.round(tradeOption.packages)}
                 </td>
@@ -317,16 +331,32 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <>
                     <td>
                       <Text size="m">
-                      {tradeOption.ra.disabled ? '-' : <>{tradeOption.packsRa}</>}
-                    </Text></td>
+                        {tradeOption.ra.disabled ? '-' : <>{formatByUnit({
+                          val: tradeOption.packsRa,
+                          data: tradeOption,
+                          unit: packagesSelect,
+                          base: 'percent',
+                        })}</>}
+                      </Text>
+                    </td>
                     <td>
                       <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{tradeOption.packsPsa}</>}
+                        {tradeOption.psa.disabled ? '-' : <>{formatByUnit({
+                          val: tradeOption.packsPsa,
+                          data: tradeOption,
+                          unit: packagesSelect,
+                          base: 'percent'
+                        })}</>}
                       </Text>
                     </td>
                     <td className={`${styles['bordered']}`}>
                       <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{tradeOption.packsSpa}</>}
+                        {tradeOption.spa.disabled ? '-' : <>{formatByUnit({
+                          val: tradeOption.packsSpa,
+                          data: tradeOption,
+                          unit: packagesSelect,
+                          base: 'percent'
+                        })}</>}
                       </Text>
                     </td>
                   </>
@@ -336,10 +366,11 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                 </td>
                 <td>
                   <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
-                    <Input type="number"
-                           name="patients"
-                           value={getFormattedNumber(tradeOption.planPatients)}
-                           onChange={(e) => handlePatients(e, tradeOption.label)}
+                    <Input
+                      type="number"
+                      name="patients"
+                      value={getFormattedNumber(tradeOption.planPatients)}
+                      onChange={(e) => handlePatients(e, tradeOption.label)}
                     />
                   </div>
                 </td>
@@ -347,16 +378,31 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                   <>
                     <td>
                       <Text size="m">
-                        {tradeOption.ra.disabled ? '-' : <>{getFormattedNumber(tradeOption.patientsRa)}</>}
+                        {tradeOption.ra.disabled ? '-' : <>{formatPatientsByUnit({
+                          val: getFormattedNumber(tradeOption.patientsRa),
+                          data: tradeOption,
+                          unit: patientsSelect,
+                          base: 'quantity'
+                        })}</>}
                       </Text></td>
                     <td>
                       <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{getFormattedNumber(tradeOption.patientsPsa)}</>}
+                        {tradeOption.psa.disabled ? '-' : <>{formatPatientsByUnit({
+                          val: getFormattedNumber(tradeOption.patientsPsa),
+                          data: tradeOption,
+                          unit: patientsSelect,
+                          base: 'quantity'
+                        })}</>}
                       </Text>
                     </td>
                     <td className={`${styles['bordered']}`}>
                       <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{getFormattedNumber(tradeOption.patientsPsa)}</>}
+                        {tradeOption.spa.disabled ? '-' : <>{formatPatientsByUnit({
+                          val: getFormattedNumber(tradeOption.patientsSpa),
+                          data: tradeOption,
+                          unit: patientsSelect,
+                          base: 'quantity'
+                        })}</>}
                       </Text>
                     </td>
                   </>

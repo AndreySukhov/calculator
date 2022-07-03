@@ -211,11 +211,11 @@ export const ReportSubmit = ({
             if (context.label === 'Планируемый') {
               let patientsNum = 0
               if (rootNosologia === 'ra') {
-                patientsNum = current.planPacksRa
+                patientsNum = current.planPatientsRa
               } else if (rootNosologia === 'psa') {
-                patientsNum = current.planPacksPsa
+                patientsNum = current.planPatientsPsa
               } else {
-                patientsNum = current.planPacksSpa
+                patientsNum = current.planPatientsPsa
               }
 
               return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`

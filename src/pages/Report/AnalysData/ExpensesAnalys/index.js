@@ -195,11 +195,11 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
             if (context.label === 'Планируемый') {
               let patientsNum = 0
               if (nosologia === 'ra') {
-                patientsNum = current.planPacksRa
+                patientsNum = current.planPatientsRa
               } else if (nosologia === 'psa') {
-                patientsNum = current.planPacksPsa
+                patientsNum = current.planPatientsPsa
               } else {
-                patientsNum = current.planPacksSpa
+                patientsNum = current.planPatientsSpa
               }
 
               return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
