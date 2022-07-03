@@ -43,7 +43,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
 
   const [data, setData] = useState(() => {
     return reportData.data.map((option) => {
-
       let enabledInputs = 0
       const psaEnabled = !option.psa.disabled && option.psa.checked
       const raEnabled = !option.ra.disabled && option.ra.checked
