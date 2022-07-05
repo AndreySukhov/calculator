@@ -15,6 +15,7 @@ import {
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
 import { getIncreaseVal } from '../calculations';
+import { getLocalCurrencyStr } from '../../../../utils/getLocalCurrencyStr';
 
 const formatByUnit = ({val, data, unit, base}) => {
   if (unit === base) {
@@ -58,16 +59,27 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         enabledInputs += 1
       }
 
+      const newVal = Math.floor(option.patients)
+      const updatedData = {
+        ...option,
+        planPatients: newVal,
+        planPackages: option.packages
+      }
+
+      // const planPackages = getPlanPacksValue(updatedData, 'percent')
+      //
+      // const planPackagesData = {
+      //   planPackages: planPackages.packages,
+      //   planPacksRa: planPackages.packsRa,
+      //   planPacksPsa: planPackages.packsPsa,
+      //   planPacksSpa: planPackages.packsSpa,
+      //   planPatientsRa: planPackages.patientsRa,
+      //   planPatientsPsa: planPackages.patientsPsa,
+      //   planPatientsSpa: planPackages.patientsSpa,
+      // }
+
       return {
         enabledInputs,
-        planPatients: option.patients,
-        planPatientsRa: option.patientsRa,
-        planPatientsPsa: option.patientsPsa,
-        planPatientsSpa: option.patientsSpa,
-        planPackages: option.packages,
-        planPacksRa: option.packsRa,
-        planPacksPsa: option.packsPsa,
-        planPacksSpa: option.packsSpa,
         psa: {
           ...option.psa,
           disabled: !psaEnabled
@@ -80,7 +92,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           ...option.spa,
           disabled: !spaEnabled
         },
-        ...option
+        ...option,
+        ...updatedData,
+        // ...planPackagesData
       }
     })
   });
@@ -105,14 +119,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
   }, 0)
 
   const totalFactPatients = data.reduce((acc, curr) => {
-    if (isNaN(curr.patients) || curr.planPatients === '') {
+    if (isNaN(curr.patients) || curr.patients === '') {
       return getFormattedNumber(acc)
     }
     return getFormattedNumber(acc) + getFormattedNumber(curr.patients)
   }, 0)
 
   const handlePatients = (e, label) => {
-    let val = e.target.value === '' ? '' : Number(e.target.value)
+    let val = e.target.value === '' ? '' : parseInt(e.target.value, 10)
 
     const newData = data.map((item) => {
       if (item.label === label) {
@@ -131,27 +145,24 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           planPatients: newVal,
         }
 
-        const planPatients = getPlanPatientsValue(updatedData, packagesSelect)
-
-        const planPatientsData = {
-          planPatientsRa: planPatients.patientsRa,
-          planPatientsPsa: planPatients.patientsPsa,
-          planPatientsSpa: planPatients.patientsSpa,
+        let itemRes = {
+          ...updatedData
         }
 
-        const planPackages = getPlanPacksValue({...updatedData, ...planPatientsData}, patientsSelect)
+        const planPackages = getPlanPacksValue(updatedData, patientsSelect)
 
         const planPackagesData = {
           planPackages: planPackages.packages,
           planPacksRa: planPackages.packsRa,
           planPacksPsa: planPackages.packsPsa,
           planPacksSpa: planPackages.packsSpa,
+          planPatientsRa: planPackages.patientsRa,
+          planPatientsPsa: planPackages.patientsPsa,
+          planPatientsSpa: planPackages.patientsSpa,
         }
-
         return {
-          ...updatedData,
-          ...planPackagesData,
-          ...planPatientsData
+          ...itemRes,
+          ...planPackagesData
         }
       }
       return item
@@ -163,7 +174,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
   const totalFactPacks = data.reduce((acc, curr) => {
     return acc + parseInt(curr.packages, 10)
   }, 0)
-
 
   const patientsDiff = getFormattedNumber(totalFactPatients) - getFormattedNumber(totalPatients)
 
@@ -202,7 +212,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         <table className={styles.table}>
           <thead>
           <tr>
-            <th colSpan={3} className={styles['bordered']}>
+            <th colSpan={isFull ? 3 : 4} className={styles['bordered']}>
               <Text size="text--xl-bold" color="info">
                 Препараты
               </Text>
@@ -231,14 +241,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
             </th>
             {isFull && (
               <th colSpan={3}>
-                <select name="patients" onChange={handleSelect} value={patientsSelect} className={styles.select}>
-                  <option value="percent" selected={patientsSelect === 'patients'}>
-                    Проценты
-                  </option>
-                  <option value="quantity" selected={patientsSelect === 'quantity'}>
-                    Количество
-                  </option>
-                </select>
+                Количество
               </th>
             )}
           </tr>
@@ -249,14 +252,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
             <th>
               ТН
             </th>
-            <th className={styles['bordered']}>
-              МНН
-            </th>
             {!isFull && (
               <th>
                 Стоимость
               </th>
             )}
+            <th className={styles['bordered']}>
+              МНН
+            </th>
             <th>
               Факт
             </th>
@@ -307,14 +310,14 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
                 <td>
                   {tradeOption.label}
                 </td>
+                {!isFull && (
+                  <td>
+                    {getLocalCurrencyStr(getIncreaseVal(Number(tradeOption.pricePerPack), Number(reportData.tradeIncrease)))}
+                  </td>
+                )}
                 <td className={styles['bordered']}>
                   {tradeOption.mnn}
                 </td>
-                {!isFull && (
-                  <td>
-                    {getIncreaseVal(Number(tradeOption.pricePerPack), Number(reportData.tradeIncrease))}
-                  </td>
-                )}
                 <td>
                   {Math.round(tradeOption.packages)}
                 </td>

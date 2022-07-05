@@ -44,16 +44,23 @@ const calculatePatientsPerPacks = ({
     return res
   }
 
+  // console.log(packsPsa, 'packsPsa')
+
   if (packsPsa) {
     let psaTotal = null
     if (packagesSelect === 'percent') {
       const percent = (packsPsa / 100)
+      // console.log(percent, 'percent')
+      // console.log(psaYear1, 'psaYear1')
+      // console.log(packs, 'packs')
+      // console.log(psaYearNext, 'psaYearNext')
       psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
     } else {
       const percent = (packsPsa / packs)
       psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
     }
 
+    console.log(psaTotal, 'psaTotal')
     if (psaTotal) {
       res.patientsPsa = psaTotal
       total = psaTotal
@@ -127,6 +134,7 @@ export const getPatientsValue = (data, packagesSelect) => {
 }
 
 export const getPlanPatientsValue = (data, packagesSelect) => {
+  console.log(data, 'getPlanPatientsValue')
   return calculatePatientsPerPacks({
     packs: data.planPackages,
     psaYear1: data.psa.initial.year1,
@@ -269,6 +277,7 @@ export const getPacksValue = (data, patientsSelect) => {
 }
 
 export const getPlanPacksValue = (data, patientsSelect) => {
+  const planPatientsCoef = data.planPatients / data.patients
   return getPatientPerPack({
     patients: data.planPatients,
     psaYear1: data.psa.initial.year1,
@@ -280,9 +289,9 @@ export const getPlanPacksValue = (data, patientsSelect) => {
     psaDisabled: data.psa.disabled && !data.psa.defaultChecked,
     raDisabled: data.ra.disabled && !data.ra.defaultChecked,
     spaDisabled: data.spa.disabled && !data.spa.defaultChecked,
-    patientsPsa: data.planPatientsPsa,
-    patientsRa: data.planPatientsRa,
-    patientsSpa: data.planPatientsSpa,
+    patientsPsa: planPatientsCoef * data.patientsPsa,
+    patientsRa: planPatientsCoef * data.patientsRa,
+    patientsSpa: planPatientsCoef * data.patientsSpa,
     enabledInputs: data.enabledInputs,
     patientsSelect
   })

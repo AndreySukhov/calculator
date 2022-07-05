@@ -1,14 +1,18 @@
-import { Text } from '../../components/base';
+import { Text, Button } from '../../components/base';
 import styles from './styles.module.css'
 import headerLogo from '../../assets/images/header-logo.svg';
 import document from '../../assets/images/reports/document.svg'
 import info from '../../assets/images/reports/info.svg'
 import { getStoredReports } from '../../utils/storedDataHandlers';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 
 export const Reports = () => {
-  const reports = getStoredReports()
+  const [reports, setReports] = useState([])
+  useEffect(() => {
+    setReports(getStoredReports())
+  }, [])
   const navigate = useNavigate();
   const { search } = useLocation()
   const handleCreateReportCopy = (id) => {
@@ -19,6 +23,12 @@ export const Reports = () => {
       navigate(`/reports/${newId}`)
     }
   }
+
+  const handleRemoveReport = (id) => {
+    setReports(reports.filter((report) => report.date !== id))
+    localStorage.removeItem(`${id}-report-id`)
+  }
+
 
   return (
     <div>
@@ -41,13 +51,15 @@ export const Reports = () => {
                 Статус
               </Text>
             </th>
+            <th />
           </tr>
         </thead>
         <tbody>
           {reports?.map((report) => {
             const date = new Date(Number(report?.date))
+            const isSuccess = report?.stepLabel === 'Отправление отчёта'
             return (
-              <tr key={date} className={report?.stepLabel === 'Отправление отчёта' ? styles.success : ''}>
+              <tr key={date} className={isSuccess ? styles.success : ''}>
                 <td onClick={() => {
                   if (search.includes('useReady')) {
                     handleCreateReportCopy(report?.date)
@@ -66,6 +78,13 @@ export const Reports = () => {
                   <Text size="m">
                     {report?.stepLabel}
                   </Text>
+                </td>
+                <td>
+                  {!isSuccess && (
+                    <Button theme="primary" onClick={() => handleRemoveReport(report.date)}>
+                      Удалить
+                    </Button>
+                  )}
                 </td>
               </tr>
             )

@@ -238,14 +238,7 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
               </Text>
             </th>
             <th colSpan={3} className={styles['bordered']}>
-              <select name="patients" onChange={handleSelect} value={patientsSelect} className={styles.select}>
-                <option value="percent" selected={patientsSelect === 'patients'}>
-                  Проценты
-                </option>
-                <option value="quantity" selected={patientsSelect === 'quantity'}>
-                  Количество
-                </option>
-              </select>
+              Количество
             </th>
           </tr>
           <tr>
