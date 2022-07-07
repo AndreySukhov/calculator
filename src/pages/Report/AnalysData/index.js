@@ -27,7 +27,7 @@ const steps = [{
 }]
 
 
-export const AnalysData = ({reportId}) => {
+export const AnalysData = ({reportId, onBackStep}) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [disabledStepper, setDisabledStepper] = useState(false);
   const [data, setData] = useState(null)
@@ -155,6 +155,7 @@ options: patientsOptions
         reportData={data}
         reportId={reportId}
         stepLabel={steps[activeStepIndex].label}
+        onBackStep={onBackStep}
         onSubmit={(data) => {
           setActiveStepIndex(1)
           setData(data)

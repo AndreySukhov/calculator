@@ -30,7 +30,6 @@ import { CHART_HEX } from '../../../../utils/chartHex';
 import { NOSOLOGY_DICTIONARY } from '../../../../utils/nosologyDictionary';
 import { getPatientStatusText } from '../../../../utils/getPatientStatus'
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -202,7 +201,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
                 patientsNum = current.planPatientsSpa
               }
 
-              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
+              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(patientsNum)} чел.`
             }
 
             let patientsNum = 0
@@ -214,7 +213,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
               patientsNum = current.patientsSpa
             }
 
-            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(patientsNum)} чел.`
           }
         }
       }
@@ -244,7 +243,7 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
       tooltip: {
         callbacks: {
           label: function(context) {
-            return `${NOSOLOGY_DICTIONARY[nosologia].short} ${getPatientStatusText(patientStatus)} ${context.dataset.label} год ${getLocalCurrencyStr(context.raw)}
+            return `${NOSOLOGY_DICTIONARY[nosologia].short} ${getPatientStatusText(patientStatus)} ${context.dataset.label} ${getLocalCurrencyStr(context.raw)}
             `
           }
         }

@@ -21,11 +21,24 @@ const steps = [{
   label: 'Распределение упаковок и пациентов по нозологиям'
 }]
 
-export const PrepareData = () => {
+export const PrepareData = ({reportId}) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [regionId, setRegionId] = useState(null)
   const [tradeNamesOptions, setTradeNamesOptions] = useState([])
   const [tradeIncrease, setTradeIncrease] = useState(0)
+  const isNew = reportId === 'new'
+
+  useEffect(() => {
+    if (window.localStorage.getItem(`${reportId}-report-id`)) {
+      setTimeout(() => {
+        const report = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
+        setActiveStepIndex(3)
+        setRegionId(report.regionId)
+        setTradeIncrease(Number(report.tradeIncrease))
+        setTradeNamesOptions(report.data)
+      }, 100)
+    }
+  }, [reportId])
 
   const handleSetStep = (id) => {
     const activeStep = steps.findIndex((step) => step.id === id)
@@ -34,14 +47,7 @@ export const PrepareData = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (activeStepIndex === 0 || activeStepIndex === 1) {
-      setTradeNamesOptions([])
-      setTradeIncrease(0)
-    }
-    if (activeStepIndex === 0 || activeStepIndex === 1 || activeStepIndex === 2) {
-      setTradeIncrease(0)
-    }
-  }, [activeStepIndex])
+  }, [activeStepIndex, reportId])
 
   return (
     <div className={styles.wrap}>
@@ -50,15 +56,19 @@ export const PrepareData = () => {
         activeStepIndex={activeStepIndex}
         onStepClick={handleSetStep}
       />
-      {activeStepIndex === 0 && <ChooseRegion onSubmit={(id) => {
-        setRegionId(id)
-        setActiveStepIndex(1)
-      }} />}
+      {activeStepIndex === 0 && <ChooseRegion
+        isNew={isNew}
+        rootRegion={regionId}
+          onSubmit={(id) => {
+          setRegionId(id)
+          setActiveStepIndex(1)
+        }} />}
       {activeStepIndex === 1 && <TradeNameChoose
         onSubmit={(options) => {
           setTradeNamesOptions(options)
           setActiveStepIndex(2)
         }}
+        tradeNamesOptions={tradeNamesOptions}
         onPrevButtonClick={() => {
           setActiveStepIndex(0)
         }}
@@ -73,6 +83,7 @@ export const PrepareData = () => {
         }}
         tradeNamesOptions={tradeNamesOptions}
         regionId={regionId}
+        rootIncrease={tradeIncrease}
       />}
       {activeStepIndex === 3 && <PackDistribution
         onPrevButtonClick={() => {

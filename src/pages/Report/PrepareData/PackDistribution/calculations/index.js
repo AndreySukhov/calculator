@@ -44,23 +44,16 @@ const calculatePatientsPerPacks = ({
     return res
   }
 
-  // console.log(packsPsa, 'packsPsa')
-
   if (packsPsa) {
     let psaTotal = null
     if (packagesSelect === 'percent') {
       const percent = (packsPsa / 100)
-      // console.log(percent, 'percent')
-      // console.log(psaYear1, 'psaYear1')
-      // console.log(packs, 'packs')
-      // console.log(psaYearNext, 'psaYearNext')
       psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
     } else {
       const percent = (packsPsa / packs)
       psaTotal = ((0.05 * packs / psaYear1) + (0.95 * packs / psaYearNext)) * percent
     }
 
-    console.log(psaTotal, 'psaTotal')
     if (psaTotal) {
       res.patientsPsa = psaTotal
       total = psaTotal
@@ -134,7 +127,6 @@ export const getPatientsValue = (data, packagesSelect) => {
 }
 
 export const getPlanPatientsValue = (data, packagesSelect) => {
-  console.log(data, 'getPlanPatientsValue')
   return calculatePatientsPerPacks({
     packs: data.planPackages,
     psaYear1: data.psa.initial.year1,
@@ -154,7 +146,7 @@ export const getPlanPatientsValue = (data, packagesSelect) => {
   })
 }
 
-const getPatientPerPack = ({
+export const getPatientPerPack = ({
   patients,
   psaYear1,
   raYear1,
@@ -198,10 +190,10 @@ const getPatientPerPack = ({
   if (patientsPsa) {
     let psaTotal = null
     if (patientsSelect === 'percent') {
-      const percent = (patientsPsa / 100)
+      const percent = patientsPsa / 100
       psaTotal = ((0.05 * patients * psaYear1) + (0.95 * patients * psaYearNext)) * percent
     } else {
-      const percent = (patientsPsa / patients)
+      const percent =  patientsPsa / patients
       psaTotal = ((0.05 * patients * psaYear1) + (0.95 * patients * psaYearNext)) * percent
     }
 
@@ -214,10 +206,10 @@ const getPatientPerPack = ({
   if (patientsRa) {
     let raTotal = null
     if (patientsSelect === 'percent') {
-      const percent = (patientsRa / 100)
+      const percent = patientsRa / 100
       raTotal = ((0.05 * patients * raYear1) + (0.95 * patients * raYearNext)) * percent
     } else {
-      const percent = (patientsRa / patients)
+      const percent = patientsRa / patients
       raTotal = ((0.05 * patients * raYear1) + (0.95 * patients * raYearNext)) * percent
     }
     if (raTotal) {
@@ -230,13 +222,13 @@ const getPatientPerPack = ({
     }
   }
 
-  if (patientsSpa) {
+  if (patientsSpa || patientsSpa === 0) {
     let spaTotal = null
     if (patientsSelect === 'percent') {
-      const percent = (patientsSpa / 100)
+      const percent = patientsSpa / 100
       spaTotal = ((0.05 * patients * spaYear1) + (0.95 * patients * spaYearNext)) * percent
     } else {
-      const percent = (patientsSpa / patients)
+      const percent = patientsSpa / patients
       spaTotal = ((0.05 * patients * spaYear1) + (0.95 * patients * spaYearNext)) * percent
     }
     if (spaTotal) {
@@ -278,6 +270,10 @@ export const getPacksValue = (data, patientsSelect) => {
 
 export const getPlanPacksValue = (data, patientsSelect) => {
   const planPatientsCoef = data.planPatients / data.patients
+  const planPatientsPsa = data.patients === 0 ? percentToValue(data.packsPsa, data.planPatients) : planPatientsCoef * data.patientsPsa
+  const planPatientsRa = data.patients === 0 ? percentToValue(data.packsRa, data.planPatients) : planPatientsCoef * data.patientsRa
+  const planPatientsSpa = data.patients === 0 ? percentToValue(data.packsSpa, data.planPatients) : planPatientsCoef * data.patientsSpa
+
   return getPatientPerPack({
     patients: data.planPatients,
     psaYear1: data.psa.initial.year1,
@@ -289,9 +285,9 @@ export const getPlanPacksValue = (data, patientsSelect) => {
     psaDisabled: data.psa.disabled && !data.psa.defaultChecked,
     raDisabled: data.ra.disabled && !data.ra.defaultChecked,
     spaDisabled: data.spa.disabled && !data.spa.defaultChecked,
-    patientsPsa: planPatientsCoef * data.patientsPsa,
-    patientsRa: planPatientsCoef * data.patientsRa,
-    patientsSpa: planPatientsCoef * data.patientsSpa,
+    patientsPsa: planPatientsPsa,
+    patientsRa: planPatientsRa,
+    patientsSpa: planPatientsSpa,
     enabledInputs: data.enabledInputs,
     patientsSelect
   })

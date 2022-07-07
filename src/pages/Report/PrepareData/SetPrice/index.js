@@ -25,9 +25,9 @@ const getPriceWithNds = (price, increase) => {
   return getLocalCurrencyStr(getIncreaseVal(price, increase) * 1.1);
 }
 
-export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubmit}) => {
+export const SetPrice = ({regionId, onPrevButtonClick, tradeNamesOptions, onSubmit, rootIncrease = 0}) => {
 
-  const [tradeIncrease, setTradeIncrease] = useState(0);
+  const [tradeIncrease, setTradeIncrease] = useState(rootIncrease);
   const [isFull, setIsFull] = useState(false);
   const regionTitle = useMemo(() => {
     const regionData = regionsData.find((region) => {

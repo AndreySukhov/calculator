@@ -10,8 +10,8 @@ import { ReactComponent as Clear } from '../../../../assets/images/clear-bordere
 import { ReactComponent as Chart } from '../../../../assets/images/chart-bordered.svg';
 import {
   getPlanPacksValue,
-  getPlanPatientsValue, getFormattedNumber,
-  valueToPercent, percentToValue
+  getFormattedNumber,
+  valueToPercent, percentToValue, getPatientPerPack, getPlanPatientsValue
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
 import { getIncreaseVal } from '../calculations';
@@ -19,9 +19,9 @@ import { getLocalCurrencyStr } from '../../../../utils/getLocalCurrencyStr';
 
 const formatByUnit = ({val, data, unit, base}) => {
   if (unit === base) {
-    return val
+    return getFormattedNumber(val)
   } else if (unit === 'quantity') {
-    return percentToValue(val, data.packages)
+    return getFormattedNumber(percentToValue(val, data.packages))
   }
 
   return val
@@ -36,7 +36,7 @@ const formatPatientsByUnit = ({val, data, unit, base}) => {
   return val
 }
 
-export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) => {
+export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, onBackStep}) => {
   const [isFull, setIsFull] = useState(false)
   const navigate = useNavigate();
   const [packagesSelect, setPackagesSelect] = useState('percent');
@@ -60,23 +60,17 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
       }
 
       const newVal = Math.floor(option.patients)
+      const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
       const updatedData = {
         ...option,
         planPatients: newVal,
-        planPackages: option.packages
+        patients: newVal,
+        packages: option.packages * diffCoef,
+        planPackages: option.packages * diffCoef,
+        patientsRa: option.patientsRa * diffCoef,
+        patientsPsa: option.patientsPsa * diffCoef,
+        patientsSpa: option.patientsSpa * diffCoef,
       }
-
-      // const planPackages = getPlanPacksValue(updatedData, 'percent')
-      //
-      // const planPackagesData = {
-      //   planPackages: planPackages.packages,
-      //   planPacksRa: planPackages.packsRa,
-      //   planPacksPsa: planPackages.packsPsa,
-      //   planPacksSpa: planPackages.packsSpa,
-      //   planPatientsRa: planPackages.patientsRa,
-      //   planPatientsPsa: planPackages.patientsPsa,
-      //   planPatientsSpa: planPackages.patientsSpa,
-      // }
 
       return {
         enabledInputs,
@@ -94,7 +88,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         },
         ...option,
         ...updatedData,
-        // ...planPackagesData
       }
     })
   });
@@ -140,7 +133,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
           newVal = 1_000_000_000
         }
 
-        const updatedData = {
+        let updatedData = {
           ...res,
           planPatients: newVal,
         }
@@ -153,16 +146,11 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
 
         const planPackagesData = {
           planPackages: planPackages.packages,
-          planPacksRa: planPackages.packsRa,
-          planPacksPsa: planPackages.packsPsa,
-          planPacksSpa: planPackages.packsSpa,
-          planPatientsRa: planPackages.patientsRa,
-          planPatientsPsa: planPackages.patientsPsa,
-          planPatientsSpa: planPackages.patientsSpa,
         }
+
         return {
           ...itemRes,
-          ...planPackagesData
+          ...planPackagesData,
         }
       }
       return item
@@ -180,10 +168,23 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
   const handleSubmit = (e) => {
     e.preventDefault()
     const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
+    const newData = data.map((item) => {
+    const planPackages = getPlanPacksValue(item, patientsSelect)
+    const diff = item.planPatients / item.patients
+      return {
+        ...item,
+        planPacksPsa: planPackages.packsPsa,
+        planPacksRa: planPackages.packsRa,
+        planPacksSpa: planPackages.packsSpa,
+        planPatientsPsa: item.patientsPsa * diff,
+        planPatientsRa: item.patientsRa * diff,
+        planPatientsSpa: item.patientsSpa * diff
+      }
+    })
 
     const updatedData = {
       ...storedData,
-      data,
+      data: newData,
       stepLabel
     }
 
@@ -413,7 +414,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
             )
           })}
           <tr>
-            <td colSpan={3} className={styles.bordered} />
+            <td colSpan={isFull ? 3 : 4} className={styles.bordered} />
             <td colSpan={2} className={isFull ? '' : styles.bordered} style={{
               verticalAlign: 'top'
             }}>
@@ -454,7 +455,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel}) =
         onSubmit={handleSubmit}>
         <ActionBar
           nextBtnDisabled={patientsDiff !== 0 }
-          onPrevButtonClick={() => navigate('/reports')}
+          onPrevButtonClick={onBackStep}
           prevBtnText="Отмена"
           nextBtnText="Перейти к анализу затрат"
         />

@@ -10,12 +10,25 @@ import { ReactComponent as Cross } from '../../../../assets/images/cross.svg';
 import styles from './styles.module.css';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 
-
 export const ChooseRegion = ({
-  onSubmit
+  onSubmit,
+  rootRegion
 }) => {
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(() => {
+
+    if (rootRegion) {
+      const newRegion = regionsData.find((region) => {
+        return region.id === rootRegion
+      })
+
+      if (newRegion) {
+        return newRegion?.label
+      }
+    }
+
+    return ''
+  });
   const [autocompleteVisible, setAutocompleteVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -39,7 +52,7 @@ export const ChooseRegion = ({
         Выберите уровень исследования
       </Text>
       <Formik initialValues={{
-        regionId: null,
+        regionId: rootRegion || null,
         level: 'region'
       }}
       onSubmit={(values) => {

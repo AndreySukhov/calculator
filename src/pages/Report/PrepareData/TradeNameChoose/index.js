@@ -7,16 +7,19 @@ import headerLogo from '../../../../assets/images/header-logo.svg';
 import { Checkbox } from '../../../../components/base/forms/Checkbox';
 import { ReactComponent as Cross } from '../../../../assets/images/cross.svg';
 
-const initialValues = tradeNamesData.map((tradeName) => {
-  return {
-    label: tradeName.label,
-    psa: tradeName.psa.defaultChecked,
-    ra: tradeName.ra.defaultChecked,
-    spa: tradeName.spa.defaultChecked
-  }
-})
+export const TradeNameChoose = ({onSubmit, onPrevButtonClick, tradeNamesOptions, isNew}) => {
 
-export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
+  const initialValues = tradeNamesData.map((tradeName) => {
+    const current = tradeNamesOptions.find((item) => item.label === tradeName.label)
+
+    return {
+      label: tradeName.label,
+      psa: tradeName.psa.defaultChecked || (!isNew && current?.psa?.checked),
+      ra: tradeName.ra.defaultChecked || (!isNew && current?.ra?.checked),
+      spa: tradeName.spa.defaultChecked || (!isNew && current?.spa?.checked),
+    }
+  })
+
   return (
     <>
       <Text color="blue" className={styles.heading} size="xxl">
@@ -82,6 +85,12 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
             return option
           })
           setFieldValue('options', newVal)
+        }
+
+        const getNextBtnDisabled = () => {
+          if (isNew) {
+            return JSON.stringify(options) === JSON.stringify(initialValues)
+          }
         }
 
         return (
@@ -176,7 +185,7 @@ export const TradeNameChoose = ({onSubmit, onPrevButtonClick}) => {
               onPrevButtonClick={onPrevButtonClick}
               prevBtnText="Назад"
               nextBtnText="Продолжить"
-              nextBtnDisabled={JSON.stringify(options) === JSON.stringify(initialValues)}
+              nextBtnDisabled={getNextBtnDisabled()}
             >
               <button
                 type="button"

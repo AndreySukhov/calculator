@@ -220,7 +220,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
                 patientsNum = current.planPatientsPsa
               }
 
-              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
+              return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(patientsNum)} чел.`
             }
 
             let patientsNum = 0
@@ -232,7 +232,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
               patientsNum = current.patientsSpa
             }
 
-            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${getFormattedNumber(patientsNum)} чел.`
+            return ` ${label} ${getLocalCurrencyStr(context.raw)} ${Math.floor(patientsNum)} чел.`
           }
         }
       }

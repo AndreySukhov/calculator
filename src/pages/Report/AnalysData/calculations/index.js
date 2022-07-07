@@ -21,7 +21,7 @@ export const getExpenseCurrentBudgetItem = ({
   const { patientsPsa, patientsRa, patientsSpa, patients } = item
   const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
-  if (patientsPsa && nosologia === 'psa') {
+  if (patientsPsa  > 1 && nosologia === 'psa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
@@ -42,7 +42,7 @@ export const getExpenseCurrentBudgetItem = ({
     }
   }
 
-  if (patientsRa && nosologia === 'ra') {
+  if (patientsRa  > 1 && nosologia === 'ra') {
     let percent = null
 
 
@@ -65,7 +65,7 @@ export const getExpenseCurrentBudgetItem = ({
     }
   }
 
-  if (patientsSpa && nosologia === 'spa') {
+  if (patientsSpa > 1 && nosologia === 'spa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
@@ -134,7 +134,7 @@ export const getExpensePlanBudgetItem = ({
   const { planPatientsPsa, planPatientsRa, planPatientsSpa, planPatients } = item
   const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
-  if (planPatientsPsa && nosologia === 'psa') {
+  if (planPatientsPsa > 1 && nosologia === 'psa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
@@ -155,7 +155,7 @@ export const getExpensePlanBudgetItem = ({
     }
   }
 
-  if (planPatientsRa && nosologia === 'ra') {
+  if (planPatientsRa  > 1 && nosologia === 'ra') {
     let percent = null
 
     if (patientsUnit === 'percent') {
@@ -177,7 +177,7 @@ export const getExpensePlanBudgetItem = ({
     }
   }
 
-  if (planPatientsSpa && nosologia === 'spa') {
+  if (planPatientsSpa  > 1 && nosologia === 'spa') {
     let percent = null
 
     if (patientsUnit === 'percent') {
@@ -197,8 +197,6 @@ export const getExpensePlanBudgetItem = ({
       res += ( ((0.05 * Number(planPatientsSpa) * currentNosology.initial.year3) + (0.95 * Number(planPatientsSpa) * currentNosology.secondary.year3)) * percent)
     }
   }
-
-
 
   if (res < 0) {
     return 0

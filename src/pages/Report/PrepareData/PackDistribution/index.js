@@ -535,6 +535,10 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
                 unit: packagesSelect,
                 base: 'percent'
               }) : dataItem.packsSpa,
+              patients: dataItem.patients === '' ? 0 : dataItem.patients,
+              patientsPsa: dataItem.patientsPsa === '' ? 0 : dataItem.patientsPsa,
+              patientsRa: dataItem.patientsRa === '' ? 0 : dataItem.patientsRa,
+              patientsSpa: dataItem.patientsSpa === '' ? 0 : dataItem.patientsSpa,
             }
           })
 
