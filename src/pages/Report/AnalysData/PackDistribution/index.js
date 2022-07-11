@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Input, Text } from '../../../../components/base';
 import { ActionBar } from '../../components/ActionBar';
-import { useNavigate } from 'react-router-dom';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import styles from './styles.module.css'
 import { declension } from '../../../../utils/declension';
@@ -11,7 +10,7 @@ import { ReactComponent as Chart } from '../../../../assets/images/chart-bordere
 import {
   getPlanPacksValue,
   getFormattedNumber,
-  valueToPercent, percentToValue, getPatientPerPack, getPlanPatientsValue
+  valueToPercent, percentToValue,
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
 import { getIncreaseVal } from '../calculations';
@@ -38,7 +37,6 @@ const formatPatientsByUnit = ({val, data, unit, base}) => {
 
 export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, onBackStep}) => {
   const [isFull, setIsFull] = useState(false)
-  const navigate = useNavigate();
   const [packagesSelect, setPackagesSelect] = useState('percent');
   const [patientsSelect, setPatientsSelect] = useState('quantity');
 
@@ -63,10 +61,10 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
       const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
       const updatedData = {
         ...option,
-        planPatients: newVal,
+        planPatients: !reportData.clearStoredAnalys && option.planPatients ? option.planPatients : newVal,
         patients: newVal,
         packages: option.packages * diffCoef,
-        planPackages: option.packages * diffCoef,
+        planPackages: !reportData.clearStoredAnalys && option.planPackages ? option.planPackages : option.packages * diffCoef,
         patientsRa: option.patientsRa * diffCoef,
         patientsPsa: option.patientsPsa * diffCoef,
         patientsSpa: option.patientsSpa * diffCoef,
@@ -185,7 +183,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
     const updatedData = {
       ...storedData,
       data: newData,
-      stepLabel
+      stepLabel,
+      clearStoredAnalys: false,
     }
 
     if (storedData) {

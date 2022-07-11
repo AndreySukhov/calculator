@@ -550,7 +550,8 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
             tradeIncrease,
             stepLabel,
             packagesSelect,
-            patientsSelect
+            patientsSelect,
+            clearStoredAnalys: true
           }))
           setShowModal(true)
         }}>
