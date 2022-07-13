@@ -10,7 +10,7 @@ import { ReactComponent as Chart } from '../../../../assets/images/chart-bordere
 import {
   getPlanPacksValue,
   getFormattedNumber,
-  valueToPercent, percentToValue,
+  valueToPercent, percentToValue, getPatientsValue, getPlanPatientsValue,
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
 import { getIncreaseVal } from '../calculations';
@@ -59,12 +59,13 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
       const newVal = Math.floor(option.patients)
       const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
+
       const updatedData = {
         ...option,
-        planPatients: !reportData.clearStoredAnalys && option.planPatients ? option.planPatients : newVal,
+        planPatients: !reportData.clearStoredAnalys && (option.planPatients || option.planPatients === 0) ? option.planPatients : newVal,
         patients: newVal,
         packages: option.packages * diffCoef,
-        planPackages: !reportData.clearStoredAnalys && option.planPackages ? option.planPackages : option.packages * diffCoef,
+        planPackages: !reportData.clearStoredAnalys && (option.planPackages || option.planPackages === 0) ? option.planPackages : option.packages * diffCoef,
         patientsRa: option.patientsRa * diffCoef,
         patientsPsa: option.patientsPsa * diffCoef,
         patientsSpa: option.patientsSpa * diffCoef,
@@ -168,15 +169,21 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
     const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
     const newData = data.map((item) => {
     const planPackages = getPlanPacksValue(item, patientsSelect)
-    const diff = item.planPatients / item.patients
+      const calculatedPatients = getPlanPatientsValue(item, 'percent')
+      const planPatientsData = {
+        planPatientsPsa: calculatedPatients.patientsPsa,
+        planPatientsRa: calculatedPatients.patientsRa,
+        planPatientsSpa: calculatedPatients.patientsSpa
+      }
+
       return {
         ...item,
         planPacksPsa: planPackages.packsPsa,
         planPacksRa: planPackages.packsRa,
         planPacksSpa: planPackages.packsSpa,
-        planPatientsPsa: item.patientsPsa * diff,
-        planPatientsRa: item.patientsRa * diff,
-        planPatientsSpa: item.patientsSpa * diff
+        planPatientsPsa: planPatientsData.planPatientsPsa,
+        planPatientsRa: planPatientsData.planPatientsRa,
+        planPatientsSpa: planPatientsData.planPatientsSpa,
       }
     })
 

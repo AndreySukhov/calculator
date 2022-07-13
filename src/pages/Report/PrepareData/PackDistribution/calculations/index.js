@@ -101,6 +101,8 @@ const calculatePatientsPerPacks = ({
   }
   if (total) {
     res.patients = Number(parseFloat(total))
+  } else {
+    res.patients = 0
   }
 
   return res;
@@ -269,7 +271,7 @@ export const getPacksValue = (data, patientsSelect) => {
 }
 
 export const getPlanPacksValue = (data, patientsSelect) => {
-  const planPatientsCoef = data.planPatients / data.patients
+  const planPatientsCoef = data.patients !== 0 ? data.planPatients / data.patients : 1
   const planPatientsPsa = data.patients === 0 ? percentToValue(data.packsPsa, data.planPatients) : planPatientsCoef * data.patientsPsa
   const planPatientsRa = data.patients === 0 ? percentToValue(data.packsRa, data.planPatients) : planPatientsCoef * data.patientsRa
   const planPatientsSpa = data.patients === 0 ? percentToValue(data.packsSpa, data.planPatients) : planPatientsCoef * data.patientsSpa
