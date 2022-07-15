@@ -41,6 +41,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
   const [patientsSelect, setPatientsSelect] = useState('quantity');
 
   const [data, setData] = useState(() => {
+    console.log(reportData, 'reportData')
     return reportData.data.map((option) => {
       let enabledInputs = 0
       const psaEnabled = !option.psa.disabled && option.psa.checked
@@ -146,6 +147,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
         const planPackagesData = {
           planPackages: planPackages.packages,
         }
+
+        console.log(planPackages, 'planPackages')
 
         return {
           ...itemRes,

@@ -41,6 +41,14 @@ const calculatePatientsPerPacks = ({
 
     res.patients = Number(parseFloat(total))
 
+    if (!psaDisabled) {
+      res.patientsPsa = Number(parseFloat(total))
+    } else if (!raDisabled) {
+      res.patientsRa = Number(parseFloat(total))
+    } else if (!spaDisabled) {
+      res.patientsSpa = Number(parseFloat(total))
+    }
+
     return res
   }
 
@@ -185,6 +193,14 @@ export const getPatientPerPack = ({
     total = (0.05 * patients * year1Val) + (0.95 * patients * yearNextVal)
 
     res.packages = Number(total)
+
+    if (!psaDisabled) {
+      res.packsPsa = Number(total)
+    } else if (!raDisabled) {
+      res.packsRa = Number(total)
+    } else if (!spaDisabled) {
+      res.packsSpa = Number(total)
+    }
 
     return res
   }
