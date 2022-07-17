@@ -10,7 +10,7 @@ import { ReactComponent as Chart } from '../../../../assets/images/chart-bordere
 import {
   getPlanPacksValue,
   getFormattedNumber,
-  valueToPercent, percentToValue, getPatientsValue, getPlanPatientsValue,
+  valueToPercent, percentToValue, getPatientsValue, getPlanPatientsValue, getPacksValue,
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
 import { getIncreaseVal } from '../calculations';
@@ -41,7 +41,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
   const [patientsSelect, setPatientsSelect] = useState('quantity');
 
   const [data, setData] = useState(() => {
-    console.log(reportData, 'reportData')
     return reportData.data.map((option) => {
       let enabledInputs = 0
       const psaEnabled = !option.psa.disabled && option.psa.checked
@@ -70,6 +69,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
         patientsRa: option.patientsRa * diffCoef,
         patientsPsa: option.patientsPsa * diffCoef,
         patientsSpa: option.patientsSpa * diffCoef,
+        planPatientsRa: option.planPatientsRa ?? option.patientsRa * diffCoef,
+        planPatientsPsa: option.planPatientsPsa ?? option.patientsPsa * diffCoef,
+        planPatientsSpa: option.planPatientsSpa ?? option.patientsSpa * diffCoef,
       }
 
       return {
@@ -91,18 +93,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
       }
     })
   });
-
-  const handleSelect = (e) => {
-
-    const val = e.target.value;
-    const name = e.target.name;
-    if (name === 'packages') {
-      setPackagesSelect(val)
-    }
-    if (name === 'patients') {
-      setPatientsSelect(val)
-    }
-  }
 
   const totalPatients = data.reduce((acc, curr) => {
     if (isNaN(curr.planPatients) || curr.planPatients === '') {
@@ -148,8 +138,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
           planPackages: planPackages.packages,
         }
 
-        console.log(planPackages, 'planPackages')
-
         return {
           ...itemRes,
           ...planPackagesData,
@@ -161,9 +149,105 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
     setData(newData)
   }
 
-  const totalFactPacks = data.reduce((acc, curr) => {
-    return acc + parseInt(curr.packages, 10)
-  }, 0)
+  const handleNosologiaItem = (e, label) => {
+    let val = e.target.value === '' ? '' : Number(e.target.value)
+    const name = e.target.name
+
+    const newData = data.map((item) => {
+      if (item.label === label) {
+        let updatedData = {...item}
+
+        if (name.includes('plan')) {
+          const newVal = {
+            planPatientsRa: item.planPatientsRa,
+            planPatientsPsa: item.planPatientsPsa,
+            planPatientsSpa: item.planPatientsSpa,
+          }
+
+          newVal[name] = val
+
+          let total = 0
+          if (newVal.planPatientsRa || newVal.planPatientsRa === 0) {
+            total = total + newVal.planPatientsRa
+          }
+          if (newVal.planPatientsPsa || newVal.planPatientsPsa === 0) {
+            total = total + newVal.planPatientsPsa
+          }
+          if (newVal.planPatientsSpa || newVal.planPatientsSpa === 0) {
+            total = total + newVal.planPatientsSpa
+          }
+
+          newVal.planPatients = total
+
+          updatedData = {
+            ...updatedData,
+            ...newVal
+          }
+
+          const planPackages = getPlanPacksValue(updatedData, patientsSelect)
+
+          const planPackagesData = {
+            planPackages: planPackages.packages,
+            planPacksRa: planPackages.packsRa,
+            planPacksPsa: planPackages.packsPsa,
+            planPacksSpa: planPackages.packsSpa,
+          }
+
+          updatedData = {
+            ...updatedData,
+            ...planPackagesData
+          }
+
+        } else {
+          const newVal = {
+            patientsRa: item.patientsRa,
+            patientsPsa: item.patientsPsa,
+            patientsSpa: item.patientsSpa,
+            [name]: val
+          }
+
+          let total = 0
+          if (newVal.patientsRa || newVal.patientsRa === 0) {
+            total += newVal.patientsRa
+          }
+          if (newVal.patientsPsa || newVal.patientsPsa === 0) {
+            total += newVal.patientsPsa
+          }
+          if (newVal.patientsSpa || newVal.patientsSpa === 0) {
+            total += newVal.patientsSpa
+          }
+          newVal.patients = total
+
+          updatedData = {
+            ...updatedData,
+            ...newVal,
+          }
+
+          const packages = getPacksValue(updatedData, patientsSelect)
+
+          const packagesData = {
+            packages: packages.packages,
+            packsPsa: packages.packsPsa,
+            packsRa: packages.packsRa,
+            packsSpa: packages.packsSpa
+          }
+
+          updatedData = {
+            ...updatedData,
+            ...packagesData
+          }
+        }
+
+        return updatedData
+      }
+
+      return item
+    })
+
+    console.log(newData, 'newData')
+
+    setData(newData)
+  }
 
   const patientsDiff = getFormattedNumber(totalFactPatients) - getFormattedNumber(totalPatients)
 
@@ -227,33 +311,22 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
                 Препараты
               </Text>
             </th>
-            <th colSpan={2} className={isFull ? '' : styles.bordered}>
-              <Text size="text--xl-bold" color="info">
-                Упаковки
-              </Text>
-            </th>
-            {isFull && (
-              <th colSpan={3} className={styles['bordered']}>
-                <select name="packages" onChange={handleSelect} value={packagesSelect} className={styles.select}>
-                  <option value="percent" selected={packagesSelect === 'percent'}>
-                    Проценты
-                  </option>
-                  <option value="quantity" selected={packagesSelect === 'quantity'}>
-                    Количество
-                  </option>
-                </select>
-              </th>
-            )}
             <th colSpan={2}>
               <Text size="text--xl-bold" color="info">
                 Пациенты
               </Text>
             </th>
-            {isFull && (
-              <th colSpan={3}>
-                Количество
-              </th>
-            )}
+            <th colSpan={2} className={styles.bordered}>
+              Количество
+            </th>
+            <th colSpan={2}>
+              <Text size="text--xl-bold" color="info">
+                Пациенты
+              </Text>
+            </th>
+            <th colSpan={2}>
+              Количество
+            </th>
           </tr>
           <tr>
             <th>
@@ -273,41 +346,27 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
             <th>
               Факт
             </th>
-            <th className={isFull ? '' : styles.bordered}>
-              План
-            </th>
-            {isFull && (
-              <>
-                <th>
-                  РА
-                </th>
-                <th>
-                  ПсА
-                </th>
-                <th className={styles.bordered}>
-                  СпА
-                </th>
-              </>
-            )}
             <th>
-              Факт
+              РА
             </th>
-            <th className={isFull ? '' : styles.bordered}>
+            <th>
+              ПсА
+            </th>
+            <th className={styles.bordered}>
+              СпА
+            </th>
+            <th>
               План
             </th>
-            {isFull && (
-              <>
-                <th>
-                  РА
-                </th>
-                <th>
-                  ПсА
-                </th>
-                <th>
-                  СпА
-                </th>
-              </>
-            )}
+            <th>
+              РА
+            </th>
+            <th>
+              ПсА
+            </th>
+            <th>
+              СпА
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -328,114 +387,92 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
                 <td className={styles['bordered']}>
                   {tradeOption.mnn}
                 </td>
-                <td>
-                  {Math.round(tradeOption.packages)}
-                </td>
-                <td className={isFull ? '' : styles.bordered}>
-                  <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
-                    <Input type="number"
-                           name="planPackages"
-                           readOnly
-                           value={Math.round(tradeOption.planPackages)} />
-                  </div>
-                </td>
-                {isFull && (
-                  <>
-                    <td>
-                      <Text size="m">
-                        {tradeOption.ra.disabled ? '-' : <>{formatByUnit({
-                          val: tradeOption.packsRa,
-                          data: tradeOption,
-                          unit: packagesSelect,
-                          base: 'percent',
-                        })}</>}
-                      </Text>
-                    </td>
-                    <td>
-                      <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{formatByUnit({
-                          val: tradeOption.packsPsa,
-                          data: tradeOption,
-                          unit: packagesSelect,
-                          base: 'percent'
-                        })}</>}
-                      </Text>
-                    </td>
-                    <td className={`${styles['bordered']}`}>
-                      <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{formatByUnit({
-                          val: tradeOption.packsSpa,
-                          data: tradeOption,
-                          unit: packagesSelect,
-                          base: 'percent'
-                        })}</>}
-                      </Text>
-                    </td>
-                  </>
-                )}
                 <td className={`${styles['bordered']}`}>
                   {getFormattedNumber(tradeOption.patients)}
                 </td>
                 <td>
-                  <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
-                    <Input
+                  <Text size="m">
+                    {tradeOption.ra.disabled ? '-' : <Input
                       type="number"
-                      name="patients"
-                      value={getFormattedNumber(tradeOption.planPatients)}
-                      onChange={(e) => handlePatients(e, tradeOption.label)}
-                    />
+                      name="patientsRa"
+                      value={getFormattedNumber(tradeOption.patientsRa)}
+                      onChange={(e) => handleNosologiaItem(e, tradeOption.label)}
+                    />}
+                  </Text>
+                </td>
+                <td>
+                  <Text size="m">
+                    {tradeOption.psa.disabled ? '-' : <Input
+                      type="number"
+                      name="patientsPsa"
+                      value={getFormattedNumber(tradeOption.patientsPsa)}
+                      onChange={(e) => handleNosologiaItem(e, tradeOption.label)}
+                    />}
+                  </Text>
+                </td>
+                <td className={`${styles['bordered']}`}>
+                  <Text size="m">
+                    {tradeOption.spa.disabled ? '-' : <Input
+                      type="number"
+                      name="patientsSpa"
+                      value={getFormattedNumber(tradeOption.patientsSpa)}
+                      onChange={(e) => handleNosologiaItem(e, tradeOption.label)}
+                    />}
+                  </Text>
+                </td>
+                <td className={styles.bordered}>
+                  <div className={`${styles['with-input']} ${styles['with-input--wide']}`}>
+                    {getFormattedNumber(tradeOption.planPatients)}
                   </div>
                 </td>
-                {isFull && (
-                  <>
-                    <td>
-                      <Text size="m">
-                        {tradeOption.ra.disabled ? '-' : <>{formatPatientsByUnit({
-                          val: getFormattedNumber(tradeOption.patientsRa),
-                          data: tradeOption,
-                          unit: patientsSelect,
-                          base: 'quantity'
-                        })}</>}
-                      </Text></td>
-                    <td>
-                      <Text size="m">
-                        {tradeOption.psa.disabled ? '-' : <>{formatPatientsByUnit({
-                          val: getFormattedNumber(tradeOption.patientsPsa),
-                          data: tradeOption,
-                          unit: patientsSelect,
-                          base: 'quantity'
-                        })}</>}
-                      </Text>
-                    </td>
-                    <td className={`${styles['bordered']}`}>
-                      <Text size="m">
-                        {tradeOption.spa.disabled ? '-' : <>{formatPatientsByUnit({
-                          val: getFormattedNumber(tradeOption.patientsSpa),
-                          data: tradeOption,
-                          unit: patientsSelect,
-                          base: 'quantity'
-                        })}</>}
-                      </Text>
-                    </td>
-                  </>
-                )}
+                <td>
+                  <Text size="m">
+                    {tradeOption.ra.disabled ? '-' :
+                      <Input
+                        type="number"
+                        name="planPatientsRa"
+                        value={getFormattedNumber(tradeOption.planPatientsRa)}
+                        onChange={(e) => handleNosologiaItem(e, tradeOption.label)}
+                      /> }
+                  </Text>
+                </td>
+                <td>
+                  <Text size="m">
+                    {tradeOption.psa.disabled ? '-' :
+                      <Input
+                        type="number"
+                        name="planPatientsPsa"
+                        value={getFormattedNumber(tradeOption.planPatientsPsa)}
+                        onChange={(e) => handleNosologiaItem(e, tradeOption.label)}
+                      />}
+                  </Text>
+                </td>
+                <td className={`${styles['bordered']}`}>
+                  {tradeOption.spa.disabled ? '-' :
+                    <Input
+                      type="number"
+                      name="planPatientsSpa"
+                      value={getFormattedNumber(tradeOption.planPatientsSpa)}
+                      onChange={(e) => handleNosologiaItem(e, tradeOption.label)}
+                    />
+                  }
+                </td>
               </tr>
             )
           })}
           <tr>
             <td colSpan={isFull ? 3 : 4} className={styles.bordered} />
-            <td colSpan={2} className={isFull ? '' : styles.bordered} style={{
+            <td colSpan={4} className={styles.bordered} style={{
               verticalAlign: 'top'
             }}>
               <div className={styles['table-summary']}>
-                {totalFactPacks > 0 ? (
+                {totalFactPatients > 0 ? (
                   <Text size="m--bold">
-                    {totalFactPacks} {declension(['упаковка', 'упаковки', 'упаковок'],totalFactPacks)} в сумме
+                    {totalFactPatients} {declension(['пациент', 'пациента', 'пациентов'],totalFactPatients)} в сумме
                   </Text>
                 ) : ''}
               </div>
             </td>
-            {isFull && <td colSpan={3} className={styles.bordered} />}
             <td colSpan={4} className={styles.bordered} style={{
               verticalAlign: 'top'
             }}>
