@@ -10,7 +10,7 @@ import { ReactComponent as Chart } from '../../../../assets/images/chart-bordere
 import {
   getPlanPacksValue,
   getFormattedNumber,
-  valueToPercent, percentToValue, getPatientsValue, getPlanPatientsValue, getPacksValue,
+  valueToPercent, percentToValue, getPlanPatientsValue, getPacksValue,
 } from '../../PrepareData/PackDistribution/calculations';
 import { isNaN } from 'formik';
 import { getIncreaseVal } from '../calculations';
@@ -468,7 +468,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
               <div className={styles['table-summary']}>
                 {totalFactPatients > 0 ? (
                   <Text size="m--bold">
-                    {totalFactPatients} {declension(['пациент', 'пациента', 'пациентов'],totalFactPatients)} в сумме
+                    {getFormattedNumber(totalFactPatients)} {declension(['пациент', 'пациента', 'пациентов'],totalFactPatients)} в сумме
                   </Text>
                 ) : ''}
               </div>
@@ -486,7 +486,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
                   <>
                     <br/>
                     <Text color="error" size="m--bold">
-                      {patientsDiff > 0 ? 'Добавьте' : 'Уберите'} {Math.abs(getFormattedNumber(patientsDiff))} {declension(['пациента', 'пациентов', 'пациентов'],parseInt(patientsDiff, 10))}
+                      Разница план факт {Math.abs(getFormattedNumber(patientsDiff))} {declension(['пациента', 'пациентов', 'пациентов'],parseInt(patientsDiff, 10))}
                     </Text>
                   </>
                 )}
