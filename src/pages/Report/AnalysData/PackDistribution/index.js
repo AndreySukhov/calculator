@@ -186,11 +186,12 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
           const planPackages = getPlanPacksValue(updatedData, patientsSelect)
 
+
           const planPackagesData = {
             planPackages: planPackages.packages,
-            planPacksRa: planPackages.packsRa,
-            planPacksPsa: planPackages.packsPsa,
-            planPacksSpa: planPackages.packsSpa,
+            planPacksRa: valueToPercent(planPackages.packsRa, planPackages.packages),
+            planPacksPsa: valueToPercent(planPackages.packsPsa, planPackages.packages),
+            planPacksSpa: valueToPercent(planPackages.packsSpa, planPackages.packages),
           }
 
           updatedData = {
@@ -227,9 +228,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
           const packagesData = {
             packages: packages.packages,
-            packsPsa: packages.packsPsa,
-            packsRa: packages.packsRa,
-            packsSpa: packages.packsSpa
+            packsPsa: valueToPercent(packages.packsPsa, packages.packages),
+            packsRa: valueToPercent(packages.packsRa, packages.packages),
+            packsSpa: valueToPercent(packages.packsSpa, packages.packages)
           }
 
           updatedData = {
@@ -244,14 +245,12 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
       return item
     })
 
-    console.log(newData, 'newData')
-
     setData(newData)
   }
 
   const patientsDiff = getFormattedNumber(totalFactPatients) - getFormattedNumber(totalPatients)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, goBack) => {
     e.preventDefault()
     const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
     const newData = data.map((item) => {
@@ -285,7 +284,11 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
       window.localStorage.setItem(`${reportId}-report-id`, JSON.stringify(updatedData))
     }
 
-    onSubmit(updatedData)
+    if (goBack) {
+      onBackStep()
+    } else {
+      onSubmit(updatedData)
+    }
   }
 
   return (
@@ -501,7 +504,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
         onSubmit={handleSubmit}>
         <ActionBar
           nextBtnDisabled={patientsDiff !== 0 }
-          onPrevButtonClick={onBackStep}
+          onPrevButtonClick={(e) => handleSubmit(e,true)}
           prevBtnText="Отмена"
           nextBtnText="Перейти к анализу затрат"
         />
