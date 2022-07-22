@@ -283,3 +283,23 @@ export const getFormattedNumber = (num) => {
   }
   return Number(Number(num).toFixed(2))
 }
+
+export const getPatientByNosologia = (item, rootNosologia) => {
+  if (rootNosologia === 'ra') {
+    return item.patientsRa
+  } else if (rootNosologia === 'psa') {
+    return item.patientsPsa
+  } else {
+    return item.patientsSpa
+  }
+}
+
+export const getPlanPatientByNosologia = (item, rootNosologia) => {
+  if (rootNosologia === 'ra') {
+    return item.planPatientsRa
+  } else if (rootNosologia === 'psa') {
+    return item.planPatientsPsa
+  } else {
+    return item.planPatientsPsa
+  }
+}

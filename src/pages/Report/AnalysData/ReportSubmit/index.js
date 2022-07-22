@@ -19,6 +19,7 @@ import {
   getExpensePercentDiff,
   getExpensePlanBudget, getExpensePlanBudgetItem,
   getIncreaseVal, getSavedPerPatientMoney, getFormattedNumber,
+  getPlanPatientByNosologia, getPatientByNosologia
 } from '../calculations';
 import { regionsData } from '../../../../data';
 import {
@@ -418,7 +419,7 @@ export const ReportSubmit = ({
                             {getLocalCurrencyStr(currentBudget.toFixed(2))}
                           </Text>
                           <Text color="disabled" size="xs">
-                            {Math.round(item.patients)} чел
+                            {getFormattedNumber(getPatientByNosologia(item, rootNosologia))} чел
                           </Text>
                         </>
                       ) : <>-</>}
@@ -430,7 +431,7 @@ export const ReportSubmit = ({
                             {getLocalCurrencyStr(planBudget.toFixed(2))}
                           </Text>
                           <Text color="disabled" size="xs">
-                            {Math.round(item.planPatients)} чел
+                            {getFormattedNumber(getPlanPatientByNosologia(item, rootNosologia))} чел
                           </Text>
                         </>
                       ) : <>-</>}
