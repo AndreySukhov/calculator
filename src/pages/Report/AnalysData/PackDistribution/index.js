@@ -59,6 +59,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
       const newVal = Math.floor(option.patients)
       const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
+      console.log(option, 'option')
 
       const updatedData = {
         ...option,
@@ -69,9 +70,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
         patientsRa: option.patientsRa * diffCoef,
         patientsPsa: option.patientsPsa * diffCoef,
         patientsSpa: option.patientsSpa * diffCoef,
-        planPatientsRa: option.planPatientsRa ?? option.patientsRa * diffCoef,
-        planPatientsPsa: option.planPatientsPsa ?? option.patientsPsa * diffCoef,
-        planPatientsSpa: option.planPatientsSpa ?? option.patientsSpa * diffCoef,
+        planPatientsRa: option.planPatientsRa ? option.planPatientsRa : option.patientsRa * diffCoef,
+        planPatientsPsa: option.planPatientsPsa ? option.planPatientsPsa : option.patientsPsa * diffCoef,
+        planPatientsSpa: option.planPatientsSpa ? option.planPatientsSpa : option.patientsSpa * diffCoef,
       }
 
       return {
@@ -166,6 +167,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
           newVal[name] = val
 
+          console.log(newVal, 'newVal')
+
           let total = 0
           if (newVal.planPatientsRa || newVal.planPatientsRa === 0) {
             total = total + newVal.planPatientsRa
@@ -253,29 +256,10 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
   const handleSubmit = (e, goBack) => {
     e.preventDefault()
     const storedData = JSON.parse(window.localStorage.getItem(`${reportId}-report-id`))
-    const newData = data.map((item) => {
-    const planPackages = getPlanPacksValue(item, patientsSelect)
-      const calculatedPatients = getPlanPatientsValue(item, 'percent')
-      const planPatientsData = {
-        planPatientsPsa: calculatedPatients.patientsPsa,
-        planPatientsRa: calculatedPatients.patientsRa,
-        planPatientsSpa: calculatedPatients.patientsSpa
-      }
-
-      return {
-        ...item,
-        planPacksPsa: planPackages.packsPsa,
-        planPacksRa: planPackages.packsRa,
-        planPacksSpa: planPackages.packsSpa,
-        planPatientsPsa: planPatientsData.planPatientsPsa,
-        planPatientsRa: planPatientsData.planPatientsRa,
-        planPatientsSpa: planPatientsData.planPatientsSpa,
-      }
-    })
 
     const updatedData = {
       ...storedData,
-      data: newData,
+      data,
       stepLabel,
       clearStoredAnalys: false,
     }

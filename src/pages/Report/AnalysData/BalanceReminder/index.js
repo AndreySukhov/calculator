@@ -77,7 +77,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
             if (value === 0) {
               return value
             }
-            return getLocalCurrencyStr(value)
+            return value
           }
         }
       }
@@ -88,7 +88,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
     labels: patientsLabels,
     datasets: [
       {
-        label: 'кол-во пациентов',
+        label: 'Расчет в количестве пациентов',
         backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
         data: patientsLabels.map((label) => {
           const current = reportData.data.find((reportItem) => reportItem.label === label)

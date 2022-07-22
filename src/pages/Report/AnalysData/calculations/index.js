@@ -21,7 +21,7 @@ export const getExpenseCurrentBudgetItem = ({
   const { patientsPsa, patientsRa, patientsSpa, patients } = item
   const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
-  if (patientsPsa >= 1 && nosologia === 'psa') {
+  if (nosologia === 'psa') {
     if (includeFirst) {
       res +=
         (((0.05 * Number(patientsPsa) * currentNosology.initial.year1) + (0.95 * Number(patientsPsa) * currentNosology.secondary.year1)))
@@ -34,7 +34,7 @@ export const getExpenseCurrentBudgetItem = ({
     }
   }
 
-  if (patientsRa  >= 1 && nosologia === 'ra') {
+  if (nosologia === 'ra') {
     if (includeFirst) {
       res +=
         (((0.05 * Number(patientsRa) * currentNosology.initial.year1) + (0.95 * Number(patientsRa) * currentNosology.secondary.year1)))
@@ -48,7 +48,7 @@ export const getExpenseCurrentBudgetItem = ({
     }
   }
 
-  if (patientsSpa >= 1 && nosologia === 'spa') {
+  if (nosologia === 'spa') {
     if (includeFirst) {
       res +=
         (((0.05 * Number(patientsSpa) * currentNosology.initial.year1) + (0.95 * Number(patientsSpa) * currentNosology.secondary.year1)))
@@ -109,7 +109,7 @@ export const getExpensePlanBudgetItem = ({
   const { planPatientsPsa, planPatientsRa, planPatientsSpa, planPatients } = item
   const totalPackPrice = Number(getIncreaseVal(Number(item.pricePerPack), Number(tradeIncrease)))
 
-  if (planPatientsPsa >= 1 && nosologia === 'psa') {
+  if (nosologia === 'psa') {
 
     if (includeFirst) {
       res +=
@@ -123,7 +123,7 @@ export const getExpensePlanBudgetItem = ({
     }
   }
 
-  if (planPatientsRa >= 1 && nosologia === 'ra') {
+  if (nosologia === 'ra') {
     if (includeFirst) {
       res +=
         (((0.05 * Number(planPatientsRa) * currentNosology.initial.year1) + (0.95 * Number(planPatientsRa) * currentNosology.secondary.year1)))
@@ -137,7 +137,7 @@ export const getExpensePlanBudgetItem = ({
     }
   }
 
-  if (planPatientsSpa >= 1 && nosologia === 'spa') {
+  if (nosologia === 'spa') {
     if (includeFirst) {
       res +=
         (((0.05 * Number(planPatientsSpa) * currentNosology.initial.year1) + (0.95 * Number(planPatientsSpa) * currentNosology.secondary.year1)))
