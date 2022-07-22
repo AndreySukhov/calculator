@@ -59,7 +59,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
       const newVal = Math.floor(option.patients)
       const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
-      console.log(option, 'option')
 
       const updatedData = {
         ...option,
@@ -166,8 +165,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
           }
 
           newVal[name] = val
-
-          console.log(newVal, 'newVal')
 
           let total = 0
           if (newVal.planPatientsRa || newVal.planPatientsRa === 0) {

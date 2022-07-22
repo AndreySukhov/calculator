@@ -20,10 +20,11 @@ import {
 import { Bar } from 'react-chartjs-2';
 import {
   getExpenseCurrentBudget,
-  getExpensePlanBudget,
+  getExpensePlanBudget, getPatientByNosologia, getPlanPatientByNosologia,
   getSavedPerPatientMoney
 } from '../calculations';
 import { CHART_HEX } from '../../../../utils/chartHex';
+import { declension } from '../../../../utils/declension';
 
 ChartJS.register(
   CategoryScale,
@@ -38,7 +39,6 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
   const [nosologia, setNosologia] = useState('ra')
   const [patientStatus, setPatientStatus] = useState('first')
   const [showNosologiaChoice, setShowNosologiaChoice] = useState(false)
-  const [nosologiaType, setNosologiaType] = useState('ra')
 
   const handleNosologiaFilter = (e) => {
     setNosologia(e.target.value)
@@ -78,6 +78,22 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
               return value
             }
             return value
+          }
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.label
+            const current = reportData.data.find((reportItem) => reportItem.label === label)
+            const diff = getPatientByNosologia(current, reportData.rootNosologia) - getPlanPatientByNosologia(current, reportData.rootNosologia)
+            if (diff < 0) {
+              return `0 пациентов`
+            }
+
+            return `${diff} ${declension(['пациент', 'пациента', 'пациентов'], diff)}`
           }
         }
       }
@@ -195,7 +211,7 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
               }
               onSubmit(updatedData)
             }}
-            defaultNosologiaType={nosologiaType}
+            defaultNosologiaType={nosologia}
           />
         </ReactModal>
       )}
