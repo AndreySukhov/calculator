@@ -1053,7 +1053,7 @@
         "year3": 13
       }
     },
-    "mnn": "Этанерцепт ПСК",
+    "mnn": "Этанерцепт",
     "application": "Подкожно",
     "productionForm": "50мг/мл 1мл",
     "itemsInPack": 4,
@@ -1111,7 +1111,7 @@
     "pricePerPack": "31246.84"
   },
   {
-    "label": "Этанерцепт",
+    "label": "Этанерцепт ПСК",
     "psa": {
       "disabled": false,
       "defaultChecked": false,

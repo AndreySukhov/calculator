@@ -36,7 +36,6 @@ const formatPatientsByUnit = ({val, data, unit, base}) => {
 }
 
 export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, onBackStep}) => {
-  const [isFull, setIsFull] = useState(false)
   const [packagesSelect, setPackagesSelect] = useState('percent');
   const [patientsSelect, setPatientsSelect] = useState('quantity');
 
@@ -278,19 +277,11 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
         <img src={headerLogo} alt=""/>
         Перераспределение упаковок и пациентов по нозологиям для оценки лечения современными ГИБП
       </Text>
-      <button onClick={() => setIsFull(!isFull)} className={styles['toggle-view']}>
-        {isFull ? (
-            <Clear />
-          ) :
-          <Chart />
-        }
-        {isFull ? 'Скрыть' : 'Показать'} {' '} распределение по нозологиям
-      </button>
       <div className={styles['table-wrap']}>
         <table className={styles.table}>
           <thead>
           <tr>
-            <th colSpan={isFull ? 3 : 4} className={styles['bordered']}>
+            <th colSpan={4} className={styles['bordered']}>
               <Text size="text--xl-bold" color="info">
                 Препараты
               </Text>
@@ -319,11 +310,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
             <th>
               ТН
             </th>
-            {!isFull && (
-              <th>
-                Стоимость
-              </th>
-            )}
+            <th>
+              Стоимость
+            </th>
             <th className={styles['bordered']}>
               МНН
             </th>
@@ -363,11 +352,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
                 <td>
                   {tradeOption.label}
                 </td>
-                {!isFull && (
-                  <td>
-                    {getLocalCurrencyStr(getIncreaseVal(Number(tradeOption.pricePerPack), Number(reportData.tradeIncrease)))}
-                  </td>
-                )}
+                <td>
+                  {getLocalCurrencyStr(getIncreaseVal(Number(tradeOption.pricePerPack), Number(reportData.tradeIncrease)))}
+                </td>
                 <td className={styles['bordered']}>
                   {tradeOption.mnn}
                 </td>
@@ -445,7 +432,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
             )
           })}
           <tr>
-            <td colSpan={isFull ? 3 : 4} className={styles.bordered} />
+            <td colSpan={3} className={styles.bordered} />
             <td colSpan={4} className={styles.bordered} style={{
               verticalAlign: 'top'
             }}>

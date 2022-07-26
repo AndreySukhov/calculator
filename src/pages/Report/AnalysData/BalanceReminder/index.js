@@ -21,7 +21,7 @@ import { Bar } from 'react-chartjs-2';
 import {
   getExpenseCurrentBudget,
   getExpensePlanBudget, getPatientByNosologia, getPlanPatientByNosologia,
-  getSavedPerPatientMoney
+  getSavedPerPatientMoney, getFormattedNumber
 } from '../calculations';
 import { CHART_HEX } from '../../../../utils/chartHex';
 import { declension } from '../../../../utils/declension';
@@ -86,16 +86,17 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
       tooltip: {
         callbacks: {
           label: function (context) {
-            const label = context.label
-            const current = reportData.data.find((reportItem) => reportItem.label === label)
-            const diff = getPatientByNosologia(current, reportData.rootNosologia) - getPlanPatientByNosologia(current, reportData.rootNosologia)
-            if (diff < 0) {
+            const label = context.raw
+            if (label < 0) {
               return `0 пациентов`
             }
 
-            return `${diff} ${declension(['пациент', 'пациента', 'пациентов'], diff)}`
+            return `${getFormattedNumber(label)} ${declension(['пациент', 'пациента', 'пациентов'], label)}`
           }
         }
+      },
+      legend: {
+        display: false
       }
     }
   };
@@ -179,6 +180,11 @@ export const BalanceReminder = ({onSubmit, onPrevClick, tradeIncrease, reportDat
         </div>
       </div>
       <div className={styles.chart}>
+        <Text>
+          Расчет в количестве пациентов
+        </Text>
+        <br/>
+        <br/>
         <Bar options={options} data={patientsData} />
       </div>
       <form

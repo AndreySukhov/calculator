@@ -35,6 +35,8 @@ import { Bar } from 'react-chartjs-2';
 import { CHART_HEX } from '../../../../utils/chartHex';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import { getPatientStatusText } from '../../../../utils/getPatientStatus';
+import { declension } from '../../../../utils/declension';
+import { tradeEfficiencyData } from '../../../../data/report/TradeNames';
 
 
 ChartJS.register(
@@ -129,9 +131,8 @@ export const ReportSubmit = ({
   };
 
   const patientsLabels = reportData.data.map(({label}) => label)
+  const filteredEfficiencyData = tradeEfficiencyData.filter((dataItem) => patientsLabels.includes(dataItem.label))
 
-  let mostEfficientPrice = 0
-  let mostEfficientLabel = ''
 
   const efficiencyChartData = {
     labels: patientsLabels,
@@ -139,26 +140,8 @@ export const ReportSubmit = ({
       {
         label: 'Затраты-эффективность',
         backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
-        data: patientsLabels.map((label) => {
-          const current = reportData.data.find((reportItem) => reportItem.label === label)
-
-          const eff = getEfficiency({
-            item: current,
-            nosologia: rootNosologia,
-            patientStatus: 'first',
-            tradeIncrease,
-          })
-
-          if (mostEfficientPrice === 0) {
-            mostEfficientLabel = label
-          } else {
-            if (eff < mostEfficientPrice) {
-              mostEfficientPrice = eff
-              mostEfficientLabel = label
-            }
-          }
-
-          return eff
+        data: filteredEfficiencyData.map((item) => {
+          return item.cost
         }),
       }
     ],
@@ -250,7 +233,7 @@ export const ReportSubmit = ({
             if (value === 0) {
               return value
             }
-            return getLocalCurrencyStr(value)
+            return value
           }
         }
       },
@@ -261,11 +244,18 @@ export const ReportSubmit = ({
     plugins: {
       tooltip: {
         callbacks: {
-          label: function(context) {
-            return `${NOSOLOGY_DICTIONARY[rootNosologia].short} ${getPatientStatusText('first')} ${context.dataset.label} год ${getLocalCurrencyStr(context.raw)}
-            `
+          label: function (context) {
+            const label = context.raw
+            if (label < 0) {
+              return `0 пациентов`
+            }
+
+            return `${getFormattedNumber(label)} ${declension(['пациент', 'пациента', 'пациентов'], label)}`
           }
         }
+      },
+      legend: {
+        display: false
       }
     }
   };
@@ -453,7 +443,7 @@ export const ReportSubmit = ({
               Бюджет планируемого распределения предоставляет экономию средств в сравнении с бюджетом текущего распределения в размере
             </Text>
             <Text size="xxl">
-              {currentBudget - planBudget > 0 ? getLocalCurrencyStr(currentBudget - planBudget) : 0} или {budgetDiff}%
+              {currentBudget - planBudget > 0 ? getLocalCurrencyStr(currentBudget - planBudget) : 0} или {getFormattedNumber(budgetDiff)}%
             </Text>
           </div>
         </div>
@@ -468,6 +458,11 @@ export const ReportSubmit = ({
             </Text>
           </div>
           <div className={styles.chart}>
+            <Text>
+              Расчет в количестве пациентов
+            </Text>
+            <br/>
+            <br/>
             <Bar options={patientsOptions} data={patientsData} id="chart-patient" />
           </div>
         </div>
@@ -482,6 +477,15 @@ export const ReportSubmit = ({
                 <Bar options={{
                   indexAxis: 'y',
                   responsive: true,
+                  plugins: {
+                    tooltip: {
+                      callbacks: {
+                        label: function (context) {
+                          return getLocalCurrencyStr(context.raw)
+                        }
+                      }
+                    }
+                  }
                 }} data={efficiencyChartData} />
               </div>
             </div>
@@ -494,7 +498,7 @@ export const ReportSubmit = ({
                   Заключение
                 </Text>
                 <Text size="l-regular" className={styles['yellow-block-text']}>
-                  По результатам данного анализа ЛП* этанерцепта {mostEfficientLabel}® характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
+                  По результатам данного анализа ЛП* этанерцепта Эрелзи характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
                 </Text>
               </div>
             </div>

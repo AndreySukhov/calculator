@@ -352,9 +352,9 @@ export const ExpensesAnalys = ({ onSubmit, onPrevClick, reportData, tradeIncreas
           <Text className={styles['summary-row-body']} size="l">
             {currentBudget - planBudget > 0 ? getLocalCurrencyStr(currentBudget - planBudget) : 0}
           </Text>
-          {budgetDiff && (
+          {budgetDiff > 0 && (
             <Text size="l">
-              {budgetDiff}%
+              {getFormattedNumber(budgetDiff)} %
             </Text>
           )}
         </div>
