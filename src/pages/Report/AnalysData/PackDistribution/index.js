@@ -5,8 +5,6 @@ import { ActionBar } from '../../components/ActionBar';
 import headerLogo from '../../../../assets/images/header-logo.svg';
 import styles from './styles.module.css'
 import { declension } from '../../../../utils/declension';
-import { ReactComponent as Clear } from '../../../../assets/images/clear-bordered.svg';
-import { ReactComponent as Chart } from '../../../../assets/images/chart-bordered.svg';
 import {
   getPlanPacksValue,
   getFormattedNumber,
@@ -58,6 +56,8 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
 
       const newVal = Math.floor(option.patients)
       const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
+
+      console.log(option, 'option')
 
       const updatedData = {
         ...option,

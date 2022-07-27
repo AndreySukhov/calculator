@@ -121,15 +121,16 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
 
   const patientsLabels = reportData.data.map(({label}) => label)
 
-  const filteredEfficiencyData = tradeEfficiencyData.filter((dataItem) => patientsLabels.includes(dataItem.label))
-
   const efficiencyChartData = {
-    labels: patientsLabels,
+    labels: tradeEfficiencyData.map((item) => item.label),
     datasets: [
       {
         label: 'Затраты-эффективность',
-        backgroundColor: patientsLabels.map((label) => CHART_HEX[label]),
-        data: filteredEfficiencyData.map((item) => {
+        backgroundColor: tradeEfficiencyData.map((item) => {
+
+          return CHART_HEX[item.label]
+        }),
+        data: tradeEfficiencyData.map((item) => {
           return item.cost
         }),
       }
@@ -489,6 +490,9 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
                         return getLocalCurrencyStr(context.raw)
                       }
                     }
+                  },
+                  legend: {
+                    display: false
                   }
                 }
               }} data={efficiencyChartData} />
@@ -503,7 +507,7 @@ export const ReportPreview = ({reportData, reportId, onSubmit, onPrevClick, regi
                 Заключение
               </Text>
               <Text size="l-regular" className={styles['yellow-block-text']}>
-                По результатам данного анализа ЛП* этанерцепта Эрелзи характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
+                По результатам данного анализа ЛП* этанерцепта Эрелзи® характеризуется как строго-предпочтительный, так как при самой высокой клинической эффективности этанерцепта, препарат характеризуется наименьшим значением показателя «Затраты – эффективность»<sup>3,4</sup>
               </Text>
             </div>
           </div>

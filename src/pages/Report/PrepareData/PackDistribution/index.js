@@ -539,6 +539,14 @@ export const PackDistribution = ({onPrevButtonClick, tradeNamesOptions, regionId
               patientsPsa: dataItem.patientsPsa === '' ? 0 : dataItem.patientsPsa,
               patientsRa: dataItem.patientsRa === '' ? 0 : dataItem.patientsRa,
               patientsSpa: dataItem.patientsSpa === '' ? 0 : dataItem.patientsSpa,
+              planPatients: null,
+              planPatientsRa: null,
+              planPatientsPsa: null,
+              planPatientsSpa: null,
+              planPackages: null,
+              planPacksRa: null,
+              planPacksSpa: null,
+              planPacksPsa: null,
             }
           })
 
