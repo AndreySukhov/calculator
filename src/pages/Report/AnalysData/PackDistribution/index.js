@@ -432,7 +432,7 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
             )
           })}
           <tr>
-            <td colSpan={3} className={styles.bordered} />
+            <td colSpan={4} className={styles.bordered} />
             <td colSpan={4} className={styles.bordered} style={{
               verticalAlign: 'top'
             }}>
