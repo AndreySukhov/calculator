@@ -57,8 +57,6 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
       const newVal = Math.floor(option.patients)
       const diffCoef = option.patients === 0 ? 0 : newVal / option.patients
 
-      console.log(option, 'option')
-
       const updatedData = {
         ...option,
         planPatients: !reportData.clearStoredAnalys && (option.planPatients || option.planPatients === 0) ? option.planPatients : newVal,
@@ -68,9 +66,9 @@ export const PackDistribution = ({ onSubmit, reportData, reportId, stepLabel, on
         patientsRa: option.patientsRa * diffCoef,
         patientsPsa: option.patientsPsa * diffCoef,
         patientsSpa: option.patientsSpa * diffCoef,
-        planPatientsRa: option.planPatientsRa ? option.planPatientsRa : option.patientsRa * diffCoef,
-        planPatientsPsa: option.planPatientsPsa ? option.planPatientsPsa : option.patientsPsa * diffCoef,
-        planPatientsSpa: option.planPatientsSpa ? option.planPatientsSpa : option.patientsSpa * diffCoef,
+        planPatientsRa: option.planPatientsRa || option.planPatientsRa === 0 ? option.planPatientsRa : option.patientsRa * diffCoef,
+        planPatientsPsa: option.planPatientsPsa || option.planPatientsPsa === 0 ? option.planPatientsPsa : option.patientsPsa * diffCoef,
+        planPatientsSpa: option.planPatientsSpa || option.planPatientsSpa === 0 ? option.planPatientsSpa : option.patientsSpa * diffCoef,
       }
 
       return {
