@@ -475,7 +475,9 @@ export const ReportSubmit = ({
                 Значение показателя «Затраты-эффективность»
               </Text>
               <div className={styles.chart}>
-                <Bar options={{
+                <Bar
+                  id="efficiency-patient"
+                  options={{
                   indexAxis: 'y',
                   responsive: true,
                   plugins: {
