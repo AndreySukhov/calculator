@@ -152,6 +152,57 @@
     "pricePerPack": "33873.31"
   },
   {
+    "label": "Эксемптия",
+    "psa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "ra": {
+      "disabled": false,
+      "defaultChecked": false,
+      "efficiencyCoefficient": "0,2328",
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "spa": {
+      "disabled": false,
+      "defaultChecked": false,
+      "initial": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      },
+      "secondary": {
+        "year1": 13,
+        "year2": 13,
+        "year3": 13
+      }
+    },
+    "mnn": "Адалимумаб",
+    "application": "Подкожно",
+    "productionForm": "40мг/0,8мл 0,8мл",
+    "itemsInPack": 2,
+    "pricePerPack": "33581.50"
+  },
+  {
     "label": "Отесла",
     "psa": {
       "disabled": false,
