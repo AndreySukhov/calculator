@@ -10,9 +10,10 @@ export const getStoredReports = () => {
 
  return storedKeys.map((key) => {
   const report = JSON.parse(localStorage.getItem(key))
+
   return {
    ...report,
-   regionLabel: regionsData.find((region) => region.id === report.regionId).label,
+   regionLabel: regionsData.find((region) => region.id === report.regionId)?.label,
    date: key.replace('-report-id', '')
   }
  }).sort((a,b) => {

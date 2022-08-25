@@ -322,7 +322,7 @@ export const ReportSubmit = ({
             <StatList
               data={[
                 {
-                  title: `Количество пациетов с ${nosologiaShortName}`,
+                  title: `Количество пациентов с ${nosologiaShortName}`,
                   text: Math.round(patientsNum)
                 }, {
                   title: 'Доля пациентов, получающих ЛП впервые в 1-ый год',
